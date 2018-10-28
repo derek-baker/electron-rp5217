@@ -1,0 +1,81 @@
+window.addEventListener("load", function() {
+    'use strict';
+    const blockWidthInPixels = 1;
+    const blockHeightInPixels = 1;
+    
+    _generate();
+    let form = document.getElementById('form');
+    
+    form.addEventListener('keyup', function() {
+        let canvas = _generate();
+        let barcodeImg = document.getElementById('barcodeImg');
+        if(document.getElementById('hiddenImage') !== null) {
+            let element = document.getElementById('hiddenImage');
+            element.outerHTML = '';
+            // delete element;
+        }
+        let img = document.createElement('img');
+        img.setAttribute('id', 'hiddenImage');
+        img.setAttribute('src', canvas.toDataURL());
+        barcodeImg.appendChild(img);        
+    });
+    // Hack to trigger barcode to display (at page load I think)
+    form.dispatchEvent(new KeyboardEvent('keyup')); 
+
+    form.addEventListener('click', function() {
+        // Added setTimeout() to ensure the viewModel modification resulting from the click was complete. 
+        // Couldn't get blur() to work.
+        setTimeout(function() {
+            let canvas = _generate();
+            let barcodeImg = document.getElementById('barcodeImg');
+            if(document.getElementById('hiddenImage') !== null) {
+                let element = document.getElementById('hiddenImage');
+                element.outerHTML = '';
+            }
+            let img = document.createElement('img');
+            img.setAttribute('id', 'hiddenImage');
+            img.setAttribute('src', canvas.toDataURL());
+            barcodeImg.appendChild(img);
+        }, 200);
+    });
+    //form.dispatchEvent(new MouseEvent('click')); 
+
+    function _initBarcodePrereqs(){
+        let textToEncode = viewModel.mergeData();  
+        PDF417.init(textToEncode);          
+        let barcode = PDF417.getBarcodeArray();
+        return barcode;
+    }
+
+    function _paintBarcode(barcode, canvas) {
+        let ctx = canvas.getContext('2d');                    
+        // graph barcode elements
+        let y = 0;
+        for (let row = 0; row < barcode['num_rows']; ++row) {
+            let x = 0;
+            for (let column = 0; column < barcode['num_cols']; ++column) {
+                if (barcode['bcode'][row][column] == 1) {                        
+                    ctx.fillRect(x, y, blockWidthInPixels, blockHeightInPixels);
+                }
+                x += blockWidthInPixels;
+            }
+            y += blockHeightInPixels;
+        }
+    }
+
+    function _generate() {
+        let barcode = _initBarcodePrereqs();
+        // create canvas element based on number of columns and rows in barcode
+        let canvasBarcodeContainer = document.getElementById('barcode');
+        if(document.getElementById('barcode').firstChild !== null) {
+            canvasBarcodeContainer.removeChild(canvasBarcodeContainer.firstChild);
+        }
+        let canvas = document.createElement('canvas');
+        canvas.width = blockWidthInPixels * barcode['num_cols'];
+        canvas.height = blockHeightInPixels * barcode['num_rows'];
+        canvasBarcodeContainer.appendChild(canvas);
+        _paintBarcode(barcode, canvas);
+        return canvas;
+    }    
+});
+

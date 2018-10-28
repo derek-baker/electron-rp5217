@@ -1,0 +1,10 @@
+.printMessageHidden {display:none}
+
+@media print {
+    .contentHiddenForPrint{
+        display:none;
+    }
+    .printMessageShow {display: block;}
+}
+
+

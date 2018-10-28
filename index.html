@@ -1,19 +1,598 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+<!-- All of the Node.js APIs are available in this renderer process.
+We are using Node.js <script>document.write(process.versions.node)</script>,
+Chromium <script>document.write(process.versions.chrome)</script>,
+and Electron <script>document.write(process.versions.electron)</script>.
 
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+<script>
+You can also require other files to run in this process
+require('./renderer.js') 
+</script> -->
+
+<!doctype html>
+<head lang="en">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <title>RP5217</title>
+  <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+  <link media="all" rel="stylesheet" href="stylesheets/index.css">    
+  <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
+  <link rel="stylesheet" href="stylesheets/pdf.print.css">      
+</head>
+<body>
+
+<h3 id="printMessage" class="printMessageHidden printMessageShow">
+  Please use the download button instead of printing from the browser.
+</h3>
+
+<div id="content" class="contentHiddenForPrint">
+
+  <div id="modalDiv">
+    <div class='hidden-xs'>
+      <button id='modalButton' class='btn btn-lg btn-warning hidden-xs' data-toggle="modal" data-target="#myModal" type="button">
+        <span class='glyphicon glyphicon-question-sign'></span>
+      </button>
+    </div>
+  </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Please Read</h4>
+          </div>
+          <div class="modal-body">
+            In order to print, you'll need to fill out the form, download the PDF, and print the PDF. 
+            Printing directly from this page will not work.
+            <br><br>
+            If you any experience unexpected behaviour while using this site,
+            please submit a support request using the URL below: 
+            <br><br>https://systemsdevelopmentgroup.com/contact
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div id="spinner">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <div id="pageContent" class="container-fluid">
+    <noscript>
+      <div class="row">
+        <br>
+        <div class="col-xs-12 ">
+          <div class="alert alert-danger" role="alert">It appears JavaScript is disabled in your browser. This page will not work properly without JavaScript. Please enable JavaScript before proceeding.</div>
+        </div>
+      </div>
+    </noscript>
+
+    <div class="row">
+      <div class="col-xs-12" style="position:relative;">
+          <img class="img-responsive center-block" alt="County Use Only" src="images/header.png">   
+          <div id="swisCodeTarget"><div>
+      </div>
+    </div>
+
+    <!-- VueJS-Container -->
+    <div id="app">
+      <form @submit.prevent="validateBeforeSubmit" id="form" action="http://systemsdevelopmentgroup.com/createPdf" method="post">    
+        <div class="container-fluid">
+          <input v-model="swisCode" type="hidden" name="SwisCode">
+          <div class="row">
+            <div class="col-xs-1 sectionHeader lessLineHeight">
+              <h6>1. Property Location</h6>
+            </div>
+            <div class="col-xs-3">
+              <input v-model="propertyLocationStreetNumber" id="propertyLocationStreetNumber" type="text" name="propertyLocationStreetNumber">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STREET NUMBER</small>
+            </div>
+            <div class="col-xs-8">
+              <input v-model="propertyLocationStreetName" id="propertyLocationStreetName" type="text" name="propertyLocationStreetName" required>
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* STREET NAME</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-1">                
+            </div>
+            <div class="col-xs-5">
+              <input v-model="propertyLocationCityTown" id="propertyLocationCityTown" value="" type="text" name="propertyLocationCityTown" required> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* CITY OR TOWN</small>
+            </div>
+            <div class="col-xs-4 ">
+              <input v-model="propertyLocationVillage" id="propertyLocationVillage" value="" type="text" name="propertyLocationVillage">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VILLAGE</small>
+            </div>
+            <div class="col-xs-2">
+              <input v-model="propertyLocationZipcode" id="propertyLocationZipcode" value="" type="text" maxlength="5" name="propertyLocationZipcode"> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ZIP CODE</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-1 sectionHeader lessLineHeight">
+              <h6>2. Buyer <br>Name </h6>
+            </div>
+            <div class="col-xs-6 paddingTarget">
+              <input v-model="buyerLastNameCompanyOne" id="buyerLastNameCompanyOne" value="" type="text" name="buyerLastNameCompanyOne" required> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* LAST NAME/COMPANY</small>
+            </div>
+            <div class="col-xs-5 paddingTarget">
+              <input v-model="buyerFirstNameOne" id="buyerFirstNameOne" value="" type="text" name="buyerFirstNameOne">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIRST NAME</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-1">                
+            </div>
+            <div class="col-xs-6">
+              <input v-model="buyerLastNameCompanyTwo" id="buyerLastNameCompanyTwo" value="" type="text" name="buyerLastNameCompanyTwo"> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LAST NAME/COMPANY</small>
+            </div>
+            <div class="col-xs-5 ">
+              <input v-model="buyerFirstNameTwo" id="buyerFirstNameTwo" value="" type="text" name="buyerFirstNameTwo">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIRST NAME</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-1 sectionHeader lessLineHeight">
+              <h6>3. Tax Billing<br>Address </h6>
+            </div>
+            <div id="taxBillInstructions" class="col-xs-3">  
+             
+              <small class="lessLineHeight topPadding"><strong>Indicate where tax bills are to be sent if other than buyer address</strong></small>
+            </div>
+            <div class="col-xs-4 paddingTarget">
+              <input v-model="taxAddressBuyerLastNameCompany" id="taxAddressBuyerLastNameCompany" value="" type="text" name="taxAddressBuyerLastNameCompany"> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAST NAME/COMPANY</small>
+            </div>
+            <div class="col-xs-4 paddingTarget">
+              <input v-model="taxAddressBuyerFirstName" id="taxAddressBuyerFirstName" value="" type="text" name="taxAddressBuyerFirstName">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIRST NAME</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-1">                
+            </div>
+            <div class="col-xs-4">
+              <input v-model="taxAddressStreetNumberAndName" id="taxAddressStreetNumberAndName" value="" type="text" name="taxAddressStreetNumberAndName"> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STREET NUMBER AND NAME</small>
+            </div>
+            <div class="col-xs-4">
+              <input v-model="taxAddressCityTown" id="taxAddressCityTown" value="" type="text" name="taxAddressCityTown">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CITY OR TOWN</small>
+            </div>
+            <div class="col-xs-1">
+              <input v-model="taxAddressState" id="taxAddressState" value="" type="text" name="taxAddressState" minlength="0" maxlength="2"> 
+              <small class="text-muted">&nbsp;&nbsp;STATE</small>
+            </div>
+            <div class="col-xs-2">
+              <input v-model="taxAddressZipCode" id="taxAddressZipCode" value="" type="text" maxlength="5" name="taxAddressZipCode">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ZIP CODE</small>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-xs-7">
+              <div class="row">
+                <div class="col-xs-4 sectionHeader lessLineHeight">
+                  <h6>4. Number of Assessment Roll Parcels Transferred</h6>
+                </div>
+                <div id="numParcelInputDiv" class="col-xs-2">
+                  <input v-validate="'required|ifParcelIdCountIsGreaterThanFour'" v-model="fourNumberOfParcels" id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">   
+                </div>
+                <div class="col-xs-6 noPadding topPadding">
+                  <small class="text-muted"># of Parcels</small><small>&nbsp;&nbsp; OR &nbsp;&nbsp;</small>
+                  <input v-model="fourPartOfParcelCheckbox" id="fourPartOfParcelCheckbox" type="checkbox" name="fourPartOfParcelCheckbox">
+                  <small class="text-muted">Part of a parcel</small>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-2 sectionHeader lessLineHeight">
+                  <h6>5. Deed Property Size</h6>
+                </div>
+                <div class="col-xs-3 noPadding">
+                  <p class="text-muted inline smallFont">*FRONT FT</p>
+                  <input v-model="fourFrontFeet" id="fourFrontFeet" class="skinnyInput" type="number" step="0.01" name="fourFrontFeet">   
+                  
+                </div>
+                <div class="col-xs-3 noPadding">
+                  <p class="text-muted inline smallFont">*DEPTH FT</p>
+                  <input v-model="fourDepth" id="fourDepth" class="skinnyInput" type="number" step="0.01" name="fourDepth">   
+                </div>
+
+                <div class="col-xs-3 noPadding">
+                  <p class="text-muted inline smallFont">*OR ACRES</p>
+                  <input v-model="fourAcres" id="fourAcres" class="skinnyInput" type="number" step="0.01" name="fourAcres">                       
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-5 topPadding">
+              <small><u>(Only if part of a parcel) Check as they apply</u></small><br>
+              <input v-model="fourSubDivAuthExists" id="fourSubDivAuthExists" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourSubDivAuthExists"><small>4A. Planning Board with Subdivision Authority Exists</small><br>
+              <input v-model="fourSubDivApprovalRequired" id="fourSubDivApprovalRequired" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourSubDivApprovalRequired"><small>4B. Subdivision Approval was Required for Transfer</small><br>
+              <input v-model="fourParcelApprovedWithMap" id="fourParcelApprovedWithMap" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourParcelApprovedWithMap"><small>4C. Parcel Approved for Subdivision with Map Provided </small><br>
+            </div>
+          </div>
+
+          <div class="row topPadding">            
+            <div class="col-xs-1 sectionHeader lessLineHeight">
+              <h6>6. Seller <br>Name </h6>
+            </div>
+            <div class="col-xs-6">
+              <input v-model="sellerNameLastNameCompany" id="sellerNameLastNameCompany" type="text" name="sellerNameLastNameCompany" required> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* LAST NAME/COMPANY</small>
+            </div>
+            <div class="col-xs-5">
+              <input v-model="sellerNameFirstName" id="sellerNameFirstName" type="text" name="sellerNameFirstName">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIRST NAME</small>
+            </div>            
+          </div>
+          <div class="row">
+            <div class="col-xs-1 sectionHeader lessLineHeight">
+            </div>
+            <div class="col-xs-6">
+              <input v-model="sellerNameLastNameCompanyTwo" id="sellerNameLastNameCompanyTwo" type="text" name="sellerNameLastNameCompanyTwo"> 
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LAST NAME/COMPANY</small>
+            </div>
+            <div class="col-xs-5">
+              <input v-model="sellerNameFirstNameTwo" id="sellerNameFirstNameTwo" type="text" name="sellerNameFirstNameTwo">
+              <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIRST NAME</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-5 sectionHeader lessLineHeight">
+              <br>
+              <h6>*7. Select the description which most accurately describes the use of the property at the time of sale: </h6>
+              <!-- NOTE: Edge will re-order attributes on the select below, but Firefox and Chrome don't, so we order according to Edge's behavior -->
+              <select v-model="propertyUseSelect" name="propertyUseSelect" id="propertyUseSelect" required>
+                <!-- First option here to avoid weird iOS behavior -->
+                <option disabled value="">Please select one</option> 
+                <option value="1">A. One Family Residential</option>
+                <option value="2">B. 2 or 3 Family Residential</option>
+                <option value="3">C. Residential Vacant Land</option>
+                <option value="4">D. Non-Residential Vacant Land</option>
+                <option value="5">E. Agricultural</option>
+                <option value="6">F. Commercial</option>
+                <option value="7">G. Apartment</option>
+                <option value="8">H. Entertainment/Amusement</option>
+                <option value="9">I. Community Service</option>
+                <option value="10">J. Industrial</option>
+                <option value="11">K. Public Service</option>
+                <option value="12">L. Forest</option>
+              </select>
+            </div>
+
+            <div class="col-xs-7">
+              <small><u>Check the boxes below as they apply:</u></small><br>
+              <input v-model="ownershipIsCondo" id="ownershipIsCondo" class="skinnyCheckboxInput" type="checkbox" name="ownershipIsCondo"><small>8. Ownership Type is Condominium</small><br>
+              <input v-model="constructionOnVacant" id="constructionOnVacant" class="skinnyCheckboxInput noTopMargin" type="checkbox" name="constructionOnVacant"><small>9. New Construction on a Vacant Land</small><br>
+              <input v-model="locatedWithinAg" id="locatedWithinAg" class="skinnyCheckboxInput noTopMargin" type="checkbox" name="locatedWithinAg"><small>10A. Property Located within an Agricultural District</small><br>                
+              <input v-model="buyerReceivedDisclosureNotice" id="buyerReceivedDisclosureNotice" class="skinnyCheckboxInput noTopMargin" type="checkbox" name="buyerReceivedDisclosureNotice"><small>10B. Notice received indicating that property is in an Agricultural District</small><br>                
+            </div>              
+          </div>
+
+          <hr>
+          <p class="sectionTitle inline">SALE INFORMATION</p>
+
+          <div class="row">
+            <div class="col-xs-6">
+
+              <div class="row">
+                <div class="col-xs-5 sectionHeader lessLineHeight">
+                  <h6>11. Sale Contract Date</h6>
+                </div>
+                <div class="col-xs-7">
+                  <input v-model="saleContractDate" id="saleContractDate" type="date" name="saleContractDate">                    
+                </div>                  
+              </div>
+              <div class="row">
+                <div class="col-xs-5 sectionHeader lessLineHeight">
+                  <h6>*12. Date of Sale/Transfer</h6>
+                </div>
+                <div class="col-xs-7">
+                  <input v-model="saleTransferDate" id="saleTransferDate" type="date" name="saleTransferDate" required>                    
+                </div>                
+              </div>
+              <div class="row">
+                <div class="col-xs-5 sectionHeader lessLineHeight">
+                  <h6>*13. Full Sale Price</h6>
+                </div>
+                <div class="col-xs-7">
+                  <input v-validate="'salePriceGreaterThanPropertyPrice'" v-on:keyup="addCommaFormatting($event)" debounce="1500" v-model="salePrice" id="salePrice" name="salePrice" required>                    
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <small class="lessLineHeight">(Full Sale Price is the total amount paid for the property including personal property. This payment may be in the form of cash, other property or goods, or the assumption of mortgages or other obligations.) <i>Please round to the nearest whole dollar amount.</i></small>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-5 sectionHeader lessLineHeight">
+                  <br>
+                  <h6>14. Rounded Value of personal property included in sale</h6>
+                </div>
+                <div class="col-xs-7">
+                  <br>
+                  <input v-model="salePersonalPropertyVal" v-on:keyup="addCommaFormatting($event)" debounce="1500" id="salePersonalPropertyVal" name="salePersonalPropertyVal">                    
+                </div>                  
+              </div>
+
+            </div>
+
+            <div class="col-xs-6">
+              <div class="row">
+                <div id="SaleConditionsDiv" class="col-xs-12 sectionHeader lessLineHeight">
+                  <h6>*15. Check one or more of these conditions as applicable to transfer:</h6>
+                  <input v-model="saleInfoCheckA" id="saleInfoCheckA" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckA"><small>A. Sale Between Relatives or Former Relatives</small><br>                    
+                  <input v-model="saleInfoCheckB" id="saleInfoCheckB" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckB"><small>B. Sale between Related Companies or Partners in Business</small><br>                    
+                  <input v-model="saleInfoCheckC" id="saleInfoCheckC" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckC"><small>C. One of the Buyers is also a Seller</small><br>                    
+                  <input v-model="saleInfoCheckD" id="saleInfoCheckD" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckD"><small>D. Buyer or Seller is Government Agency or Lending Institution</small><br>                    
+                  <input v-model="saleInfoCheckE" id="saleInfoCheckE" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckE"><small>E. Deed Type not Warranty or Bargain and Sale (Specify Below)</small><br>                    
+                  <input v-model="saleInfoCheckF" id="saleInfoCheckF" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckF"><small>F. Sale of Fractional or Less than Fee Interest (Specify Below)</small><br>                    
+                  <input v-model="saleInfoCheckG" id="saleInfoCheckG" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckG"><small>G. Significant Property Change Between Taxable Status and Sale Dates</small><br>                    
+                  <input v-model="saleInfoCheckH" id="saleInfoCheckH" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckH"><small>H. Sale of Business is included in Sale Price</small><br>                    
+                  <input v-model="saleInfoCheckI" id="saleInfoCheckI" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckI"><small>I. Other Unusual Factors Affecting Sale Price (Specify Below)</small><br>                    
+                  <input v-model="saleInfoCheckJ" id="saleInfoCheckJ" class="skinnyCheckboxInput noTopMargin" type="checkbox" name="saleInfoCheckJ"><small>J. None</small><br>                    
+                </div>                  
+              </div>
+
+              <div class="row slightMarginBottom">
+                <div class="col-xs-12">
+          
+                  <input v-model="saleConditionComments" id="saleConditionComments" type="text" maxlength="40" name="saleConditionComments" placeholder="comments on condition">                    
+                </div>                  
+              </div>
+            </div>
+
+          </div>
+          
+          <hr>
+          <p class="sectionTitle inline">ASSESSMENT INFORMATION - Data should reflect the latest Final Assessment and Tax Bill</p>
+          
+          <div class="row">
+            <div class="col-xs-6  noPadding">
+              <div class="col-xs-7 sectionHeader lessLineHeight">
+                <h6>16. Assessment Roll Year(YY)</h6>
+              </div>
+              <div class="col-xs-2 noPaddingLeft">
+                <br>
+                <input v-model="assessmentRollYear" id="assessmentRollYear" class="pull-left" type="text" name="assessmentRollYear" minlength="2" maxlength="2" placeholder="YY">                    
+              </div>
+            </div>
+
+            <div class="col-xs-6">
+              <div class="col-xs-3 sectionHeader lessLineHeight">
+                <h6>*17. Total Assessed Value</h6>
+              </div>
+              <div class="col-xs-9">
+                <br>
+                <input v-model="assessmentTotalValue" v-on:keyup="addCommaFormatting($event)" debounce="1500" id="assessmentTotalValue" name="assessmentTotalValue" required>                    
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-xs-6 noPadding">
+              <div class="col-xs-7 sectionHeader lessLineHeight">
+                <h6>*18. Property Class <br>(Include ownership code if applicable)</h6>
+                
+              </div>
+              <div class="col-xs-5 noPaddingLeft">
+                <br>
+                <input v-model="assessmentPropClassFirstInput" id="assessmentPropClassFirstInput" type="text" pattern="([1-9]{1}[0-9]{2})|([1-9]{1}[0-9]{2}[-][A|a|B|b|C|c|D|d|P|p|Q|q|T|t|U|u|W|w])" title="Acceptable category values fall within a range of 100-994 and acceptable ownership codes are limited to the letters: A,B,C,D,P,Q,T,U,W. Examples of some acceptable values could be 200-C or 200" name="assessmentPropClassFirstInput" placeholder="EX: 200-C or 200" required> 
+              </div>              
+            </div>
+          
+            <div class="col-xs-6">
+              <div class="col-xs-3 sectionHeader lessLineHeight">
+                <h6>*19. School District Name</h6>
+              </div>
+              <div class="col-xs-9">
+                <br>
+                <input v-model="assessmentSchoolDistrict" id="assessmentSchoolDistrict" type="text" name="assessmentSchoolDistrict" required>                    
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 sectionHeader lessLineHeight">
+              <h6>*20. Tax Map Identifier(s)/Roll Identifier(s) (If more than four, attach sheet with additional identifier(s))</h6>
+            </div>
+          </div>
+          <div class="row slightMarginBottom">
+            <div class="col-xs-3">
+              <input v-model="taxMapIdOne" id="taxMapIdOne" type="text" name="taxMapIdOne" required>                    
+            </div>
+            <div class="col-xs-3">
+              <input v-validate="'parcelIdCountEqualToNumParcelsSpecifiedIfTwo'" v-model="taxMapIdTwo" id="taxMapIdTwo" type="text" name="taxMapIdTwo">                                  
+            </div>
+            <div class="col-xs-3">
+              <input v-validate="'parcelIdCountEqualToNumParcelsSpecifiedIfThree'" v-model="taxMapIdThree" id="taxMapIdThree" type="text" name="taxMapIdThree">                                  
+            </div>
+            <div class="col-xs-3">
+              <input v-validate="'parcelIdCountEqualToNumParcelsSpecifiedIfFour'" v-model="taxMapIdFour" id="taxMapIdFour" type="text" name="taxMapIdFour">                    
+            </div>
+          </div>
+        <hr>
+        <p class="sectionTitle inline">CERTIFICATION</p><br>
+        <small class="lessLineHeight"><b>I Certify that the items of information entered on this form are true and correct (to the best of my knowledge and belief) and I understand that the making of any willful false statement of material fact herein subject me to the <u>provisions of the penal law</u> relative to the making and filing of false instruments.</b></small>
+
+        <div class="row">
+          
+          <div class="col-xs-5">
+            <div class="text-center">
+              
+              <input class="minorTopPadding" type="text" disabled="disabled">
+              <div class="row">
+                <div class="col-xs-6">
+                  <small class="text-muted">&nbsp;&nbsp;SELLER SIGNATURE</small>
+                </div>
+                <div class="col-xs-3">
+                </div>
+                <div class="col-xs-3">
+                  <small class="text-muted">DATE</small>
+                </div>
+              </div>
+          
+              <input class="minorTopPadding" type="text" disabled="disabled">
+              <div class="row">
+                <div class="col-xs-6">
+                  <small class="text-muted ">&nbsp;&nbsp;BUYER SIGNATURE</small>
+                </div>
+                <div class="col-xs-3">
+                </div>
+                <div class="col-xs-3">
+                  <small class="text-muted">DATE</small>
+                </div>
+              </div>
+            </div>
+          
+          
+            <div id="barcode" style="display:none"></div>
+            <div id="barcodeImg"></div>
+          </div>
+
+          
+          <div id="contactInfoDiv" class="col-xs-7">
+            <div class="text-center"><p class="noBottomMargin"><u>BUYER CONTACT INFO</u></p></div>
+            <small id="finePrint" class="lessLineHeight">(Note: If buyer is LLC,society, association, corporation, joint stock company, estate or entity that is not an individual agent or fiduciary, then a name and contact information of an individual/responsible party who can answer questions regarding the transfer must be entered. Type or print clearly.)</small>
+            <div class="row">
+              <div class="col-xs-6">
+                <input v-model="contactInfoLastName" id="contactInfoLastName" type="text" name="contactInfoLastName" required> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*LAST NAME</small>
+              </div>
+              <div class="col-xs-6">
+                <input v-model="contactInfoFirstName" id="contactInfoFirstName" type="text" name="contactInfoFirstName"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIRST NAME</small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-4">
+                <input v-model="contactInfoAreaCode" id="contactInfoAreaCode" type="text" pattern="[0-9]{3}" maxlength="3" title="EX: 123" name="contactInfoAreaCode"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AREA CODE</small>
+              </div>
+              <div class="col-xs-8">
+                
+                <input v-model="contactInfoPhoneNumber" v-on:keyup="formatAsPhoneNumber($event)" id="contactInfoPhoneNumber" type="text" pattern="[0-9]{3}[-][0-9]{4}" maxlength="8" title="EX: 456-7890" name="contactInfoPhoneNumber"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TELEPHONE NUMBER (Ex: 999-9999)</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <input v-model="contactInfoStreetNumber" id="contactInfoStreetNumber" type="text" name="contactInfoStreetNumber"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STREET NUMBER</small>
+              </div>
+              <div class="col-xs-8">
+                <input v-model="contactInfoStreetName" id="contactInfoStreetName" type="text" name="contactInfoStreetName" required> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*STREET NAME</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-8">
+                <input v-model="contactInfoCityTown" id="contactInfoCityTown" type="text" name="contactInfoCityTown" required> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*CITY OR TOWN</small>
+              </div>
+              <div class="col-xs-2">
+                <input v-model="contactInfoState" id="contactInfoState" type="text" name="contactInfoState" maxlength="2" required> 
+                <small class="text-muted">&nbsp;&nbsp;*STATE</small>
+              </div>
+              <div class="col-xs-2">
+                <input v-model="contactInfoZipCode" id="contactInfoZipCode" type="text" maxlength="5" name="contactInfoZipCode" required> 
+                <small class="text-muted">*ZIPCODE</small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="text-center"><p class="noBottomMargin"><u>BUYER'S ATTORNEY</u></p></div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <input v-model="contactAttorneyInfoLastName" id="contactAttorneyInfoLastName" value="" type="text" name="contactAttorneyInfoLastName"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAST NAME</small>
+              </div>
+              <div class="col-xs-6">
+                <input v-model="contactInfoAttorneyFirstName" id="contactInfoAttorneyFirstName" value="" type="text" name="contactInfoAttorneyFirstName"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIRST NAME</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <input v-model="contactInfoAttorneyAreaCode" id="contactInfoAttorneyAreaCode" value="" type="text" pattern="[0-9]{3}" maxlength="3" title="123" name="contactInfoAttorneyAreaCode"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AREA CODE</small>
+              </div>
+              <div class="col-xs-6">
+                <input v-model="contactInfoAttorneyPhoneNum" v-on:keyup="formatAsPhoneNumber($event)" id="contactInfoAttorneyPhoneNum" value="" type="text" pattern="[0-9]{3}[-][0-9]{4}" maxlength="8" title="456-7890" name="contactInfoAttorneyPhoneNum"> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TELEPHONE NUMBER (Ex: 999-9999)</small>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xs-12">
+            <input id="markupInput" type="hidden" name="markup">
+            <button id="postButton" class="btn btn-success btn-md pull-right" type="submit">Download Static PDF <span class="glyphicon glyphicon-download"></span></button>
+            <a id="saveButton" class="btn btn-primary btn-md pull-right">Save Progress <span class="glyphicon glyphicon glyphicon-floppy-save"></span></a>
+          </div>
+        </div>
+      </form>   
+      </div>    
+  </div>
+</div>  
+
+<script>
+  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module;
+</script>
+
+<script src="javascripts/index.utils.js?v=1.4"></script>  
+<script src="javascripts/vue.min.js"></script>
+<script src="javascripts/index.vue.js?v=1.4"></script>
+<script src="javascripts/bcmath-min.js"></script>
+<script src="javascripts/pdf417-min.js"></script>	    
+<script src="javascripts/index.barcode.js?v=1.4"></script>
+<script src="javascripts/vee-validate.dev.js"></script>
+<script>Vue.use(VeeValidate);</script>
+<script src="javascripts/index.validate.js?v=1.4"></script>
+<script src="javascripts/index.form.js?v=1.4"></script>
+<script src="javascripts/jquery.min.js"></script>  
+<script src="javascripts/bootstrap.min.js"></script>  
+<script>
+  if(!!window.callPhantom){ 
+      document.getElementById('printMessage').classList.remove("printMessageShow"); 
+      document.getElementById('content').classList.remove("contentHiddenForPrint");
+    }
+</script>
+    
+</body>
 </html>
+

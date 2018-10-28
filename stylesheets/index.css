@@ -1,0 +1,125 @@
+/* ELEMENTS */
+body{
+  background-color:#3F3F3F;   
+}
+#modalButton {
+  position:fixed; 
+  right:1%; 
+  top:1%
+}
+input {
+  padding: 0 !important;
+  width: 100%;
+  border: none;
+  border-bottom: solid 1px black;
+}
+h6{
+  font-weight: 700;
+  font-size: 11px;
+}
+small {
+  font-size: 65%;
+}
+hr{
+  height: 2px;
+  background-color: black !important;
+  margin: 0px;
+  width:104%;
+  margin-left: -2%;
+}
+/* /ELEMENTS */
+
+
+@media (min-width: 768px) {
+  #pageContent {
+    max-width: 760px;
+  }
+}
+
+
+/* IDs */
+#pageContent{
+  background-color:white;
+}
+#form{
+  padding-bottom:10px;
+}
+#taxBillInstructions{
+  padding-right: 0px;
+}
+#fourPartOfParcelCheckbox{
+  width:10px;
+}
+#contactInfoDiv{
+  border-left: 1px solid grey
+}
+#finePrint{
+  font-size: 8.5px;
+}
+#numParcelInputDiv{
+  padding-top: 14px;
+}
+/* /IDs */
+
+
+/* CLASSES */
+.sectionHeader {
+  padding: 0 !important;
+}
+.sectionHeader b {
+  font-size: 11px;
+}
+.inline{
+  display:inline;
+}
+.noPadding{
+  padding:0px;
+}
+.noPaddingLeft{
+  padding-left:0px;
+}
+.noPaddingRight{
+  padding-right:0px;
+}
+.minorTopPadding{
+  padding-top: 7px !important;
+}
+.topPadding{
+  padding-top: 10px !important;
+}
+.minorLeftPadding{
+  padding-left: 10px;
+}
+.skinnyInput{
+  width: 65%;
+}
+.skinnyCheckboxInput{
+  width: 10%;
+}
+.sectionTitle{
+  border-top: solid black 2px;
+  border-bottom: solid black 2px;
+  border-left: solid black 2px;
+  border-right: solid black 2px;
+  margin-left:-2%;
+  padding-left:2px;
+  padding-right:2px;  
+}
+.slightMarginBottom{
+  margin-bottom: 5px;
+}
+.noTopMargin{
+  margin-top:0px !important;
+}
+.noBottomMargin{
+  margin-bottom:0px !important;
+}
+.lessLineHeight{
+  display:block;
+  line-height: 10px;
+} 
+.smallFont{
+  font-size: 7px;
+}
+/* /CLASSES */
+

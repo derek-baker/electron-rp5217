@@ -12,10 +12,13 @@
     "dist": "electron-builder"
   },
   "build": {
-    "appId": "your.id"
-    ,"win": { "target": [ "portable" ] }
+    "appId": "your.id",
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
   },
-  
   "dependencies": {},
   "devDependencies": {
     "electron": "latest",
