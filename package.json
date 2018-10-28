@@ -1,0 +1,25 @@
+{
+  "name": "yourappname",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "your app description",
+  "author": "xyz <xyz@gmail.com>",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "your.id"
+    ,"win": { "target": [ "portable" ] }
+  },
+  
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "^20.28.4",
+    "electron-builder-squirrel-windows": "^20.29.0"
+  }
+}
