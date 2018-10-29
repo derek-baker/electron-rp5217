@@ -18,6 +18,8 @@ require('./renderer.js')
   <link media="all" rel="stylesheet" href="stylesheets/index.css">    
   <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
   <link rel="stylesheet" href="stylesheets/pdf.print.css">      
+  <!-- Do not remove or alter the <style> tags below -->
+  <style></style> 
 </head>
 <body>
 
@@ -27,35 +29,27 @@ require('./renderer.js')
 
 <div id="content" class="contentHiddenForPrint">
 
-  <div id="modalDiv">
-    <div class='hidden-xs'>
-      <button id='modalButton' class='btn btn-lg btn-warning hidden-xs' data-toggle="modal" data-target="#myModal" type="button">
-        <span class='glyphicon glyphicon-question-sign'></span>
-      </button>
-    </div>
-  </div>
-
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Please Read</h4>
-          </div>
-          <div class="modal-body">
-            In order to print, you'll need to fill out the form, download the PDF, and print the PDF. 
-            Printing directly from this page will not work.
-            <br><br>
-            If you any experience unexpected behaviour while using this site,
-            please submit a support request using the URL below: 
-            <br><br>https://systemsdevelopmentgroup.com/contact
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-          </div>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Please Read</h4>
+        </div>
+        <div class="modal-body">
+          In order to print, you'll need to fill out the form, download the PDF, and print the PDF. 
+          Printing directly from this page will not work.
+          <br><br>
+          If you any experience unexpected behaviour while using this app,
+          please submit a support request using the URL below: 
+          <br><br>https://systemsdevelopmentgroup.com/contact
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+  </div>
 
   <div id="spinner">
     <div></div>
@@ -83,6 +77,31 @@ require('./renderer.js')
     </noscript>
 
     <div class="row">
+        <!-- style="margin-top:2%; margin-left:2%;" -->
+      <div id="widgets" class="btn-group btn-group-justified" role="group">
+        <a id="openFileButton" class="btn btn-primary btn-md">
+          Import Data <span class="glyphicon glyphicon glyphicon-open"></span>
+        </a>
+            
+        <a id="saveButton" class="btn btn-danger btn-md">
+            Save Data <span class="glyphicon glyphicon glyphicon-floppy-save"></span>
+        </a>
+        
+        <div class="btn-group" role="group">
+          <button id="postButton" class="btn btn-success btn-md" type="submit">
+            Download Static PDF <span class="glyphicon glyphicon-download"></span>
+          </button>        
+        </div>
+
+        <!-- <div id="modalDiv"> -->
+          <div id="modalDiv" class="btn-group" role="group">
+            <button id='modalButton' class='btn btn-md btn-warning' data-toggle="modal" data-target="#myModal" type="button">
+              Info <span class='glyphicon glyphicon-question-sign'></span>
+            </button>
+          </div>
+        <!-- </div> -->
+      </div>  
+
       <div class="col-xs-12" style="position:relative;">
           <img class="img-responsive center-block" alt="County Use Only" src="images/header.png">   
           <div id="swisCodeTarget"><div>
@@ -91,7 +110,7 @@ require('./renderer.js')
 
     <!-- VueJS-Container -->
     <div id="app">
-      <form @submit.prevent="validateBeforeSubmit" id="form" action="http://systemsdevelopmentgroup.com/createPdf" method="post">    
+      <form @submit.prevent="validateBeforeSubmit" id="form" action="https://systemsdevelopmentgroup.com/createPdf" method="post">    
         <div class="container-fluid">
           <input v-model="swisCode" type="hidden" name="SwisCode">
           <div class="row">
@@ -557,22 +576,19 @@ require('./renderer.js')
         </div>
         
         </div>
-        <br>
+        <input id="markupInput" type="hidden" name="markup">
+        <!-- <br>
         <div class="row">
           <div class="col-xs-12">
             <input id="markupInput" type="hidden" name="markup">
             <button id="postButton" class="btn btn-success btn-md pull-right" type="submit">Download Static PDF <span class="glyphicon glyphicon-download"></span></button>
             <a id="saveButton" class="btn btn-primary btn-md pull-right">Save Progress <span class="glyphicon glyphicon glyphicon-floppy-save"></span></a>
           </div>
-        </div>
-      </form>   
+        </div> -->
+      </form>     
       </div>    
   </div>
 </div>  
-
-<script>
-  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module;
-</script>
 
 <script src="javascripts/index.utils.js?v=1.4"></script>  
 <script src="javascripts/vue.min.js"></script>
@@ -584,15 +600,21 @@ require('./renderer.js')
 <script>Vue.use(VeeValidate);</script>
 <script src="javascripts/index.validate.js?v=1.4"></script>
 <script src="javascripts/index.form.js?v=1.4"></script>
+
+<script>
+  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer.js'); 
+</script> 
+
 <script src="javascripts/jquery.min.js"></script>  
 <script src="javascripts/bootstrap.min.js"></script>  
 <script>
   if(!!window.callPhantom){ 
       document.getElementById('printMessage').classList.remove("printMessageShow"); 
       document.getElementById('content').classList.remove("contentHiddenForPrint");
-    }
+      document.getElementById('widgets').style.display = 'none';
+  }
 </script>
-    
+
 </body>
 </html>
 

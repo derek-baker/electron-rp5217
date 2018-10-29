@@ -4,7 +4,7 @@ window.addEventListener("load", function(){
     // const devHosts = ['localhost', '127.0.0.1', '35.196.192.252'];
     // if(devHosts.indexOf(location.hostname) !== -1){
     if(true){
-        Utils.InitDevValues();
+        // Utils.InitDevValues();
     }
 
     // Uncheck 4A-C if Parent checkbox is unchecked
@@ -56,10 +56,9 @@ window.addEventListener("load", function(){
         hiddenInput.setAttribute('value', null);
         markup = document.documentElement.outerHTML;
         markup = markup.replace(
-            'window.nodeRequire = require; delete window.require; delete window.exports; delete window.module;'
+            "window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer.js');"
             ,''
         );
-        // console.log(markup);
         hiddenInput.setAttribute('value', JSON.stringify(markup));
     });
     

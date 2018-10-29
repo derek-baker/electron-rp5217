@@ -43,6 +43,7 @@ const Utils = (function(){
             return navigator.platform.indexOf('Win') > -1
         },
         InitDevValues: () => {
+            viewModel.swisCode = '123456'
             viewModel.propertyLocationStreetNumber  = '1'
             viewModel.propertyLocationStreetName = '2'
             viewModel.propertyLocationCityTown = '3'

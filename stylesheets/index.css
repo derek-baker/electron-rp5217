@@ -2,11 +2,6 @@
 body{
   background-color:#3F3F3F;   
 }
-#modalButton {
-  position:fixed; 
-  right:1%; 
-  top:1%
-}
 input {
   padding: 0 !important;
   width: 100%;
