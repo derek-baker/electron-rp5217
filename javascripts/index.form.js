@@ -73,7 +73,7 @@ window.addEventListener("load", function(){
     let saveButton = document.getElementById('saveButton');
     saveButton.addEventListener('click', function (event) {
         let vueData = viewModel.$data;       
-        localStorage.setItem('recentForm', JSON.stringify(vueData));
+        // localStorage.setItem('recentForm', JSON.stringify(vueData));
         // for(var i =0; i < localStorage.length; i++){
             // if 
         //     console.log(localStorage.getItem(localStorage.key(i)));
