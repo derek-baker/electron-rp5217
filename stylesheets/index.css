@@ -58,6 +58,9 @@ hr{
 
 
 /* CLASSES */
+.hidden {
+  display:none;
+}
 .sectionHeader {
   padding: 0 !important;
 }

@@ -1,6 +1,5 @@
 window.addEventListener("load", function(){
-    'use strict';              
-
+    'use strict';
     // const devHosts = ['localhost', '127.0.0.1', '35.196.192.252'];
     // if(devHosts.indexOf(location.hostname) !== -1){
     if(true){
@@ -60,13 +59,36 @@ window.addEventListener("load", function(){
             ,''
         );
         hiddenInput.setAttribute('value', JSON.stringify(markup));
+        document.getElementById('submitBtn').click();
+    });
+
+    let openFileButton = document.getElementById('openFileButton');
+    openFileButton.addEventListener('click', function (event) {
+        // let vueData = viewModel.$data;       
+        // localStorage.setItem('recentForm', JSON.stringify(vueData));
+        formNames.setKeyArray();
     });
     
+    // This button opens the save dialog/modal
     let saveButton = document.getElementById('saveButton');
     saveButton.addEventListener('click', function (event) {
         let vueData = viewModel.$data;       
         localStorage.setItem('recentForm', JSON.stringify(vueData));
-        window.location.href = window.location.origin + '/saveForm'    
+        // for(var i =0; i < localStorage.length; i++){
+            // if 
+        //     console.log(localStorage.getItem(localStorage.key(i)));
+        //} 
+        // while(formNames.localStorageKeys.length > 0) { formNames.localStorageKeys.pop(); }
+        formNames.setKeyArray();
+        // formNames.localStorageKeys = Object.keys(localStorage)
+    });
+
+    // This is the button in the 'save' modal
+    let saveModalButton = document.getElementById('saveModalButton');
+    saveModalButton.addEventListener('click', function (event) {
+        let vueData = viewModel.$data;       
+        // localStorage.setItem('recentForm', JSON.stringify(vueData));
+        formNames.setKeyArray();
     });
 
     // Event fires before file-download dialog opens(to hide spinner)
