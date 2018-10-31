@@ -62,22 +62,73 @@ require('./renderer.js')
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-              <h4 class="modal-title" id="saveModalLabel">Save Data</h4>
+              <h4 class="modal-title" id="saveModalLabel">Save Current Form As...</h4>
             </div>
             <div class="modal-body">
-              <ul>
-                  <li v-for="key in localStorageKeys">
-                    {{ key }}
-                  </li>
-              </ul>
-              <input class="form-control" type="text" placeholder=" type form name">
+
+                <div class="panel-group" id="savedAccordion" role="tablist" aria-multiselectable="true">
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#savedAccordion" href="#collapseZero" aria-expanded="true" aria-controls="collapseOne">
+                          Saved Forms
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseZero" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body">
+
+                        <div v-for="key in localStorageKeys">
+                          <button v-on:click="persistData()" class='btn btn-md' style="width:100%" 
+                            type="button" data-dismiss="modal">
+                            {{ key }}
+                          </button><br><br>
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
+                  
+                </div>
+                
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          New Form
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body">
+                        <form>
+                          <div class="input-group"> 
+                            <input class="form-control" placeholder=" Form Name"> 
+                            <span class="input-group-btn"> 
+                              <button class='btn btn-md' type="button" data-dismiss="modal">
+                                Save
+                              </button>
+                            </span> 
+                          </div>
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              
             </div>
             <div class="modal-footer">
-              <button id="saveModalButton" type="button" class="btn btn-danger" data-dismiss="modal">Save</button>
+              <!-- <button id="saveModalButton" type="button" class="btn btn-danger" data-dismiss="modal">Save</button> -->
               <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
             </div>
           </div>
         </div>
+
       </div>
   </div>
   

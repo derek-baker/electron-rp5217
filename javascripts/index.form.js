@@ -71,8 +71,7 @@ window.addEventListener("load", function(){
     
     // This button opens the save dialog/modal
     let saveButton = document.getElementById('saveButton');
-    saveButton.addEventListener('click', function (event) {
-        let vueData = viewModel.$data;       
+    saveButton.addEventListener('click', function (event) {            
         // localStorage.setItem('recentForm', JSON.stringify(vueData));
         // for(var i =0; i < localStorage.length; i++){
             // if 
@@ -83,13 +82,13 @@ window.addEventListener("load", function(){
         // formNames.localStorageKeys = Object.keys(localStorage)
     });
 
-    // This is the button in the 'save' modal
-    let saveModalButton = document.getElementById('saveModalButton');
-    saveModalButton.addEventListener('click', function (event) {
-        let vueData = viewModel.$data;       
-        // localStorage.setItem('recentForm', JSON.stringify(vueData));
-        formNames.setKeyArray();
-    });
+    // This WAS the button in the 'save' modal
+    // let saveModalButton = document.getElementById('saveModalButton');
+    // saveModalButton.addEventListener('click', function (event) {
+    //     let vueData = viewModel.$data;       
+    //     // localStorage.setItem('recentForm', JSON.stringify(vueData));
+    //     formNames.setKeyArray();
+    // });
 
     // Event fires before file-download dialog opens(to hide spinner)
     // Spinner is triggered by Vue instance's validateBeforeSubmit method

@@ -11,11 +11,16 @@ document.addEventListener("DOMContentLoaded", function(){
             setKeyArray : function() {                
                 while(this.localStorageKeys.length > 0) { this.localStorageKeys.pop(); }
                 this.localStorageKeys.push.apply(this.localStorageKeys, Object.keys(localStorage));
-                // this.localStorageKeys = Object.keys(localStorage);
-                console.log(this.localStorageKeys);
+            },
+            persistData : function(){
+                let modelData = viewModel.$data;   
+                // localStorage.setItem(
+                //     `${modelData.buyerFirstNameOne}_${modelData.buyerLastNameCompanyOne}_${generateGuid()}`
+                //     ,JSON.stringify(modelData)
+                // );
+                console.log(`persisting ${modelData}`)
             },
             loadData : function(localStorageKey){
-                console.log(`loading ${localStorageKey}`);
                 let data = JSON.parse(localStorage.getItem(localStorageKey));
                 viewModel.InitModelWithValsFromMongo(          
                     data.swisCode,
