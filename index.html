@@ -106,9 +106,9 @@ require('./renderer.js')
                       <div class="panel-body">
                         <form>
                           <div class="input-group"> 
-                            <input class="form-control" placeholder=" Form Name"> 
+                            <input v-model="newFormName" class="form-control" placeholder=" Form Name"> 
                             <span class="input-group-btn"> 
-                              <button class='btn btn-md' type="button" data-dismiss="modal">
+                              <button v-on:click="persistData()" class='btn btn-md' type="button" data-dismiss="modal">
                                 Save
                               </button>
                             </span> 

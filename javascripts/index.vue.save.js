@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function(){
     formNames = new Vue({
         el: '#persistenceModals',
         data: {
-            localStorageKeys : []
+            localStorageKeys : [],
+            newFormName : null
         },
         methods: {
             setKeyArray : function() {                
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(){
             persistData : function(localStorageKey){
                 let modelData = viewModel.$data;   
                 localStorage.setItem(
-                    localStorageKey
+                    (localStorageKey === undefined) ? this.newFormName : localStorageKey
                     ,JSON.stringify(modelData)
                 );
                 console.log(`persisting data in key ${localStorageKey}`)
