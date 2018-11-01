@@ -249,16 +249,18 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.taxAddressZipCode = taxAddressZipCode;
                 this.fourNumberOfParcels = fourNumberOfParcels;
                 this.fourPartOfParcelCheckbox = (fourPartOfParcelCheckbox === 'true');
-                this.fourFrontFeet = fourFrontFeet.replace(',', '');
-                this.fourDepth = fourDepth.replace(',', '');
+                this.fourFrontFeet = (fourFrontFeet) ? fourFrontFeet.replace(',', '') : null;
+                this.fourDepth = (fourDepth) ? fourDepth.replace(',', '') : null;
                 this.fourAcres = fourAcres;
                 this.fourSubDivAuthExists = (fourSubDivAuthExists === 'true');
                 this.fourSubDivApprovalRequired = (fourSubDivApprovalRequired === 'true');
                 this.fourParcelApprovedWithMap = (fourParcelApprovedWithMap === 'true');                
-                this.sellerNameLastNameCompany = sellerNameLastNameCompany.replace('&amp;', '&');
-                this.sellerNameFirstName = sellerNameFirstName.replace('&amp;', '&');
-                this.sellerNameLastNameCompanyTwo = sellerNameLastNameCompanyTwo.replace('&amp;', '&');
-                this.sellerNameFirstNameTwo = sellerNameFirstNameTwo.replace('&amp;', '&');  
+
+                this.sellerNameLastNameCompany = (sellerNameLastNameCompany) ? sellerNameLastNameCompany.replace('&amp;', '&') : null;
+                this.sellerNameFirstName = (sellerNameFirstName) ? sellerNameFirstName.replace('&amp;', '&') : null;
+                this.sellerNameLastNameCompanyTwo = (sellerNameLastNameCompanyTwo) ? sellerNameLastNameCompanyTwo.replace('&amp;', '&') : null;
+                this.sellerNameFirstNameTwo = (sellerNameFirstNameTwo) ? sellerNameFirstNameTwo.replace('&amp;', '&') : null;  
+
                 this.propertyUseSelect = propertyUseSelect;                
                 this.ownershipIsCondo = (ownershipIsCondo === 'true');
                 this.constructionOnVacant = (constructionOnVacant === 'true');

@@ -80,7 +80,7 @@ require('./renderer.js')
                       <div class="panel-body">
 
                         <div v-for="key in localStorageKeys">
-                          <button v-on:click="persistData()" class='btn btn-md' style="width:100%" 
+                          <button v-on:click="persistData(key)" class='btn btn-md' style="width:100%" 
                             type="button" data-dismiss="modal">
                             {{ key }}
                           </button><br><br>

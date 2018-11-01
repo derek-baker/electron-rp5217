@@ -12,13 +12,13 @@ document.addEventListener("DOMContentLoaded", function(){
                 while(this.localStorageKeys.length > 0) { this.localStorageKeys.pop(); }
                 this.localStorageKeys.push.apply(this.localStorageKeys, Object.keys(localStorage));
             },
-            persistData : function(){
+            persistData : function(localStorageKey){
                 let modelData = viewModel.$data;   
-                // localStorage.setItem(
-                //     `${modelData.buyerFirstNameOne}_${modelData.buyerLastNameCompanyOne}_${generateGuid()}`
-                //     ,JSON.stringify(modelData)
-                // );
-                console.log(`persisting ${modelData}`)
+                localStorage.setItem(
+                    localStorageKey
+                    ,JSON.stringify(modelData)
+                );
+                console.log(`persisting data in key ${localStorageKey}`)
             },
             loadData : function(localStorageKey){
                 let data = JSON.parse(localStorage.getItem(localStorageKey));
