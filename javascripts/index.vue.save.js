@@ -18,8 +18,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 localStorage.setItem(
                     (localStorageKey === undefined) ? this.newFormName : localStorageKey
                     ,JSON.stringify(modelData)
-                );
-                console.log(`persisting data in key ${localStorageKey}`)
+                );                
+                this.newFormName = null;
+            },
+            deleteData : function(localStorageKey){
+                localStorage.removeItem(localStorageKey);
+                this.localStorageKeys =  this.localStorageKeys.filter(key => key !== localStorageKey);                
             },
             loadData : function(localStorageKey){
                 let data = JSON.parse(localStorage.getItem(localStorageKey));

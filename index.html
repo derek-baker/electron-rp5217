@@ -37,11 +37,11 @@ require('./renderer.js')
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-              <h4 class="modal-title" id="openModalLabel">Select The Form To Reload</h4>
+              <h4 class="modal-title" id="openModalLabel">Select A Form To Reload</h4>
             </div>
             <div class="modal-body">
                 <div v-for="key in localStorageKeys">
-                  <button v-on:click="loadData(key)" class='btn btn-md' style="width:100%" 
+                  <button v-on:click="loadData(key)" class='btn btn-md btn-primary' style="width:100%" 
                     type="button" data-dismiss="modal">
                     {{ key }}
                   </button><br><br>
@@ -49,7 +49,7 @@ require('./renderer.js')
             </div>
             <div class="modal-footer">
               <!-- <button id="saveModalButton" type="button" class="btn btn-danger" data-dismiss="modal">Open</button> -->
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
           </div>
         </div>
@@ -79,12 +79,25 @@ require('./renderer.js')
                     <div id="collapseZero" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                       <div class="panel-body">
 
-                        <div v-for="key in localStorageKeys">
-                          <button v-on:click="persistData(key)" class='btn btn-md' style="width:100%" 
-                            type="button" data-dismiss="modal">
-                            {{ key }}
-                          </button><br><br>
+                        <div v-for="key in localStorageKeys"> 
+
+                          <div class="row">
+
+                            <div class="col-xs-12">                              
+                              <button v-on:click="persistData(key)" class='btn btn-md btn-success' 
+                                  style="width:100%" type="button" data-dismiss="modal">
+                                Save as {{ key }}
+                              </button>
+                              <button v-on:click="deleteData(key)" class='btn btn-md btn-danger' style="width:100%" type="button">
+                                Delete {{ key }}
+                              </button>                                
+                            </div>
+
+                          </div>
+                          <br>
                         </div>
+                        
+                      <!-- </div> -->
 
                     </div>
                   </div>
@@ -108,7 +121,7 @@ require('./renderer.js')
                           <div class="input-group"> 
                             <input v-model="newFormName" class="form-control" placeholder=" Form Name"> 
                             <span class="input-group-btn"> 
-                              <button v-on:click="persistData()" class='btn btn-md' type="button" data-dismiss="modal">
+                              <button v-on:click="persistData()" class='btn btn-md btn-success' type="button" data-dismiss="modal">
                                 Save
                               </button>
                             </span> 
@@ -124,7 +137,7 @@ require('./renderer.js')
             </div>
             <div class="modal-footer">
               <!-- <button id="saveModalButton" type="button" class="btn btn-danger" data-dismiss="modal">Save</button> -->
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
           </div>
         </div>
