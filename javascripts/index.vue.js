@@ -327,6 +327,7 @@ document.addEventListener("DOMContentLoaded", function(){
             formatAsPhoneNumber: function(event){
                 let propName = event.target.attributes[0].nodeValue;
                 if(event.target._value.toString() !== ''){
+                // if(event.target._value){
                     let input = event.target._value.toString();
                     input = input.replace(/\D/g,'');
                     input = input.substring(0, 7);
@@ -499,17 +500,16 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.$validator.validateAll().then((result) => {
                     if(result && this.ensureThatAtLeastOneSaleConditionIsSelected() && this.ensureThatSaleDatePrecedesTransferDate()){
                         // Note that a listener in index.form.js will remove the class below before file-dialog opens
-                        spinner.className = 'spinner';
+                        document.getElementById('spinner').className = 'spinner';
                         alert(
                             'Before printing, please set paper size in printer settings to ' + 
                             'legal paper(8.5" x 14") for the filing document.'
                         );
-                        // The click-listener on the download button fires before this and builds the payload                                                 
+                        // The click-listener on the download button fires before this and builds part of the payload                                                 
                         document.getElementById('form').submit();                        
                         return;
                     }
-                    // If you find yourself here trying to debug a vee-validator, consider removing the 'required'
-                    // alert('Please correct errors in the form.');
+                    // If you find yourself here trying to debug a vee-validator, consider removing the 'required'                    
                 });
             }
         }

@@ -59,42 +59,26 @@ window.addEventListener("load", function(){
             ,''
         );
         hiddenInput.setAttribute('value', JSON.stringify(markup));
-        document.getElementById('submitBtn').click();
+        let submitBtn = document.getElementById('submitBtn')
+        submitBtn.click();
     });
 
     let openFileButton = document.getElementById('openFileButton');
     openFileButton.addEventListener('click', function (event) {
-        // let vueData = viewModel.$data;       
-        // localStorage.setItem('recentForm', JSON.stringify(vueData));
         formNames.setKeyArray();
     });
     
-    // This button opens the save dialog/modal
     let saveButton = document.getElementById('saveButton');
     saveButton.addEventListener('click', function (event) {            
-        // localStorage.setItem('recentForm', JSON.stringify(vueData));
-        // for(var i =0; i < localStorage.length; i++){
-            // if 
-        //     console.log(localStorage.getItem(localStorage.key(i)));
-        //} 
-        // while(formNames.localStorageKeys.length > 0) { formNames.localStorageKeys.pop(); }
-        formNames.setKeyArray();
-        // formNames.localStorageKeys = Object.keys(localStorage)
+        formNames.setKeyArray();        
     });
-
-    // This WAS the button in the 'save' modal
-    // let saveModalButton = document.getElementById('saveModalButton');
-    // saveModalButton.addEventListener('click', function (event) {
-    //     let vueData = viewModel.$data;       
-    //     // localStorage.setItem('recentForm', JSON.stringify(vueData));
-    //     formNames.setKeyArray();
-    // });
 
     // Event fires before file-download dialog opens(to hide spinner)
     // Spinner is triggered by Vue instance's validateBeforeSubmit method
     window.addEventListener('beforeunload', function() {
         setTimeout(() => {
-            document.getElementById('spinner').className = '';                        
+            document.getElementById('spinner').className = '';    
+            // alert('Please be patient. A file dialog will open shortly.')                                
         }, 1000);
     });
 });

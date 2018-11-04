@@ -31,7 +31,7 @@ const readFile = (event, filepath) => {
 const createWindow = () => {
   mainWindow = new BrowserWindow({width: 1000, height: 800}); //, frame: false})
   mainWindow.loadFile('index.html')
-  mainWindow.webContents.openDevTools()    
+  // mainWindow.webContents.openDevTools()    
   
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

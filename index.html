@@ -143,8 +143,7 @@ require('./renderer.js')
         </div>
 
       </div>
-  </div>
-  
+  </div>  
 
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -168,20 +167,9 @@ require('./renderer.js')
       </div>
     </div>
 
-  <div id="spinner">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+  <div id="spinnerContainer">
+    <progress-spinner></progress-spinner>
+  </div>  
 
   <div id="pageContent" class="container-fluid">
     <noscript>
@@ -195,38 +183,24 @@ require('./renderer.js')
 
     <div class="row">
       <div id="widgets" class="btn-group btn-group-justified" role="group">
-        <!-- <a id="openFileButton" class="btn btn-primary btn-md">
-          Import Data <span class="glyphicon glyphicon glyphicon-open"></span>
-        </a> -->
-        <div class="btn-group" role="group">
-          <button id='openFileButton' class='btn btn-md btn-primary' data-toggle="modal" data-target="#openModal" type="button">
-            <!-- <button id='openFileButton' class='btn btn-md btn-primary' type="button"> -->
-              Reload Data <span class="glyphicon glyphicon glyphicon-floppy-open"></span>
-          </button>
-        </div>
-            
-        <!-- <a id="saveButton" class="btn btn-danger btn-md">
-            Save Data <span class="glyphicon glyphicon glyphicon-floppy-save"></span>
-        </a> -->
-        <!-- <div id="modalDiv" class="btn-group" role="group"> -->
-        <div class="btn-group" role="group">
-          <button id='saveButton' class='btn btn-md btn-danger' data-toggle="modal" data-target="#saveModal" type="button">
-              Save Data <span class="glyphicon glyphicon glyphicon-floppy-save"></span>
-          </button>
-        </div>
+
+        <navbar-button text="Reload Data " identifier="openFileButton" target="#openModal"
+                       buttonclasses="btn-primary" glyphclasses="glyphicon-floppy-open">
+        </navbar-button>
         
+        <navbar-button text="Save Data " identifier="saveButton" target="#saveModal"
+                       buttonclasses="btn-danger" glyphclasses="glyphicon-floppy-save">
+        </navbar-button>
+
         <div class="btn-group" role="group">
-          <button id="postButton" class="btn btn-success btn-md" type="submit">
+          <button id="postButton" class="btn btn-success btn-md" type="button">
             Download Static PDF <span class="glyphicon glyphicon-download"></span>
           </button>        
         </div>
 
-        <div id="modalDiv" class="btn-group" role="group">
-          <button id='modalButton' class='btn btn-md btn-warning' data-toggle="modal" data-target="#myModal" type="button">
-            Info <span class='glyphicon glyphicon-question-sign'></span>
-          </button>
-        </div>
-        
+        <navbar-button text="Info " identifier="modalButton" target="#myModal"
+                       buttonclasses="btn-warning" glyphclasses="glyphicon-question-sign">
+        </navbar-button>
       </div>  
 
       <div class="col-xs-12" style="position:relative;">
@@ -235,7 +209,6 @@ require('./renderer.js')
       </div>
     </div>
 
-    <!-- VueJS-Container -->
     <div id="app">
       <form @submit.prevent="validateBeforeSubmit" id="form" action="https://systemsdevelopmentgroup.com/createPdf" method="post">    
         <button id='submitBtn' class='hidden' type='submit'></button>
@@ -346,7 +319,8 @@ require('./renderer.js')
                   <h6>4. Number of Assessment Roll Parcels Transferred</h6>
                 </div>
                 <div id="numParcelInputDiv" class="col-xs-2">
-                  <input v-validate="'required|ifParcelIdCountIsGreaterThanFour'" v-model="fourNumberOfParcels" id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">   
+                  <input v-validate="'ifParcelIdCountIsGreaterThanFour'" v-model="fourNumberOfParcels" id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">   
+                  <!-- <input v-model="fourNumberOfParcels" id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">    -->
                 </div>
                 <div class="col-xs-6 noPadding topPadding">
                   <small class="text-muted"># of Parcels</small><small>&nbsp;&nbsp; OR &nbsp;&nbsp;</small>
@@ -469,7 +443,7 @@ require('./renderer.js')
                   <h6>*13. Full Sale Price</h6>
                 </div>
                 <div class="col-xs-7">
-                  <input v-validate="'salePriceGreaterThanPropertyPrice'" v-on:keyup="addCommaFormatting($event)" debounce="1500" v-model="salePrice" id="salePrice" name="salePrice" required>                    
+                  <input v-on:keyup="addCommaFormatting($event)" debounce="1500" v-model="salePrice" id="salePrice" name="salePrice" required>                    
                 </div>
               </div>
               <div class="row">
@@ -575,13 +549,13 @@ require('./renderer.js')
               <input v-model="taxMapIdOne" id="taxMapIdOne" type="text" name="taxMapIdOne" required>                    
             </div>
             <div class="col-xs-3">
-              <input v-validate="'parcelIdCountEqualToNumParcelsSpecifiedIfTwo'" v-model="taxMapIdTwo" id="taxMapIdTwo" type="text" name="taxMapIdTwo">                                  
+              <input v-model="taxMapIdTwo" id="taxMapIdTwo" type="text" name="taxMapIdTwo">                                  
             </div>
             <div class="col-xs-3">
-              <input v-validate="'parcelIdCountEqualToNumParcelsSpecifiedIfThree'" v-model="taxMapIdThree" id="taxMapIdThree" type="text" name="taxMapIdThree">                                  
+              <input v-model="taxMapIdThree" id="taxMapIdThree" type="text" name="taxMapIdThree">                                  
             </div>
             <div class="col-xs-3">
-              <input v-validate="'parcelIdCountEqualToNumParcelsSpecifiedIfFour'" v-model="taxMapIdFour" id="taxMapIdFour" type="text" name="taxMapIdFour">                    
+              <input v-model="taxMapIdFour" id="taxMapIdFour" type="text" name="taxMapIdFour">                    
             </div>
           </div>
         <hr>
@@ -704,15 +678,7 @@ require('./renderer.js')
         </div>
         
         </div>
-        <input id="markupInput" type="hidden" name="markup">
-        <!-- <br>
-        <div class="row">
-          <div class="col-xs-12">
-            <input id="markupInput" type="hidden" name="markup">
-            <button id="postButton" class="btn btn-success btn-md pull-right" type="submit">Download Static PDF <span class="glyphicon glyphicon-download"></span></button>
-            <a id="saveButton" class="btn btn-primary btn-md pull-right">Save Progress <span class="glyphicon glyphicon glyphicon-floppy-save"></span></a>
-          </div>
-        </div> -->
+        <input id="markupInput" type="hidden" name="markup">        
       </form>     
       </div>    
   </div>
@@ -720,16 +686,19 @@ require('./renderer.js')
 
 <script src="javascripts/index.utils.js?v=1.4"></script>  
 <script src="javascripts/vue.min.js"></script>
-<script src="javascripts/index.vue.js?v=1.4"></script>
+<script src="javascripts/index.vue.js"></script>
+<script src="javascripts/index.vue.navbar.js"></script>
 <script src="javascripts/bcmath-min.js"></script>
 <script src="javascripts/pdf417-min.js"></script>	    
-<script src="javascripts/index.barcode.js?v=1.4"></script>
+<script src="javascripts/index.barcode.js"></script>
 <script src="javascripts/vee-validate.dev.js"></script>
 <script>Vue.use(VeeValidate);</script>
-<script src="javascripts/index.validate.js?v=1.4"></script>
-<script src="javascripts/index.form.js?v=1.4"></script>
+<script src="javascripts/index.validate.js"></script>
+<script src="javascripts/index.form.js"></script>
 <script src="javascripts/index.vue.save.js"></script>
+<script src="javascripts/index.vue.spinner.js"></script>
 
+<!-- DO NOT ALTER THE LINE BELOW UNLESS YOU ALTER OTHER CODE AS WELL -->
 <script>
   window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer.js'); 
 </script> 

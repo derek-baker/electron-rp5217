@@ -1,0 +1,7 @@
+- add accordions to open modal (one should open file dialog, one should load from localStorage)
+
+- may be a bug existing due to vue instance data props not being populated with localstorage keys
+
+- bug where attempting to overwrite existing localstorage form does not work
+
+- remmove rounded edges from navbar buttons
