@@ -4,4 +4,4 @@
 
 - bug where attempting to overwrite existing localstorage form does not work
 
-- remmove rounded edges from navbar buttons
+- consider creating parent components for navbar, and replicating it at the bottom
