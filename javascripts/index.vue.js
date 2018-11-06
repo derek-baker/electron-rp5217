@@ -4,13 +4,13 @@ document.addEventListener("DOMContentLoaded", function(){
     'use strict';
 
     const dummyValue = new Date().toLocaleDateString('en-US');
-    const spinner = document.getElementById('spinner');                            
+    // const spinner = document.getElementById('spinner');                            
 
     function _mapEmptyStringToStringNull(stringToEval){
         return (stringToEval === '') ? 'null' : stringToEval;
     }
 
-    let pad = function pad(number) {
+    let pad = (number) => {
         if (number < 10) {
           return '0' + number;
         }
@@ -500,7 +500,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.$validator.validateAll().then((result) => {
                     if(result && this.ensureThatAtLeastOneSaleConditionIsSelected() && this.ensureThatSaleDatePrecedesTransferDate()){
                         // Note that a listener in index.form.js will remove the class below before file-dialog opens
-                        document.getElementById('spinner').className = 'spinner';
+                        document.getElementById('spinner')
+                        spinner.className = 'spinner';
                         alert(
                             'Before printing, please set paper size in printer settings to ' + 
                             'legal paper(8.5" x 14") for the filing document.'

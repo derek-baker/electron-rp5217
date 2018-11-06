@@ -2,6 +2,9 @@
 
 - may be a bug existing due to vue instance data props not being populated with localstorage keys
 
-- bug where attempting to overwrite existing localstorage form does not work
-
 - consider creating parent components for navbar, and replicating it at the bottom
+
+- user needs to know what form they currently have "open" if any
+
+- user needs a confirmation message when they've saved successfully
+
