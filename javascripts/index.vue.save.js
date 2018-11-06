@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             loadData : function(localStorageKey){
                 let data = JSON.parse(localStorage.getItem(localStorageKey));
+                console.log(data)
                 viewModel.InitModelWithValsFromMongo(          
                     data.swisCode,
                     data.propertyLocationStreetNumber,
