@@ -43,7 +43,7 @@ window.addEventListener("load", function(){
     for(let i = 0; i < conditionCheckboxCollection.length; i++){
         conditionCheckboxCollection[i].addEventListener('click', function(){
             viewModel.saleInfoCheckJ = false;
-            viewModel[element.id] = true; 
+            viewModel[conditionCheckboxCollection[i].id] = true; 
         });
     }    
 

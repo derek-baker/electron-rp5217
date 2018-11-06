@@ -28,16 +28,6 @@ const Utils = (function(){
     }    
     localStorageTest(); 
     
-    // if(hosts.indexOf(location.hostname) === -1) {
-    //     let stateObj = {}; 
-    //     window.history.pushState(stateObj, "", "rp5217"); // <=== Using this to prime pop-state event but it prevents user from refreshing
-    //     window.onpopstate = function(event){
-    //         if(event){
-    //             let userWishesToLeave = confirm("You may lose data if you leave the page.");
-    //             if (userWishesToLeave === true) { history.back(); }            
-    //         }        
-    //     }    
-    // }
     return {
         CheckForWindows: () => {
             return navigator.platform.indexOf('Win') > -1
