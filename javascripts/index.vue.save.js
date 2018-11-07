@@ -15,10 +15,9 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             persistData : function(localStorageKey){
                 let modelData = viewModel.$data;   
-                localStorage.setItem(
-                    (localStorageKey === undefined) ? this.newFormName : localStorageKey
-                    ,JSON.stringify(modelData)
-                );                
+                let formName = (localStorageKey === undefined) ? this.newFormName : localStorageKey
+                localStorage.setItem( formName, JSON.stringify(modelData) );                
+                document.title = 'RP5217 - ' + formName;
                 this.newFormName = null;
             },
             deleteData : function(localStorageKey){
@@ -27,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             loadData : function(localStorageKey){
                 let data = JSON.parse(localStorage.getItem(localStorageKey));
-                console.log(data)
+                document.title = 'RP5217 - ' + localStorageKey;
                 viewModel.InitModelWithValsFromMongo(          
                     data.swisCode,
                     data.propertyLocationStreetNumber,

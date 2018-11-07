@@ -81,5 +81,10 @@ window.addEventListener("load", function(){
             // alert('Please be patient. A file dialog will open shortly.')                                
         }, 1000);
     });
+
+    // init Bootstrap tooltip
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
 });
 

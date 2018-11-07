@@ -76,7 +76,7 @@ ipcMain.on('openFile', (event, path) => {
     if(fileNames === undefined) { 
       console.log("No file selected"); 
     } 
-     else { 
+    else { 
       readFile(event, fileNames[0]); 
     } 
   });
