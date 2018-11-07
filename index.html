@@ -42,44 +42,66 @@ require('./renderer.js')
           </div>
           <div class="modal-body">
 
-              <div class="panel-group" id="localStorageAccordion" role="tablist" aria-multiselectable="true">
-                <!--  -->
-                  <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingOne">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#localStorageAccordion" 
-                          href="#collapseLocalStore" aria-expanded="true" aria-controls="collapseLocalStore">
-                          Saved Forms
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="collapseLocalStore" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                      <div class="panel-body">
+            <div class="panel-group" id="localStorageAccordion" role="tablist" aria-multiselectable="true">
+              <!--  -->
+                <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" data-parent="#localStorageAccordion" 
+                        href="#collapseLocalStore" aria-expanded="true" aria-controls="collapseLocalStore">
+                        Saved Forms
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseLocalStore" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
 
-                        <div v-for="key in localStorageKeys" class="row">
-                          <div class="col-xs-12">
-                            <button v-on:click="loadData(key)" class='btn btn-md btn-primary' style="width:100%"
-                              type="button" data-dismiss="modal">
-                              {{ key }}
-                            </button><br><br>
-                          </div>
+                      <div v-for="key in localStorageKeys" class="row">
+                        <div class="col-xs-12">
+                          <button v-on:click="loadData(key)" class='btn btn-md btn-primary' style="width:100%"
+                            type="button" data-dismiss="modal">
+                            {{ key }}
+                          </button><br><br>
                         </div>
-
-                        <br>
                       </div>
+
+                      <br>
                     </div>
                   </div>
-                <!--  -->
-                </div>
-          </div>
+                </div>                
+              <!--  -->
+              </div>
+
+              <div class="panel-group" id="loadDataAccordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" data-parent="#loadDataAccordion" href="#fileDialogCollapse" 
+                          aria-expanded="true" aria-controls="fileDialogCollapse">
+                        Load Data File
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="fileDialogCollapse" class="panel-collapse collapse" role="tabpanel" 
+                       aria-labelledby="headingOne">
+                    <div class="panel-body">
+                      <button id="importDataButton" class='btn btn-md btn-success' style="width:100%" 
+                              type="button" data-dismiss="modal">
+                        Open
+                      </button>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+
+            </div>
 
           <div class="modal-footer">
-            <!-- <button id="saveModalButton" type="button" class="btn btn-danger" data-dismiss="modal">Open</button> -->
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
-    </div>
+    </div><!--/Open Modal-->
     
       <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel">
         <div class="modal-dialog" role="document">
@@ -159,7 +181,6 @@ require('./renderer.js')
             
           </div>
           <div class="modal-footer">
-            <!-- <button id="saveModalButton" type="button" class="btn btn-danger" data-dismiss="modal">Save</button> -->
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </div>
         </div>

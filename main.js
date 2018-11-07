@@ -12,7 +12,7 @@ const readFile = (event, filepath) => {
     fs.readFile(filepath, 'utf-8', (err, data) => { 
       if(err){ 
           alert("An error ocurred reading the file :" + err.message) 
-          return 
+          return ;
       }         
       event.sender.send('fileData', data) 
     });
@@ -68,16 +68,16 @@ app.on('activate', function () {
 
 ipcMain.on('loaded', (event) => {
   readFile(event, path.join(__dirname, 'data.json') ); 
-})
+});
 
 ipcMain.on('openFile', (event, path) => { 
   dialog.showOpenDialog(function (fileNames) { 
      // fileNames is an array that contains all the selected 
-     if(fileNames === undefined) { 
-        console.log("No file selected"); 
-     } 
+    if(fileNames === undefined) { 
+      console.log("No file selected"); 
+    } 
      else { 
-        readFile(event, fileNames[0]); 
-     } 
+      readFile(event, fileNames[0]); 
+    } 
   });
 });  

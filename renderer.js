@@ -4,14 +4,14 @@
 
 const {ipcRenderer} = require('electron') 
 
-// const openFileButton = document.getElementById('openFileButton')
-// openFileButton.addEventListener("click", (event) => {
-//     ipcRenderer.send('openFile', () => {  }); 
-// })
-
 // This will cause the data file to be loaded the first time
 document.addEventListener("DOMContentLoaded", (event) => {
     ipcRenderer.send('loaded', () => {  }); 
+
+    const openFileButton = document.getElementById('importDataButton')
+    openFileButton.addEventListener("click", (event) => {
+        ipcRenderer.send('openFile', () => { return; }); 
+    });
 });
 
 const generateGuid = () => {
