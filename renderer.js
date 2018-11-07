@@ -2,7 +2,7 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-const {ipcRenderer} = require('electron') 
+const {ipcRenderer, shell} = require('electron') 
 
 // This will cause the data file to be loaded the first time
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
         ipcRenderer.send('openFile', () => { return; }); 
+    });
+
+    document.getElementById('supportLink').addEventListener('click', (event) => {
+        event.preventDefault();
+        shell.openExternal('https://systemsdevelopmentgroup.com/contact');
     });
 });
 
