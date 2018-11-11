@@ -78,7 +78,7 @@ require('./renderer.js')
                     <h4 class="panel-title">
                       <a role="button" data-toggle="collapse" data-parent="#loadDataAccordion" href="#fileDialogCollapse" 
                           aria-expanded="true" aria-controls="fileDialogCollapse">
-                        Load And Save Data File
+                        Load File Into App
                       </a>
                     </h4>
                   </div>
@@ -162,7 +162,7 @@ require('./renderer.js')
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                   <div class="panel-body">
-                    <form>
+                    <!-- <form> -->
                       <div class="input-group"> 
                         <input v-model="newFormName" class="form-control" placeholder=" Form Name"> 
                         <span class="input-group-btn"> 
@@ -171,7 +171,9 @@ require('./renderer.js')
                           </button>
                         </span> 
                       </div>
-                    </form>
+
+                      <br>
+                    <!-- </form> -->
 
                   </div>
                 </div>
@@ -640,11 +642,9 @@ require('./renderer.js')
               </div>
             </div>
           
-          
             <div id="barcode" style="display:none"></div>
             <div id="barcodeImg"></div>
           </div>
-
           
           <div id="contactInfoDiv" class="col-xs-7">
             <div class="text-center"><p class="noBottomMargin"><u>BUYER CONTACT INFO</u></p></div>

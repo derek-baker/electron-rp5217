@@ -15,14 +15,14 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             persistData : function(localStorageKey){
                 let modelData = viewModel.$data;   
-                let formName = (localStorageKey === undefined) ? this.newFormName : localStorageKey
+                let formName = (localStorageKey === undefined) ? this.newFormName : localStorageKey;
                 localStorage.setItem( formName, JSON.stringify(modelData) );                
                 document.title = 'RP5217 - ' + formName;
                 this.newFormName = null;
             },
             deleteData : function(localStorageKey){
                 localStorage.removeItem(localStorageKey);
-                this.localStorageKeys =  this.localStorageKeys.filter(key => key !== localStorageKey);                
+                this.localStorageKeys = this.localStorageKeys.filter(key => key !== localStorageKey);                
             },
             loadData : function(localStorageKey){
                 let data = JSON.parse(localStorage.getItem(localStorageKey));
