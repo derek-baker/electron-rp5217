@@ -1,9 +1,0 @@
-directories:
-  output: dist
-  buildResources: build
-appId: com.electron.rp5217
-win:
-  target:
-    - portable
-  icon: icon.ico
-electronVersion: 3.0.6

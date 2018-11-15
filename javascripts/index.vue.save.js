@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
         el: '#persistenceModals',
         data: {
             localStorageKeys : [],
-            newFormName : null
+            newFormName : ' ' 
         },
         methods: {
             setKeyArray : function() {                
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 let formName = (localStorageKey === undefined) ? this.newFormName : localStorageKey;
                 localStorage.setItem( formName, JSON.stringify(modelData) );                
                 document.title = 'RP5217 - ' + formName;
-                this.newFormName = null;
+                this.newFormName = ' ';
             },
             deleteData : function(localStorageKey){
                 localStorage.removeItem(localStorageKey);
