@@ -1,20 +1,14 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
+// This file is required by the index.html file and will be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
 const {ipcRenderer, shell} = require('electron') 
 
-// This will cause the data file to be loaded the first time
 document.addEventListener("DOMContentLoaded", (event) => {
-    // console.log(require('electron').remote.process.argv);
-    // const arguments = require('electron').remote.process.argv;
-    // ipcRenderer.send('loaded', arguments); 
-    ipcRenderer.send('requestForMainProcessArgs');
-    ipcRenderer.on('responseWithMainProcessArgs', (event, data) => {
-        console.log('renderer callback')
-        console.log(data);
-    });
-
+    // ipcRenderer.send('requestForMainProcessArgs');
+    // ipcRenderer.on('responseWithMainProcessArgs', (event, data) => {
+    //     console.log('renderer callback')
+    //     console.log(data);
+    // });
     ipcRenderer.send('loaded'); 
 
     const openFileButton = document.getElementById('importDataButton')

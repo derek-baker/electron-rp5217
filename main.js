@@ -20,12 +20,10 @@ const readFile = (event, filepath) => {
 }
 
 const createWindow = () => {
-  mainWindow = new BrowserWindow({width: 1000, height: 800}); //, frame: false})
+  mainWindow = new BrowserWindow({width: 1000, height: 800}); 
   mainWindow.loadFile('index.html');
-  mainWindow.webContents.openDevTools();
-  console.log('env: ' + process.env['NODE_ENV']);
+  if (process.env['NODE_ENV'] === 'dev') { mainWindow.webContents.openDevTools() } 
   
-  // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows in an array if your app supports multi windows, this is the time when you should delete the corresponding element.
     mainWindow = null
@@ -55,25 +53,21 @@ app.on('activate', function () {
 
 
 ipcMain.on('loaded', (event) => {
-  // readFile(event, path.join(__dirname, 'data.json') ); 
-  console.log('main')
-  // console.log(process.argv)
+  // When running app via 'npm start', the args are different so...
   readFile(
     event, 
     (process.env['NODE_ENV'] === 'dev') ? process.argv[2] : process.argv[1]
     );
 });
-
-
-ipcMain.on('requestForMainProcessArgs', function(event) {
-  console.log('reqest from renderer recvd')
-  event.sender.send('responseWithMainProcessArgs', process.argv);
-});
+// ipcMain.on('requestForMainProcessArgs', function(event) {
+//   console.log('reqest from renderer recvd')
+//   event.sender.send('responseWithMainProcessArgs', process.argv);
+// });
 
 
 ipcMain.on('openFile', (event, path) => { 
   dialog.showOpenDialog(function (fileNames) { 
-     // fileNames is an array that contains all the selected 
+     // fileNames is an array that contains all the selected files
     if(fileNames === undefined) { 
       console.log("No file selected"); 
     } 
