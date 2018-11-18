@@ -7,31 +7,22 @@ const path = require('path');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-const readFile = (event, filepath) => {   
+const readFile = (event, filepath) => {
   if (fs.existsSync(filepath)) {
     fs.readFile(filepath, 'utf-8', (err, data) => { 
       if(err){ 
-          alert("An error ocurred reading the file :" + err.message) 
-          return ;
+          console.log(`An error ocurred reading the file ${filepath}\n` + err.message);
+          return;
       }         
       event.sender.send('fileData', data) 
-    });
-    // fs.unlink('fileToBeRemoved', function(err) {
-    //   if(err && err.code == 'ENOENT') {
-    //       console.info("File doesn't exist, won't remove it.");
-    //   } else if (err) {
-    //       console.error("Error occurred while trying to remove file");
-    //   } else {
-    //       console.info("removed");
-    //   }
-    // });
+    });    
   }
 }
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({width: 1000, height: 800}); //, frame: false})
   mainWindow.loadFile('index.html')
-  // mainWindow.webContents.openDevTools()    
+  mainWindow.webContents.openDevTools()    
   
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -42,33 +33,41 @@ const createWindow = () => {
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+// This method will be called when Electron has finished initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+  // On OS X it is common for applications and their menu bar to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
+  // On OS X it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow()
   }
 })
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+
 
 ipcMain.on('loaded', (event) => {
-  readFile(event, path.join(__dirname, 'data.json') ); 
+// ipcMain.on('loaded', (event, args) => {
+  // readFile(event, path.join(__dirname, 'data.json') ); 
+  console.log('main')
+  // console.log(args)
+  console.log(process.argv)
+  readFile(event, process.argv[1]);
 });
+
+
+ipcMain.on('requestForMainProcessArgs', function(event) {
+  console.log('reqest from renderer recvd')
+  event.sender.send('responseWithMainProcessArgs', process.argv);
+});
+
 
 ipcMain.on('openFile', (event, path) => { 
   dialog.showOpenDialog(function (fileNames) { 

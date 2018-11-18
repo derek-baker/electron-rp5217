@@ -6,7 +6,16 @@ const {ipcRenderer, shell} = require('electron')
 
 // This will cause the data file to be loaded the first time
 document.addEventListener("DOMContentLoaded", (event) => {
-    ipcRenderer.send('loaded', () => {  }); 
+    // console.log(require('electron').remote.process.argv);
+    // const arguments = require('electron').remote.process.argv;
+    // ipcRenderer.send('loaded', arguments); 
+    ipcRenderer.send('requestForMainProcessArgs');
+    ipcRenderer.on('responseWithMainProcessArgs', (event, data) => {
+        console.log('renderer callback')
+        console.log(data);
+    });
+
+    ipcRenderer.send('loaded'); 
 
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
