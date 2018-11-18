@@ -1,4 +1,6 @@
 node_modules
 exe/*
 
-dist/*
+dist/win-unpacked/*
+dist/builder-effective-config.yaml
+dist/*.exe

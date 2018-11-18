@@ -7,7 +7,7 @@
   "main": "main.js",
   "scripts": {
     "postinstall": "install-app-deps",
-    "start": "electron . \"C:\\Users\\dbaker.SDGLOCAL\\Documents\\Visual Studio 2017\\Projects\\electron\\data.sdg\"",
+    "start": "SET \"NODE_ENV=dev\" && electron . \"data.sdg\"",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "build": "webpack",
