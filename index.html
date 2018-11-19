@@ -31,7 +31,7 @@ require('./renderer.js')
   <!-- Container for VueJS app -->
   <div id='persistenceModals'>
 
-    <div class="modal fade" id="openModal" tabindex="-1" role="dialog" aria-labelledby="openModalLabel">
+    <!-- <div class="modal fade" id="openModal" tabindex="-1" role="dialog" aria-labelledby="openModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -40,10 +40,8 @@ require('./renderer.js')
             </button>
             <h4 class="modal-title" id="openModalLabel">Select A Form To Reload</h4>
           </div>
-          <div class="modal-body">
-
-            <div class="panel-group" id="localStorageAccordion" role="tablist" aria-multiselectable="true">
-              <!--  -->
+          <div class="modal-body"> -->
+            <!-- <div class="panel-group" id="localStorageAccordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
                   <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
@@ -63,16 +61,12 @@ require('./renderer.js')
                             {{ key }}
                           </button><br><br>
                         </div>
-                      </div>
-
-                      <!-- <br> -->
+                      </div>                      
                     </div>
                   </div>
-                </div>                
-              <!--  -->
-              </div>
-
-              <div class="panel-group" id="loadDataAccordion" role="tablist" aria-multiselectable="true">
+                </div>  
+              </div> -->
+              <!-- <div class="panel-group" id="loadDataAccordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
                   <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
@@ -93,15 +87,14 @@ require('./renderer.js')
                   </div>
                 </div>                
               </div>
-
             </div>
-
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
-    </div><!--/Open Modal-->
+    </div> -->
+    <!--/Open Modal-->
     
       <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel">
         <div class="modal-dialog" role="document">
@@ -235,7 +228,7 @@ require('./renderer.js')
     <div class="row">
       <div id="widgets" class="btn-group btn-group-justified" role="group">
 
-        <navbar-button text="Reload Data " identifier="openFileButton" target="#openModal"
+        <navbar-button text="Open File " identifier="importDataButton" target=""
                        buttonclasses="btn-primary" glyphclasses="glyphicon-floppy-open">
         </navbar-button>
         

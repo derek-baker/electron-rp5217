@@ -62,12 +62,10 @@ window.addEventListener("load", function(){
         let submitBtn = document.getElementById('submitBtn')
         submitBtn.click();
     });
-
-    let openFileButton = document.getElementById('openFileButton');
-    openFileButton.addEventListener('click', function (event) {
-        formNames.setKeyArray();
-    });
-    
+    // let openFileButton = document.getElementById('openFileButton');
+    // openFileButton.addEventListener('click', function (event) {
+    //     formNames.setKeyArray();
+    // });    
     let saveButton = document.getElementById('saveButton');
     saveButton.addEventListener('click', function (event) {            
         formNames.setKeyArray();        

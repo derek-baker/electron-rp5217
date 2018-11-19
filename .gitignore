@@ -1,6 +1,6 @@
 node_modules
 exe/*
 
-dist/win-unpacked/*
-dist/builder-effective-config.yaml
-dist/*.exe
+electron_dist/win-unpacked/*
+electron_dist/builder-effective-config.yaml
+electron_dist/*.exe

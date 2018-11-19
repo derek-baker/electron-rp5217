@@ -3,6 +3,8 @@ const {app, BrowserWindow, ipcMain, dialog} = require('electron')
 const fs = require('fs') 
 const path = require('path');
 
+// "include": "electron_build/installer.nsh",
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
