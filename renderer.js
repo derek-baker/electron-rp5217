@@ -11,10 +11,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // });
     ipcRenderer.send('loaded'); 
 
+
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
         ipcRenderer.send('openFile', () => { return; }); 
     });
+
+
+    const saveBtn = document.getElementById('saveAsFileButton');
+    saveBtn.addEventListener('click', (event) => {
+        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) )
+    });
+    ipcRenderer.on('saved-file', (event) => {
+        // if (!path) path = 'No path'
+        // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
+    });
+
 
     document.getElementById('supportLink').addEventListener('click', (event) => {
         event.preventDefault();

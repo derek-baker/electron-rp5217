@@ -1,9 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, ipcMain, dialog} = require('electron')
 const fs = require('fs') 
-const path = require('path');
-
-// "include": "electron_build/installer.nsh",
+// const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -78,3 +76,27 @@ ipcMain.on('openFile', (event, path) => {
     } 
   });
 });  
+
+
+ipcMain.on('save-dialog', (event, data) => {
+  const options = {
+    title: 'Save Your Progress',
+    filters: [
+      { name: 'Sdg Data File', extensions: ['sdg'] }
+    ]
+  }
+  dialog.showSaveDialog(options, (filename) => {
+    // TODO: listen for use closing save dialog with X in top right
+    fs.writeFile(filename, data, function(err) {
+      if (err) {
+        dialog.showErrorBox('Error', err);
+        return;
+      }
+    });
+    event.sender.send('saved-file');
+  });
+});
+
+process.on('uncaughtException', function (exception) {
+  console.log(exception);
+});

@@ -66,10 +66,10 @@ window.addEventListener("load", function(){
     // openFileButton.addEventListener('click', function (event) {
     //     formNames.setKeyArray();
     // });    
-    let saveButton = document.getElementById('saveButton');
-    saveButton.addEventListener('click', function (event) {            
-        formNames.setKeyArray();        
-    });
+    // let saveButton = document.getElementById('saveButton');
+    // saveButton.addEventListener('click', function (event) {            
+    //     formNames.setKeyArray();        
+    // });
 
     // Event fires before file-download dialog opens(to hide spinner)
     // Spinner is triggered by Vue instance's validateBeforeSubmit method
@@ -80,7 +80,7 @@ window.addEventListener("load", function(){
         }, 1000);
     });
 
-    // init Bootstrap tooltip
+    // init Bootstrap tooltip (has to be done manually)
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
