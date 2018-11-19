@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "description": "app to generate pdfs with 417 barcode",
-  "author": "Derek Baker <derekbaker783@gmail.com>",
+  "author": "Systems Development Group <dbaker@sdgnys.com>",
   "main": "main.js",
   "scripts": {
     "postinstall": "install-app-deps",
@@ -15,12 +15,28 @@
   },
   "build": {
     "appId": "com.electron.rp5217",
+    "artifactName": "RP5217 Setup.exe",
+    "directories": {
+      "output": "electron_dist"
+    },
     "win": {
       "target": [
-        "portable"
+        "nsis"
       ],
-      "icon": "icon.ico"
+      "icon": "electron_build_resources/icon.ico"
+    },
+    "nsis": {
+      "allowElevation": true,
+      "installerIcon": "electron_build_resources/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "RP5217"
+    },
+    "fileAssociations": {
+      "ext": "sdg",
+      "name": "SDGFILE"
     }
+    
   },
   "dependencies": {},
   "devDependencies": {
@@ -36,3 +52,4 @@
     "webpack": "^4.25.1"
   }
 }
+

@@ -1,0 +1,8 @@
+version: 1.0.0
+files:
+  - url: rp5217-setup-1.0.0.exe
+    sha512: 4ULGSRcLIV1mZbvo2H2POnFnpKdOvSfx4ZDOszJKE2Iqhp58UAxndP3CynZB+u4Lc6dobcLv2QejOQL9V/ETnw==
+    size: 38659854
+path: rp5217-setup-1.0.0.exe
+sha512: 4ULGSRcLIV1mZbvo2H2POnFnpKdOvSfx4ZDOszJKE2Iqhp58UAxndP3CynZB+u4Lc6dobcLv2QejOQL9V/ETnw==
+releaseDate: '2018-11-18T20:53:55.511Z'
