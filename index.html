@@ -2,11 +2,7 @@
 We are using Node.js <script>document.write(process.versions.node)</script>,
 Chromium <script>document.write(process.versions.chrome)</script>,
 and Electron <script>document.write(process.versions.electron)</script>.
-
-<script>
-You can also require other files to run in this process
-require('./renderer.js') 
-</script> -->
+<script>You can also require other files to run in this processrequire('./renderer.js')</script> -->
 
 <!doctype html>
 <head lang="en">
@@ -28,157 +24,7 @@ require('./renderer.js')
 </h3>
 
 <div id="content" class="contentHiddenForPrint">
-  <!-- Container for VueJS app -->
-  <div id='persistenceModals'>
-
-    <!-- <div class="modal fade" id="openModal" tabindex="-1" role="dialog" aria-labelledby="openModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="openModalLabel">Select A Form To Reload</h4>
-          </div>
-          <div class="modal-body"> -->
-            <!-- <div class="panel-group" id="localStorageAccordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                  <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                      <a role="button" data-toggle="collapse" data-parent="#localStorageAccordion" 
-                        href="#collapseLocalStore" aria-expanded="true" aria-controls="collapseLocalStore">
-                        Saved Forms
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseLocalStore" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="panel-body">
-
-                      <div v-for="key in localStorageKeys" class="row">
-                        <div class="col-xs-12">
-                          <button v-on:click="loadData(key)" class='btn btn-md btn-primary' style="width:100%"
-                            type="button" data-dismiss="modal">
-                            {{ key }}
-                          </button><br><br>
-                        </div>
-                      </div>                      
-                    </div>
-                  </div>
-                </div>  
-              </div> -->
-              <!-- <div class="panel-group" id="loadDataAccordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                  <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                      <a role="button" data-toggle="collapse" data-parent="#loadDataAccordion" href="#fileDialogCollapse" 
-                          aria-expanded="true" aria-controls="fileDialogCollapse">
-                        Load File Into App
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="fileDialogCollapse" class="panel-collapse collapse" role="tabpanel" 
-                       aria-labelledby="headingOne">
-                    <div class="panel-body">
-                      <button id="importDataButton" class='btn btn-md btn-info' style="width:100%" 
-                              type="button" data-dismiss="modal">
-                        Select File
-                      </button>
-                    </div>
-                  </div>
-                </div>                
-              </div>
-            </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!--/Open Modal-->
-    
-      <!-- <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title" id="saveModalLabel">Save Current Form As...</h4>
-            </div>
-            <div class="modal-body">
-
-              <div class="panel-group" id="savedAccordion" role="tablist" aria-multiselectable="true">
-
-              <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                  <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#savedAccordion" href="#collapseZero" aria-expanded="true" aria-controls="collapseOne">
-                      Saved Forms
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapseZero" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                  <div class="panel-body">
-
-                    <div v-for="key in localStorageKeys"> 
-
-                      <div class="row">
-
-                        <div class="col-xs-12">                              
-                          <button v-on:click="persistData(key)" class='btn btn-md btn-success' 
-                              style="width:100%" type="button" data-dismiss="modal">
-                            Save as {{ key }}
-                          </button>
-                          <button v-on:click="deleteData(key)" class='btn btn-md btn-danger' style="width:100%" type="button">
-                            Delete {{ key }}
-                          </button>                                
-                        </div>
-
-                      </div>
-                      <br>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-              
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-
-              <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                  <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      New Form
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                  <div class="panel-body">
-                    
-                      <div class="input-group"> 
-                        <input v-model="newFormName" class="form-control" placeholder=" Form Name"> 
-                        <span class="input-group-btn"> 
-                          <button v-on:click="persistData()" class='btn btn-md btn-success' type="button" data-dismiss="modal">
-                            Save
-                          </button>
-                        </span> 
-                      </div>
-                      <br>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    
-  </div>  
-
+  
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -187,14 +33,15 @@ require('./renderer.js')
             <h4 class="modal-title" id="myModalLabel">Please Read</h4>
           </div>
           <div class="modal-body">
-            In order to print, you'll need to fill out the form, download the PDF, and print the PDF. 
-            Printing directly from this page will not work.
+            In order to print the form, you must use the Create PDF option.  
+            Note that all the required fields need to be populated before doing so.
             <br><br>
             If you any experience unexpected behaviour while using this app,
-            please submit a support request using the URL below: 
+            please submit a support request using the button below.
             <br><br>
             <button id="supportLink" class="btn btn-md btn-info" target="_blank">
-              https://systemsdevelopmentgroup.com/contact
+              <!-- https://systemsdevelopmentgroup.com/contact -->
+              I have a problem
             </button>
           </div>
           <div class="modal-footer">
@@ -209,17 +56,6 @@ require('./renderer.js')
   </div>  
 
   <div id="pageContent" class="container-fluid">
-    <noscript>
-      <div class="row">
-        <br>
-        <div class="col-xs-12 ">
-          <div class="alert alert-danger" role="alert">
-            It appears JavaScript is disabled in your browser. This page will not work properly without JavaScript. Please enable JavaScript before proceeding.
-          </div>
-        </div>
-      </div>
-    </noscript>
-
     <div class="row">
       <div id="widgets" class="btn-group btn-group-justified" role="group">
 

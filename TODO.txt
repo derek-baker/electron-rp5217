@@ -1,4 +1,3 @@
-- may be a bug existing due to vue instance data props not being populated with localstorage keys
 
 - consider creating parent components for navbar, and replicating it at the bottom
 

@@ -1,10 +1,7 @@
-// Modules to control application life and create native browser window
 const {app, BrowserWindow, ipcMain, dialog} = require('electron')
 const fs = require('fs') 
-// const path = require('path');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+// Keep global reference to window object else window will close when the JavaScript object is garbage collected.
 let mainWindow
 
 const readFile = (event, filepath) => {
@@ -30,11 +27,8 @@ const createWindow = () => {
   })
 }
 
-
 // This method will be called when Electron has finished initialization and is ready to create browser windows. Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
-
-
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar to stay active until the user quits explicitly with Cmd + Q
@@ -42,8 +36,6 @@ app.on('window-all-closed', function () {
     app.quit()
   }
 })
-
-
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
@@ -59,11 +51,6 @@ ipcMain.on('loaded', (event) => {
     (process.env['NODE_ENV'] === 'dev') ? process.argv[2] : process.argv[1]
     );
 });
-// ipcMain.on('requestForMainProcessArgs', function(event) {
-//   console.log('reqest from renderer recvd')
-//   event.sender.send('responseWithMainProcessArgs', process.argv);
-// });
-
 
 ipcMain.on('openFile', (event, path) => { 
   dialog.showOpenDialog(function (fileNames) { 

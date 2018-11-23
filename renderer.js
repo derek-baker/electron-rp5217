@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // });
     ipcRenderer.send('loaded'); 
 
-
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
         ipcRenderer.send('openFile', () => { return; }); 

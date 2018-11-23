@@ -5,3 +5,5 @@ electron_dist/win-unpacked/*
 electron_dist/builder-effective-config.yaml
 electron_dist/*.exe
 electron_dist/*.7z
+*.docx
+*.tmp
