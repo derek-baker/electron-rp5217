@@ -4,6 +4,8 @@ const fs = require('fs')
 // Keep global reference to window object else window will close when the JavaScript object is garbage collected.
 let mainWindow
 
+let dataSnapshot
+
 const readFile = (event, filepath) => {
   if (fs.existsSync(filepath)) {
     fs.readFile(filepath, 'utf-8', (err, data) => { 
@@ -19,12 +21,24 @@ const readFile = (event, filepath) => {
 const createWindow = () => {
   mainWindow = new BrowserWindow({width: 1000, height: 800}); 
   mainWindow.loadFile('index.html');
-  if (process.env['NODE_ENV'] === 'dev') { mainWindow.webContents.openDevTools() } 
-  
+  if (process.env['NODE_ENV'] === 'dev') { mainWindow.webContents.openDevTools() }  
+
+  mainWindow.on('close', event => {
+    event.sender.send('stateRequest');
+    let choice = dialog.showMessageBox(mainWindow, {
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        title: 'Confirm',
+        message: 'Do you really want to close the application?'
+      }
+    );
+    if (choice === 1) {event.preventDefault(); event.defaultPrevented = false}
+  });
+
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows in an array if your app supports multi windows, this is the time when you should delete the corresponding element.
     mainWindow = null
-  })
+  });
 }
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows. Some APIs can only be used after this event occurs.
@@ -35,22 +49,30 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow()
   }
-})
+});
 
-
-ipcMain.on('loaded', (event) => {
+ipcMain.on('loaded', (event, data) => {
   // When running app via 'npm start', the args are different so...
   readFile(
     event, 
     (process.env['NODE_ENV'] === 'dev') ? process.argv[2] : process.argv[1]
     );
+    // We need to record the state of the data so we can prevent the window from closing
+    console.log('response: ')
+    console.log(data)
+    // event.sender.send('requestdataSnapshot'); 
 });
+
+// ipcMain.on('dataSnapshot', (event, data) => { 
+//   console.log('dataSnapshot');
+//   console.log(data);  
+// });
 
 ipcMain.on('openFile', (event, path) => { 
   dialog.showOpenDialog(function (fileNames) { 

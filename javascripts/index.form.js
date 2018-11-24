@@ -1,7 +1,5 @@
 window.addEventListener("load", function(){
     'use strict';
-    // const devHosts = ['localhost', '127.0.0.1', '35.196.192.252'];
-    // if(devHosts.indexOf(location.hostname) !== -1){
     if(true){
         // Utils.InitDevValues();
     }
@@ -62,15 +60,7 @@ window.addEventListener("load", function(){
         let submitBtn = document.getElementById('submitBtn')
         submitBtn.click();
     });
-    // let openFileButton = document.getElementById('openFileButton');
-    // openFileButton.addEventListener('click', function (event) {
-    //     formNames.setKeyArray();
-    // });    
-    // let saveButton = document.getElementById('saveButton');
-    // saveButton.addEventListener('click', function (event) {            
-    //     formNames.setKeyArray();        
-    // });
-
+    
     // Event fires before file-download dialog opens(to hide spinner)
     // Spinner is triggered by Vue instance's validateBeforeSubmit method
     window.addEventListener('beforeunload', function() {
