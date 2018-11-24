@@ -2,9 +2,16 @@ const {app, BrowserWindow, ipcMain, dialog} = require('electron')
 const fs = require('fs') 
 
 // Keep global reference to window object else window will close when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
-let dataSnapshot
+let dataSnapshot;
+let dataCurrent;
+const snapshotData = (data) => {
+  dataSnapshot = data;  
+}
+const captureCurrentState = (data) => {
+  dataCurrent = data;
+}
 
 const readFile = (event, filepath) => {
   if (fs.existsSync(filepath)) {
@@ -13,9 +20,28 @@ const readFile = (event, filepath) => {
           console.log(`An error ocurred reading the file ${filepath}\n` + err.message);
           return;
       }         
-      event.sender.send('fileData', data) 
-    });    
+      event.sender.send('fileData', data);
+      snapshotData(data);
+    });        
   }
+}
+
+const compareObjects = (viewModelSnapshot, viewModelCurrent) => {
+  console.log(viewModelCurrent)
+  
+  const akeys = Object.keys(viewModelSnapshot);
+  const bkeys = Object.keys(viewModelCurrent);
+  const len = akeys.length;
+
+  if (len != bkeys.length) return false;
+  for (let i = 0; i < len; i++) {
+    if (a[akeys[i]] !== b[akeys[i]]) return false;
+  }
+  return true;
+}
+
+const awaitData = async (event) => {
+  event.sender.send('stateRequest');
 }
 
 const createWindow = () => {
@@ -24,15 +50,16 @@ const createWindow = () => {
   if (process.env['NODE_ENV'] === 'dev') { mainWindow.webContents.openDevTools() }  
 
   mainWindow.on('close', event => {
-    event.sender.send('stateRequest');
-    let choice = dialog.showMessageBox(mainWindow, {
+    if(compareObjects(dataSnapshot, dataCurrent) === false){
+    
+      let choice = dialog.showMessageBox(mainWindow, {
         type: 'question',
         buttons: ['Yes', 'No'],
         title: 'Confirm',
         message: 'Do you really want to close the application?'
-      }
-    );
-    if (choice === 1) {event.preventDefault(); event.defaultPrevented = false}
+      });
+      if (choice === 1) {event.preventDefault(); event.defaultPrevented = false}    
+    }
   });
 
   mainWindow.on('closed', function () {
@@ -57,34 +84,28 @@ app.on('activate', function () {
   }
 });
 
-ipcMain.on('loaded', (event, data) => {
+ipcMain.on('loaded', (event) => {
   // When running app via 'npm start', the args are different so...
   readFile(
     event, 
     (process.env['NODE_ENV'] === 'dev') ? process.argv[2] : process.argv[1]
-    );
-    // We need to record the state of the data so we can prevent the window from closing
-    console.log('response: ')
-    console.log(data)
-    // event.sender.send('requestdataSnapshot'); 
+  );  
 });
-
-// ipcMain.on('dataSnapshot', (event, data) => { 
-//   console.log('dataSnapshot');
-//   console.log(data);  
-// });
 
 ipcMain.on('openFile', (event, path) => { 
   dialog.showOpenDialog(function (fileNames) { 
      // fileNames is an array that contains all the selected files
-    if(fileNames === undefined) { 
-      console.log("No file selected"); 
+    if(fileNames !== undefined) { 
+      // record initial state so we can prevent user from closing without saving
+      readFile(event, fileNames[0]);   
     } 
-    else { 
-      readFile(event, fileNames[0]); 
-    } 
+    return console.log("No file selected"); 
   });
-});  
+}); 
+
+ipcMain.on('stateResponse', (event, state) =>{
+  captureCurrentState(data);
+});
 
 
 ipcMain.on('save-dialog', (event, data) => {

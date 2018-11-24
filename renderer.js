@@ -4,18 +4,12 @@
 const {ipcRenderer, shell} = require('electron') 
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    // ipcRenderer.send('requestForMainProcessArgs');
-    // ipcRenderer.on('responseWithMainProcessArgs', (event, data) => {
-    //     console.log('renderer callback')
-    //     console.log(data);
-    // });
-    ipcRenderer.send('loaded', viewModel.$data); 
+    ipcRenderer.send('loaded'); 
 
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
         ipcRenderer.send('openFile', () => { return; }); 
     });
-
 
     const saveBtn = document.getElementById('saveAsFileButton');
     saveBtn.addEventListener('click', (event) => {
@@ -26,29 +20,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
     });
 
-    // ipcRenderer.on('requestDataSnapshot', () => {
-    //     console.log('request for data recieved');
-    //     ipcRenderer.send('dataSnapshot', viewModel.$data);
-    // }); 
-
     document.getElementById('supportLink').addEventListener('click', (event) => {
         event.preventDefault();
         shell.openExternal('https://systemsdevelopmentgroup.com/contact');
     });
 });
-// const generateGuid = () => {
-//     function _p8(s) {
-//         var p = (Math.random().toString(16)+"000000000").substr(2,8);
-//         return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
-//     }
-//     return _p8() + _p8(true) + _p8(true) + _p8();
-// }
+
+ipcRenderer.on('stateRequest', () => {
+    ipcRenderer.send('stateResponse', viewModel.$data);
+});
+
 ipcRenderer.on('fileData', (event, data) => { 
-    result = JSON.parse(data); 
-    // localStorage.setItem(
-    //     result.buyerFirstNameOne + '_' + result.buyerLastNameCompanyOne + '_' + generateGuid()
-    //     ,JSON.stringify(result)
-    // );
+    result = JSON.parse(data);     
     viewModel.InitModelWithValsFromMongo(          
         result.swisCode,
         result.propertyLocationStreetNumber,
