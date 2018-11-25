@@ -1,6 +1,5 @@
 // This file is required by the index.html file and will be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
-
 const {ipcRenderer, shell} = require('electron') 
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -16,8 +15,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) )
     });
     ipcRenderer.on('saved-file', (event) => {
-        // if (!path) path = 'No path'
-        // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
+        // if (!path) path = 'No path' // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
     });
 
     document.getElementById('supportLink').addEventListener('click', (event) => {
@@ -28,7 +26,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 ipcRenderer.on('stateRequest', () => {
     ipcRenderer.send('stateResponse', viewModel.$data);
+    // require('electron').remote.getGlobal('shared').dataCurrent = viewModel.$data;
 });
+// const getCurrentState = () => {
+//     return viewModel.$data;
+// };// export {getCurrentState}
 
 ipcRenderer.on('fileData', (event, data) => { 
     result = JSON.parse(data);     
