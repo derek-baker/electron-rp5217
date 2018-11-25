@@ -1,11 +1,12 @@
 "use strict;"
 
-const { app, BrowserWindow, ipcMain, dialog, remote } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, globalShortcut } = require('electron')
 const fs = require('fs')
 
 // Keep global reference to window object else window will close when the JavaScript object is garbage collected.
 let mainWindow;
 
+let currentFilePath;
 let dataSnapshot;
 const snapshotData = (data) => {
 	dataSnapshot = data;
@@ -20,27 +21,38 @@ const readFile = (event, filepath) => {
 			}
 			event.sender.send('fileData', data);
 			event.sender.send('setTitle', filepath);
+			currentFilePath = filepath;
 			snapshotData(data);
 		});
 	}
 }
 
+const saveFile = (event, filename, data) => {
+	fs.writeFile(filename, data, function (err) {
+		if (err) {
+			dialog.showErrorBox('Error', err);
+			return;
+		}
+	});
+	snapshotData(data);
+	event.sender.send('saved-file');
+} 
+
 const compareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
 	let snapshot = (typeof viewModelSnapshot === 'string' || viewModelSnapshot instanceof String) ?
 		JSON.parse(viewModelSnapshot) : viewModelSnapshot;
-
-	delete viewModelCurrent.validationCounterForNumberOfParcels;
+	// delete viewModelCurrent.validationCounterForNumberOfParcels;
 	const akeys = Object.keys(snapshot);
 	const bkeys = Object.keys(viewModelCurrent);
 	const len = akeys.length;
 
 	if (len != bkeys.length) {
-		// console.log(len.toString() + ' ' + bkeys.length.toString()); 
+		console.log(len.toString() + ' ' + bkeys.length.toString()); 
 		return false;
 	}
 	for (let i = 0; i < len; i++) {
 		if (snapshot[akeys[i]] !== viewModelCurrent[akeys[i]]) {
-			// console.log(snapshot[akeys[i]] + ' ' + viewModelCurrent[akeys[i]]); 
+			console.log(snapshot[akeys[i]] + ' ' + viewModelCurrent[akeys[i]]); 
 			return false;
 		}
 	}	
@@ -49,6 +61,11 @@ const compareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({ width: 1000, height: 800 });
+	// globalShortcut.register('CommandOrControl+S', () => {
+	// 	if(currentFilePath){
+	// 		saveFile(event, filename, data);
+	// 	}		
+	// });
 	mainWindow.loadFile('index.html');
 	if (process.env['NODE_ENV'] === 'dev') { mainWindow.webContents.openDevTools() }
 	mainWindow.once('close', (event) => {
@@ -118,23 +135,27 @@ ipcMain.on('openFile', (event, path) => {
 	});
 });
 
+const options = {
+	title: 'Save Your Progress',
+	filters: [
+		{ name: 'Sdg Data File', extensions: ['sdg'] }
+	]
+}
 ipcMain.on('save-dialog', (event, data) => {
-	const options = {
-		title: 'Save Your Progress',
-		filters: [
-			{ name: 'Sdg Data File', extensions: ['sdg'] }
-		]
-	}
 	dialog.showSaveDialog(options, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
-		fs.writeFile(filename, data, function (err) {
-			if (err) {
-				dialog.showErrorBox('Error', err);
-				return;
-			}
-		});
-		event.sender.send('saved-file');
+		saveFile(event, filename, data);		
 	});
+});
+ipcMain.on('save', (event, data) => {
+	if(!currentFilePath){
+		dialog.showSaveDialog(options, (filename) => {
+			// TODO: listen for use closing save dialog with X in top right
+			saveFile(event, filename, data);		
+		});
+		return;
+	}
+	saveFile(event, currentFilePath, data);
 });
 
 process.on('uncaughtException', function (exception) {

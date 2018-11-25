@@ -10,11 +10,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ipcRenderer.send('openFile', () => { return; }); 
     });
 
-    const saveBtn = document.getElementById('saveAsFileButton');
-    saveBtn.addEventListener('click', (event) => {
-        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) )
+    const saveAsBtn = document.getElementById('saveAsFileButton');
+    saveAsBtn.addEventListener('click', (event) => {
+        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
     });
+    const saveBtn = document.getElementById('saveFileButton');
+    saveBtn.addEventListener('click', (event) => {
+        ipcRenderer.send('save', JSON.stringify(viewModel.$data) );
+    });
+
     ipcRenderer.on('saved-file', (event) => {
+        document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
         // if (!path) path = 'No path' // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
     });
 

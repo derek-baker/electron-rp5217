@@ -1,3 +1,4 @@
+- create save and save as buttons
 
 - consider creating parent components for navbar, and replicating it at the bottom
 
@@ -5,4 +6,6 @@
 
 - if user opens 'Save Data' dialog, and then closes using the X in the top-right,
     there is an exception
+
+
 

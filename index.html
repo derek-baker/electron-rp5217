@@ -63,7 +63,11 @@ and Electron <script>document.write(process.versions.electron)</script>.
                        buttonclasses="btn-primary" glyphclasses="glyphicon-floppy-open">
         </navbar-button>
         
-        <navbar-button text="Save Data " identifier="saveAsFileButton" target=""
+        <navbar-button text="Save " identifier="saveFileButton" target=""
+                       buttonclasses="btn-warning" glyphclasses="glyphicon-floppy-save">
+        </navbar-button>
+
+        <navbar-button text="Save As " identifier="saveAsFileButton" target=""
                        buttonclasses="btn-danger" glyphclasses="glyphicon-floppy-save">
         </navbar-button>
 
@@ -74,7 +78,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
         </div>
 
         <navbar-button text="Info " identifier="modalButton" target="#myModal"
-                       buttonclasses="btn-warning" glyphclasses="glyphicon-question-sign">
+                       buttonclasses="btn-info" glyphclasses="glyphicon-question-sign">
         </navbar-button>
       </div>  
 
