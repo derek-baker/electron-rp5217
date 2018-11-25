@@ -25,12 +25,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 });
 
 ipcRenderer.on('stateRequest', () => {
-    ipcRenderer.send('stateResponse', viewModel.$data);
-    // require('electron').remote.getGlobal('shared').dataCurrent = viewModel.$data;
+    ipcRenderer.send('stateResponse', viewModel.$data);    
 });
-// const getCurrentState = () => {
-//     return viewModel.$data;
-// };// export {getCurrentState}
+
+ipcRenderer.on('setTitle', (event, formName) => {
+    document.title = 'RP5217 - ' + formName;
+});
 
 ipcRenderer.on('fileData', (event, data) => { 
     result = JSON.parse(data);     

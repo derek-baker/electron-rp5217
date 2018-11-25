@@ -19,6 +19,7 @@ const readFile = (event, filepath) => {
 				return;
 			}
 			event.sender.send('fileData', data);
+			event.sender.send('setTitle', filepath);
 			snapshotData(data);
 		});
 	}
@@ -60,10 +61,6 @@ const createWindow = () => {
 };
 
 ipcMain.on('stateResponse', (event, data) => {
-	// mainWindow.once('close', (event) => {
-	// 	event.preventDefault();
-	// 	event.sender.send('stateRequest');
-	// }); 
 	if (compareObjectsForEquality(dataSnapshot, data) === false) {
 		let choice = dialog.showMessageBox(mainWindow, {
 			type: 'question',
