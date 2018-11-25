@@ -35,14 +35,15 @@ const compareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
 	const len = akeys.length;
 
 	if (len != bkeys.length) {
-		console.log(len.toString() + ' ' + bkeys.length.toString()); return false;
+		// console.log(len.toString() + ' ' + bkeys.length.toString()); 
+		return false;
 	}
 	for (let i = 0; i < len; i++) {
 		if (snapshot[akeys[i]] !== viewModelCurrent[akeys[i]]) {
-			console.log(snapshot[akeys[i]] + ' ' + viewModelCurrent[akeys[i]]); return false;
+			// console.log(snapshot[akeys[i]] + ' ' + viewModelCurrent[akeys[i]]); 
+			return false;
 		}
-	}
-	console.log('Objects are identical. Allow user to close app.')
+	}	
 	return true;
 }
 
@@ -80,7 +81,6 @@ ipcMain.on('stateResponse', (event, data) => {
 		}); // event.defaultPrevented = false; 		
 		return;
 	}
-	console.log('closing app')
 	mainWindow.close();
 });
 

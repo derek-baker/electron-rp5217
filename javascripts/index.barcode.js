@@ -2,43 +2,6 @@ window.addEventListener("load", function() {
     'use strict';
     const blockWidthInPixels = 1;
     const blockHeightInPixels = 1;
-    
-    _generate();
-    let form = document.getElementById('form');
-    
-    form.addEventListener('keyup', function() {
-        let canvas = _generate();
-        let barcodeImg = document.getElementById('barcodeImg');
-        if(document.getElementById('hiddenImage') !== null) {
-            let element = document.getElementById('hiddenImage');
-            element.outerHTML = '';
-            // delete element;
-        }
-        let img = document.createElement('img');
-        img.setAttribute('id', 'hiddenImage');
-        img.setAttribute('src', canvas.toDataURL());
-        barcodeImg.appendChild(img);        
-    });
-    // Hack to trigger barcode to display (at page load I think)
-    form.dispatchEvent(new KeyboardEvent('keyup')); 
-
-    form.addEventListener('click', function() {
-        // Added setTimeout() to ensure the viewModel modification resulting from the click was complete. 
-        // Couldn't get blur() to work.
-        setTimeout(function() {
-            let canvas = _generate();
-            let barcodeImg = document.getElementById('barcodeImg');
-            if(document.getElementById('hiddenImage') !== null) {
-                let element = document.getElementById('hiddenImage');
-                element.outerHTML = '';
-            }
-            let img = document.createElement('img');
-            img.setAttribute('id', 'hiddenImage');
-            img.setAttribute('src', canvas.toDataURL());
-            barcodeImg.appendChild(img);
-        }, 200);
-    });
-    //form.dispatchEvent(new MouseEvent('click')); 
 
     function _initBarcodePrereqs(){
         let textToEncode = viewModel.mergeData();  
@@ -76,6 +39,58 @@ window.addEventListener("load", function() {
         canvasBarcodeContainer.appendChild(canvas);
         _paintBarcode(barcode, canvas);
         return canvas;
-    }    
+    }  
+    
+    _generate();
+
+    const _createHiddenDataUrl = () => {
+        let canvas = _generate();
+        let barcodeImg = document.getElementById('barcodeImg');
+        if(document.getElementById('hiddenImage') !== null) {
+            let element = document.getElementById('hiddenImage');
+            element.outerHTML = '';            
+        }
+        let img = document.createElement('img');
+        img.setAttribute('id', 'hiddenImage');
+        img.setAttribute('src', canvas.toDataURL());
+        barcodeImg.appendChild(img);       
+    };
+
+    let form = document.getElementById('form');
+    
+    form.addEventListener('keyup', function() {
+        _createHiddenDataUrl();
+        // let canvas = _generate();
+        // let barcodeImg = document.getElementById('barcodeImg');
+        // if(document.getElementById('hiddenImage') !== null) {
+        //     let element = document.getElementById('hiddenImage');
+        //     element.outerHTML = '';            
+        // }
+        // let img = document.createElement('img');
+        // img.setAttribute('id', 'hiddenImage');
+        // img.setAttribute('src', canvas.toDataURL());
+        // barcodeImg.appendChild(img);        
+    });
+    // Hack to trigger barcode to display (at page load I think)
+    form.dispatchEvent(new KeyboardEvent('keyup')); 
+
+    form.addEventListener('click', function() {
+        // Added setTimeout() to ensure the viewModel modification resulting from the click was complete. 
+        // Couldn't get blur() to work.
+        setTimeout(function() {
+            _createHiddenDataUrl();
+            // let canvas = _generate();
+            // let barcodeImg = document.getElementById('barcodeImg');
+            // if(document.getElementById('hiddenImage') !== null) {
+            //     let element = document.getElementById('hiddenImage');
+            //     element.outerHTML = '';
+            // }
+            // let img = document.createElement('img');
+            // img.setAttribute('id', 'hiddenImage');
+            // img.setAttribute('src', canvas.toDataURL());
+            // barcodeImg.appendChild(img);
+        }, 200);
+    });
+    //form.dispatchEvent(new MouseEvent('click')); 
 });
 

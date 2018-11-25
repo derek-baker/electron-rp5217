@@ -1,7 +1,8 @@
 
 - consider creating parent components for navbar, and replicating it at the bottom
 
-- user needs to know what form they currently have "open" if any
-
 - user needs a confirmation message when they've saved successfully
+
+- if user opens 'Save Data' dialog, and then closes using the X in the top-right,
+    there is an exception
 
