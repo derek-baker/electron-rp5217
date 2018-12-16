@@ -1,3 +1,5 @@
+// import viewModel from '../dist/build.js';
+
 window.addEventListener("load", function() {
     'use strict';
     const blockWidthInPixels = 1;
