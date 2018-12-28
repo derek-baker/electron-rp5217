@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     ipcRenderer.on('saved-file', (event) => {
         document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
+        // string removed above added to title in index.barcode.js
         // if (!path) path = 'No path' // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
     });
 

@@ -3,7 +3,8 @@
 const { app, BrowserWindow, ipcMain, dialog, globalShortcut } = require('electron')
 const fs = require('fs')
 
-// Keep global reference to window object else window will close when the JavaScript object is garbage collected.
+// Keep global reference to window object else window will close when 
+// the JavaScript object is garbage collected.
 let mainWindow;
 
 let currentFilePath;
