@@ -305,7 +305,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
                   <h6>11. Sale Contract Date</h6>
                 </div>
                 <div class="col-xs-7">
-                  <input v-model="saleContractDate" id="saleContractDate" type="date" name="saleContractDate">                    
+                  <input v-model="saleContractDate" id="saleContractDate" type="date" name="saleContractDate" max="2050-12-30">                    
                 </div>                  
               </div>
               <div class="row">
@@ -313,7 +313,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
                   <h6>*12. Date of Sale/Transfer</h6>
                 </div>
                 <div class="col-xs-7">
-                  <input v-model="saleTransferDate" id="saleTransferDate" type="date" name="saleTransferDate" required>                    
+                  <input v-model="saleTransferDate" id="saleTransferDate" type="date" name="saleTransferDate" max="2050-12-30" required>                    
                 </div>                
               </div>
               <div class="row">

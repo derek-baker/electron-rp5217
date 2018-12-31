@@ -1,10 +1,11 @@
-- create save and save as buttons
 
-- consider creating parent components for navbar, and replicating it at the bottom
+- consider creating parent components for navbar, 
+    and replicating it at the bottom
 
 - user needs a confirmation message when they've saved successfully
 
-- if user opens 'Save Data' dialog, and then closes using the X in the top-right,
+- if user opens 'Save Data' dialog, 
+    and then closes using the X in the top-right,
     there is an exception
 
 

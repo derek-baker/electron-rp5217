@@ -146,7 +146,10 @@ ipcMain.on('save-dialog', (event, data) => {
 	dialog.showSaveDialog(options, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
 		saveFile(event, filename, data);		
+		console.log('test');
+		readFile(event, filename);
 	});
+	
 });
 ipcMain.on('save', (event, data) => {
 	if(!currentFilePath){
