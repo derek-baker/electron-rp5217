@@ -66,7 +66,7 @@ window.addEventListener("load", function() {
             `${document.title.replace(' (YOUR WORK IS UNSAVED)', '')} (YOUR WORK IS UNSAVED)`;       
             // string added above removed from title in renderer.js
     });
-    // Hack to trigger barcode to display (at page load I think)
+    // Hack to trigger barcode to display 
     form.dispatchEvent(new KeyboardEvent('keyup')); 
 
     form.addEventListener('click', function() {
