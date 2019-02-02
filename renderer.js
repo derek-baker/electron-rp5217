@@ -114,4 +114,5 @@ ipcRenderer.on('fileData', (event, data) => {
         result.contactInfoAttorneyAreaCode,
         result.contactInfoAttorneyPhoneNum
     );
+    document.getElementById('form').dispatchEvent(new KeyboardEvent('keyup')); 
 }) 
