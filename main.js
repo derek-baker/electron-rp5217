@@ -11,41 +11,6 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
-// function sendStatusToWindow(text) {
-// 	log.info(text);
-// 	win.webContents.send('message', text);
-// }
-
-// function createOtherWindow() {
-// 	win = new BrowserWindow();
-// 	win.webContents.openDevTools();
-// 	win.on('closed', () => {
-// 	  win = null;
-// 	});
-// 	win.loadURL(`file://${__dirname}/index.version.html#v${app.getVersion()}`);
-// 	return win;
-//   }
-//   autoUpdater.on('checking-for-update', () => {
-// 	sendStatusToWindow('Checking for update...');
-//   })
-//   autoUpdater.on('update-available', (info) => {
-// 	sendStatusToWindow('Update available.');
-//   })
-//   autoUpdater.on('update-not-available', (info) => {
-// 	sendStatusToWindow('Update not available.');
-//   })
-//   autoUpdater.on('error', (err) => {
-// 	sendStatusToWindow('Error in auto-updater. ' + err);
-//   })
-//   autoUpdater.on('download-progress', (progressObj) => {
-// 	let log_message = "Download speed: " + progressObj.bytesPerSecond;
-// 	log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-// 	log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-// 	sendStatusToWindow(log_message);
-//   })
-//   autoUpdater.on('update-downloaded', (info) => {
-// 	sendStatusToWindow('Update downloaded');
-//   });
 
 // Keep global reference to window object else window will close when 
 // the JavaScript object is garbage collected.
@@ -91,7 +56,8 @@ const createWindow = () => {
 	// 		saveFile(event, filename, data);
 	// 	}		
 	// });
-	mainWindow.loadFile('index.html');
+	// mainWindow.loadFile(`index.html#v${app.getVersion()}`);
+	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
 	if (process.env['NODE_ENV'] === 'dev') { mainWindow.webContents.openDevTools() }
 	mainWindow.once('close', (event) => {
 		event.preventDefault();
@@ -100,9 +66,7 @@ const createWindow = () => {
 	mainWindow.on('closed', function () {
 		// Dereference the window object, usually you would store windows in an array if your app supports multi windows, this is the time when you should delete the corresponding element.
 		mainWindow = null
-	});
-
-	// createOtherWindow();
+	});	
 };
 
 ipcMain.on('stateResponse', (event, data) => {
@@ -194,6 +158,6 @@ ipcMain.on('save', (event, data) => {
 	saveFile(event, currentFilePath, data);
 });
 
-// process.on('uncaughtException', function (exception) {
-// 	console.log(exception);
-// });
+process.on('uncaughtException', function (exception) {
+	console.log(exception);
+});
