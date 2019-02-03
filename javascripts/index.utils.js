@@ -12,22 +12,6 @@ const Utils = (function(){
     } 
     checkForIE();
 
-    // const localStorageTest = () => {
-    //     const testPayload = 'test';
-    //     try {
-    //         localStorage.setItem(testPayload, testPayload);
-    //         localStorage.removeItem(testPayload);            
-    //     } 
-    //     catch(e) {
-    //         alert(
-    //             'It appears that your browser\'s local storage is disabled or full.'
-    //             + 'Please enable local storage or free up space. This app will not work properly'
-    //             + ' without access to local storage.'
-    //         );
-    //     }
-    // }    
-    // localStorageTest(); 
-    
     return {
         CheckForWindows: () => {
             return navigator.platform.indexOf('Win') > -1
