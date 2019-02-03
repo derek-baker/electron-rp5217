@@ -1,6 +1,7 @@
 "use strict;"
 
 const { app, BrowserWindow, ipcMain, dialog, globalShortcut } = require('electron')
+const { autoUpdater } = require("electron-updater")
 const fs = require('fs')
 
 // Keep global reference to window object else window will close when 
