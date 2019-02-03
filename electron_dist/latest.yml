@@ -1,8 +1,8 @@
-version: 1.0.9
+version: 1.0.10
 files:
-  - url: rp5217-setup-1.0.9.exe
-    sha512: wR/dDktksg1DyJSTYqfzQkgDgaQYLn0OXJTcM7XM3eQg0kz9R5Qp6wW9o1dVXcoKkhnZ8b/OlCUTcHTbrhNoYg==
-    size: 44393575
-path: rp5217-setup-1.0.9.exe
-sha512: wR/dDktksg1DyJSTYqfzQkgDgaQYLn0OXJTcM7XM3eQg0kz9R5Qp6wW9o1dVXcoKkhnZ8b/OlCUTcHTbrhNoYg==
-releaseDate: '2019-02-03T20:25:36.675Z'
+  - url: rp5217-setup-1.0.10.exe
+    sha512: aaIOTQ+m/44lS+5E59y9L7QVfB460SG1gPubjF71aL3eVxq+KLSv2/mR3dBQbytinrBg1NGl9ZoztU6gqFuVIA==
+    size: 44391975
+path: rp5217-setup-1.0.10.exe
+sha512: aaIOTQ+m/44lS+5E59y9L7QVfB460SG1gPubjF71aL3eVxq+KLSv2/mR3dBQbytinrBg1NGl9ZoztU6gqFuVIA==
+releaseDate: '2019-02-03T21:02:26.701Z'
