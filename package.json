@@ -1,6 +1,6 @@
 {
   "name": "rp5217",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "description": "app to generate pdfs with 417 barcode",
   "author": "Systems Development Group <dbaker@sdgnys.com>",

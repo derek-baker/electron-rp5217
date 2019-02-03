@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     Vue.component('version-display', { 
         template: `
-        <p>App Version: 1.0.6</p>
+        <p>App Version: 1.0.7</p>
         `
     });
     
