@@ -4,7 +4,6 @@ const { app, BrowserWindow, ipcMain, dialog, globalShortcut } = require('electro
 const { autoUpdater } = require("electron-updater")
 const log = require('electron-log');
 const fs = require('fs');
-
 const { CompareObjectsForEquality } = require('./main.modules/main.utils')
 
 autoUpdater.logger = log;
@@ -12,8 +11,8 @@ autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
 
-// Keep global reference to window object else window will close when 
-// the JavaScript object is garbage collected.
+// Keep global reference to window object else window will  
+// close when the JavaScript object is garbage collected.
 let mainWindow;
 
 let currentFilePath;
@@ -38,23 +37,23 @@ const readFile = (event, filepath) => {
 }
 
 const saveFile = (event, filename, data) => {
-	fs.writeFile(filename, data, function (err) {
-		if (err) {
-			dialog.showErrorBox('Error', err);
-			return;
-		}
-	});
-	snapshotData(data);
-	event.sender.send('saved-file');
+	if(filename){
+		fs.writeFile(filename, data, function (err) {
+			if (err) {			
+				dialog.showErrorBox('Error', err);
+				return;
+			}
+		});
+		snapshotData(data);
+		event.sender.send('saved-file');
+	}	
 } 
 
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({ width: 1000, height: 800 });
 	// globalShortcut.register('CommandOrControl+S', () => {
-	// 	if(currentFilePath){
-	// 		saveFile(event, filename, data);
-	// 	}		
+	// 	if(currentFilePath){ saveFile(event, filename, data); }		
 	// });
 	// mainWindow.loadFile(`index.html#v${app.getVersion()}`);
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
@@ -65,7 +64,7 @@ const createWindow = () => {
 	});
 	mainWindow.on('closed', function () {
 		// Dereference the window object, usually you would store windows in an array if your app supports multi windows, this is the time when you should delete the corresponding element.
-		mainWindow = null
+		mainWindow = null;
 	});	
 };
 
@@ -107,6 +106,7 @@ app.on('window-all-closed', function () {
 		app.quit()
 	}
 });
+
 app.on('activate', function () {
 	// On OS X it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open.
 	if (mainWindow === null) {
@@ -142,7 +142,6 @@ ipcMain.on('save-dialog', (event, data) => {
 	dialog.showSaveDialog(options, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
 		saveFile(event, filename, data);		
-		console.log('test');
 		readFile(event, filename);
 	});
 	
@@ -158,6 +157,6 @@ ipcMain.on('save', (event, data) => {
 	saveFile(event, currentFilePath, data);
 });
 
-process.on('uncaughtException', function (exception) {
-	console.log(exception);
-});
+// process.on('uncaughtException', function (exception) {
+// 	console.log(exception);
+// });

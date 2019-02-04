@@ -3,7 +3,6 @@
 const CompareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
     let snapshot = (typeof viewModelSnapshot === 'string' || viewModelSnapshot instanceof String) ?
         JSON.parse(viewModelSnapshot) : viewModelSnapshot;
-    // delete viewModelCurrent.validationCounterForNumberOfParcels;
     const akeys = Object.keys(snapshot);
     const bkeys = Object.keys(viewModelCurrent);
     const len = akeys.length;

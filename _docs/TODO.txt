@@ -6,7 +6,7 @@
 
 - if user opens 'Save Data' dialog, 
     and then closes using the X in the top-right,
-    there is an exception
+    there is an exception( I think this is fixed)
 
 
 
