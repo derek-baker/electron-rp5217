@@ -1,12 +1,22 @@
 // module 
 
 const CompareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
+    if(
+        viewModelCurrent === null 
+            || viewModelCurrent === undefined
+            || viewModelSnapshot === null 
+            || viewModelSnapshot === undefined
+        ){ 
+        return false; 
+    }
+    
     let snapshot = (typeof viewModelSnapshot === 'string' || viewModelSnapshot instanceof String) ?
         JSON.parse(viewModelSnapshot) : viewModelSnapshot;
     const akeys = Object.keys(snapshot);
     const bkeys = Object.keys(viewModelCurrent);
     const len = akeys.length;
 
+    if(viewModelCurrent === null || viewModelCurrent === undefined){ return false; }
     if (len != bkeys.length) {
         console.log(len.toString() + ' ' + bkeys.length.toString());
         return false;
