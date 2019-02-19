@@ -43,7 +43,7 @@ ipcRenderer.on('setTitle', (event, formName) => {
 
 ipcRenderer.on('fileData', (event, data) => { 
     result = JSON.parse(data);     
-    viewModel.InitModelWithValsFromMongo(          
+    viewModel.InitModelWithValsFromDataStore(          
         result.swisCode,
         result.propertyLocationStreetNumber,
         result.propertyLocationStreetName,

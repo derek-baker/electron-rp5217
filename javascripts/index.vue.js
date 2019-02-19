@@ -110,57 +110,57 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         methods: {
             // Runs after load event
-            InitModelWithValsFromImo: function(
-                SwisCode
-                ,PropLocStreetNumber
-                ,PropLocStreetName
-                ,PropLocCityTown
-                ,PropLocZipcode
-                ,PropLocVillage
-                ,ParcelsTransferredOnDeed
-                ,DeedPropertySizeFrontFeet
-                ,DeedPropertySizeDepth
-                ,Acres
-                ,SellerLastNameOrCompany
-                ,SellerFirstName
-                ,SellerLastNameOrCompanyTwo
-                ,SellerFirstNameTwo
-                ,DescriptionDropDown
-                ,IsCondominium
-                ,IsInAgriculturalDistrict
-                ,AssessmentRollYear
-                ,TotalAssessedValue
-                ,PropertyClass
-                ,SchoolDistrictName
-                ,TaxMapIdentifier
-            ){  
-                this.swisCode = SwisCode;
-                this.propertyLocationStreetNumber = PropLocStreetNumber;
-                this.propertyLocationStreetName = PropLocStreetName.replace('&amp;', '&');
-                this.propertyLocationCityTown = PropLocCityTown;
-                this.propertyLocationZipcode = PropLocZipcode;
-                this.propertyLocationVillage = PropLocVillage;
-                this.fourNumberOfParcels = ParcelsTransferredOnDeed;
-                this.fourFrontFeet = DeedPropertySizeFrontFeet.replace(',', '');
-                this.fourDepth = DeedPropertySizeDepth.replace(',', '');
-                this.fourAcres = Acres;                
-                this.sellerNameLastNameCompany = SellerLastNameOrCompany.replace('&amp;', '&');
-                this.sellerNameFirstName = SellerFirstName.replace('&amp;', '&');
-                this.sellerNameLastNameCompanyTwo = SellerLastNameOrCompanyTwo.replace('&amp;', '&');
-                this.sellerNameFirstNameTwo = SellerFirstNameTwo.replace('&amp;', '&');  
-                this.propertyUseSelect = DescriptionDropDown;                
-                this.ownershipIsCondo = (IsCondominium.length > 0) ? true : false;
-                this.locatedWithinAg = (IsInAgriculturalDistrict.length > 0) ? true : false;
-                this.assessmentRollYear = AssessmentRollYear;
-                this.assessmentTotalValue = TotalAssessedValue;
-                this.assessmentPropClassFirstInput = PropertyClass;
-                this.assessmentSchoolDistrict = SchoolDistrictName;
-                this.taxMapIdOne = TaxMapIdentifier;
-                setTimeout(() => {
-                    document.getElementById('assessmentTotalValue').dispatchEvent(new KeyboardEvent('keyup')); 
-                }, 500);
-            },
-            InitModelWithValsFromMongo: function(
+            // InitModelWithValsFromImo: function(
+            //     SwisCode
+            //     ,PropLocStreetNumber
+            //     ,PropLocStreetName
+            //     ,PropLocCityTown
+            //     ,PropLocZipcode
+            //     ,PropLocVillage
+            //     ,ParcelsTransferredOnDeed
+            //     ,DeedPropertySizeFrontFeet
+            //     ,DeedPropertySizeDepth
+            //     ,Acres
+            //     ,SellerLastNameOrCompany
+            //     ,SellerFirstName
+            //     ,SellerLastNameOrCompanyTwo
+            //     ,SellerFirstNameTwo
+            //     ,DescriptionDropDown
+            //     ,IsCondominium
+            //     ,IsInAgriculturalDistrict
+            //     ,AssessmentRollYear
+            //     ,TotalAssessedValue
+            //     ,PropertyClass
+            //     ,SchoolDistrictName
+            //     ,TaxMapIdentifier
+            // ){  
+            //     this.swisCode = SwisCode;
+            //     this.propertyLocationStreetNumber = PropLocStreetNumber;
+            //     this.propertyLocationStreetName = PropLocStreetName.replace('&amp;', '&');
+            //     this.propertyLocationCityTown = PropLocCityTown;
+            //     this.propertyLocationZipcode = PropLocZipcode;
+            //     this.propertyLocationVillage = PropLocVillage;
+            //     this.fourNumberOfParcels = ParcelsTransferredOnDeed;
+            //     this.fourFrontFeet = DeedPropertySizeFrontFeet.replace(',', '');
+            //     this.fourDepth = DeedPropertySizeDepth.replace(',', '');
+            //     this.fourAcres = Acres;                
+            //     this.sellerNameLastNameCompany = SellerLastNameOrCompany.replace('&amp;', '&');
+            //     this.sellerNameFirstName = SellerFirstName.replace('&amp;', '&');
+            //     this.sellerNameLastNameCompanyTwo = SellerLastNameOrCompanyTwo.replace('&amp;', '&');
+            //     this.sellerNameFirstNameTwo = SellerFirstNameTwo.replace('&amp;', '&');  
+            //     this.propertyUseSelect = DescriptionDropDown;                
+            //     this.ownershipIsCondo = (IsCondominium.length > 0) ? true : false;
+            //     this.locatedWithinAg = (IsInAgriculturalDistrict.length > 0) ? true : false;
+            //     this.assessmentRollYear = AssessmentRollYear;
+            //     this.assessmentTotalValue = TotalAssessedValue;
+            //     this.assessmentPropClassFirstInput = PropertyClass;
+            //     this.assessmentSchoolDistrict = SchoolDistrictName;
+            //     this.taxMapIdOne = TaxMapIdentifier;
+            //     setTimeout(() => {
+            //         document.getElementById('assessmentTotalValue').dispatchEvent(new KeyboardEvent('keyup')); 
+            //     }, 500);
+            // },
+            InitModelWithValsFromDataStore: function(
                 swisCode,
                 propertyLocationStreetNumber,
                 propertyLocationStreetName,

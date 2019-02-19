@@ -92,7 +92,9 @@ and Electron <script>document.write(process.versions.electron)</script>.
     </div>
 
     <div id="app">
-      <form @submit.prevent="validateBeforeSubmit" id="form" action="https://systemsdevelopmentgroup.com/createPdf" method="post">    
+      <form @submit.prevent="validateBeforeSubmit" id="form" action="http://localhost:8080/createPdf" method="post">    
+      <!-- <form @submit.prevent="validateBeforeSubmit" id="form" action="http://35.196.192.252:8080/createPdf" method="post">     -->
+      <!-- <form @submit.prevent="validateBeforeSubmit" id="form" action="https://systemsdevelopmentgroup.com/createPdf" method="post">     -->
         <button id='submitBtn' class='hidden' type='submit'></button>
         <div class="container-fluid">
           <input v-model="swisCode" type="hidden" name="SwisCode">
@@ -564,14 +566,14 @@ and Electron <script>document.write(process.versions.electron)</script>.
 </div>  
 
 <script src="javascripts/index.utils.js"></script>  
-<script src="javascripts/vue.min.js"></script>
+<script src="javascripts/lib/vue.min.js"></script>
 <script src="javascripts/index.vue.js"></script> 
 <!-- <script src="./dist/build.js"></script> -->
 <script src="javascripts/index.vue.navbar.js"></script>
-<script src="javascripts/bcmath-min.js"></script>
-<script src="javascripts/pdf417-min.js"></script>	    
+<script src="javascripts/lib/bcmath-min.js"></script>
+<script src="javascripts/lib/pdf417-min.js"></script>	    
 <script src="javascripts/index.barcode.js"></script>
-<script src="javascripts/vee-validate.dev.js"></script>
+<script src="javascripts/lib/vee-validate.dev.js"></script>
 <script>Vue.use(VeeValidate);</script>
 <script src="javascripts/index.validate.js"></script>
 <script src="javascripts/index.form.js"></script>
@@ -583,8 +585,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
   window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer.js'); 
 </script> 
 
-<script src="javascripts/jquery.min.js"></script>  
-<script src="javascripts/bootstrap.min.js"></script>  
+<script src="javascripts/lib/jquery.min.js"></script>  
+<script src="javascripts/lib/bootstrap.min.js"></script>  
 <script>
   if(!!window.callPhantom){ 
       document.getElementById('printMessage').classList.remove("printMessageShow"); 
