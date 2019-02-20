@@ -1,6 +1,9 @@
+"use strict";
+
 // This file is required by the index.html file and will be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const {ipcRenderer, shell} = require('electron');
+const { envConfigs } = require('./config');
 
 // import viewModel from './dist/build.js';
 
@@ -27,10 +30,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // if (!path) path = 'No path' // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
     });
 
-    document.getElementById('supportLink').addEventListener('click', (event) => {
-        event.preventDefault();
-        shell.openExternal('https://systemsdevelopmentgroup.com/contact');
+    let env = 'prod';
+    ipcRenderer.on('runningDevLocal', function(){        
+        env = 'dev';
+        document.getElementById('form').action = envConfigs[env].pdfCreationEndpoint;
+        document.getElementById('form');
+        document.getElementById('supportLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            shell.openExternal(envConfigs[env].contactEndpoint);
+        });
     });
+    
 });
 
 ipcRenderer.on('stateRequest', () => {
@@ -42,7 +52,7 @@ ipcRenderer.on('setTitle', (event, formName) => {
 });
 
 ipcRenderer.on('fileData', (event, data) => { 
-    result = JSON.parse(data);     
+    let result = JSON.parse(data);     
     viewModel.InitModelWithValsFromDataStore(          
         result.swisCode,
         result.propertyLocationStreetNumber,

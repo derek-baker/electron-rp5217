@@ -7,7 +7,8 @@
   "main": "main.js",
   "scripts": {
     "postinstall": "install-app-deps",
-    "start": "SET \"NODE_ENV=dev\" && electron . \"..\\data.sdg\"",
+    "lint-es":  "npx eslint javascripts/*",
+    "start-dev": "SET \"NODE_ENV=dev\" && electron . \"..\\data.sdg\"",
     "build": "webpack",
     "test": "mocha",
     "pack": "electron-builder --dir",
@@ -39,14 +40,18 @@
     }
   },
   "dependencies": {
-    "electron-updater": "^4.0.7",
-    "electron-log": "^1.3.0"
+    "dotenv": "^6.2.0",
+    "electron-log": "^1.3.0",
+    "electron-updater": "^4.0.7"
   },
   "devDependencies": {
     "css-loader": "^1.0.1",
     "electron": "^4.0.4",
     "electron-builder": "^20.38.5",
     "electron-builder-squirrel-windows": "^20.38.5",
+    "eslint": "^5.14.1",
+    "eslint-config-google": "^0.12.0",
+    "eslint-plugin-vue": "^5.2.2",
     "mocha": "^5.2.0",
     "spectron": "^5.0.0",
     "ts-loader": "^5.3.3",

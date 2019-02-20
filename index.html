@@ -92,9 +92,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
     </div>
 
     <div id="app">
-      <form @submit.prevent="validateBeforeSubmit" id="form" action="http://localhost:8080/createPdf" method="post">    
-      <!-- <form @submit.prevent="validateBeforeSubmit" id="form" action="http://35.196.192.252:8080/createPdf" method="post">     -->
-      <!-- <form @submit.prevent="validateBeforeSubmit" id="form" action="https://systemsdevelopmentgroup.com/createPdf" method="post">     -->
+      <form @submit.prevent="validateBeforeSubmit" id="form" action="https://systemsdevelopmentgroup.com/createPdf" method="post">    
         <button id='submitBtn' class='hidden' type='submit'></button>
         <div class="container-fluid">
           <input v-model="swisCode" type="hidden" name="SwisCode">
@@ -580,10 +578,11 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <script src="javascripts/index.vue.version.js"></script>
 <script src="javascripts/index.vue.spinner.js"></script> 
 
-<!-- DO NOT ALTER THE LINE BELOW UNLESS YOU ALTER OTHER CODE AS WELL -->
+<!-- As this markup is sent to the server, you'll need to .repace() it in pdf-creation endpoint -->
 <script>
-  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer.js'); 
+  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./index.renderer.js'); 
 </script> 
+
 
 <script src="javascripts/lib/jquery.min.js"></script>  
 <script src="javascripts/lib/bootstrap.min.js"></script>  

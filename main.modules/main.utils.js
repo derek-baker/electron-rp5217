@@ -1,4 +1,4 @@
-// module 
+"use strict";
 
 const CompareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
     if(
