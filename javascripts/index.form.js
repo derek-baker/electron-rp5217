@@ -45,6 +45,12 @@ window.addEventListener("load", function(){
         });
     }    
 
+    const cleanMarkup = function(webMarkup){
+        return webMarkup.replace(
+            "window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./index.renderer.js');"
+            ,''
+        );
+    };
     let hiddenInput = document.getElementById('markupInput');
     let downloadButton = document.getElementById('postButton');
     let markup = null;
@@ -52,10 +58,7 @@ window.addEventListener("load", function(){
         // We clean out the hidden input to avoid unwanted data-growth
         hiddenInput.setAttribute('value', null);
         markup = document.documentElement.outerHTML;
-        markup = markup.replace(
-            "window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer.js');"
-            ,''
-        );
+        markup = cleanMarkup(markup);
         hiddenInput.setAttribute('value', JSON.stringify(markup));
         let submitBtn = document.getElementById('submitBtn')
         submitBtn.click();

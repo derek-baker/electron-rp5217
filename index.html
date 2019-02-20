@@ -578,7 +578,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <script src="javascripts/index.vue.version.js"></script>
 <script src="javascripts/index.vue.spinner.js"></script> 
 
-<!-- As this markup is sent to the server, you'll need to .repace() it in pdf-creation endpoint -->
+
+<!-- As this markup is sent to the server, you'll need to .replace() it in javascripts/index.form.js -->
 <script>
   window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./index.renderer.js'); 
 </script> 
