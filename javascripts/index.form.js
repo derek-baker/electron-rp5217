@@ -1,8 +1,8 @@
 window.addEventListener("load", function(){
     'use strict';
-    if(true){
-        // Utils.InitDevValues();
-    }
+    // if(true){
+    //     Utils.InitDevValues();
+    // }
 
     // Uncheck 4A-C if Parent checkbox is unchecked
     const fourPartOfParcelCheckbox = document.getElementById('fourPartOfParcelCheckbox');

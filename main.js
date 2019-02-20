@@ -114,7 +114,6 @@ ipcMain.on('stateResponse', (event, data) => {
 });
 
 ipcMain.on('loaded', (event) => {
-	// const runningInDev = (process.env['NODE_ENV'] === 'dev') ? true : false; 		
 	// When running app via 'npm start', the args are different so...
 	readFile(
 		event,

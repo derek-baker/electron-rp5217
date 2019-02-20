@@ -4,6 +4,7 @@
 // All of the Node.js APIs are available in this process.
 const {ipcRenderer, shell} = require('electron');
 const { envConfigs } = require('./config');
+const { checkConnectivity } = require('./index.renderer.connectivity');
 
 // import viewModel from './dist/build.js';
 
@@ -30,17 +31,32 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // if (!path) path = 'No path' // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
     });
 
+
     let env = 'prod';
+    const contactButtonListener = function(clickEvent){
+        clickEvent.preventDefault();
+        shell.openExternal(envConfigs[env].contactEndpoint);
+    };
+    let supportLink = document.getElementById('supportLink');
+    supportLink.addEventListener('click', contactButtonListener);
+    // Event below sent after parent DomContentLoaded listener communicates over 'loaded' channel with main process.
     ipcRenderer.on('runningDevLocal', function(){        
-        env = 'dev';
-        document.getElementById('form').action = envConfigs[env].pdfCreationEndpoint;
-        document.getElementById('form');
-        document.getElementById('supportLink').addEventListener('click', function(event) {
-            event.preventDefault();
-            shell.openExternal(envConfigs[env].contactEndpoint);
-        });
-    });
-    
+        env = 'dev'; 
+        // The form is pointed at prod by default
+        document.getElementById('form').action = envConfigs[env].pdfCreationEndpoint;       
+        // Remove the old listener to avoid having two.
+        supportLink.removeEventListener('click', contactButtonListener);
+        supportLink.addEventListener('click', contactButtonListener);
+    });    
+    checkConnectivity()
+    // if (env === 'prod') {
+    //     if ( !checkConnectivity() ) {
+    //         alert(
+    //             'It appears you do not have internet connectivity. ' + 
+    //             'You\'ll be unable to generate PDFs if you aren\'t connected to the internet.'
+    //         );
+    //     }
+    // };
 });
 
 ipcRenderer.on('stateRequest', () => {

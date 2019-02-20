@@ -1,21 +1,18 @@
-// Module pattern because JS export/import isn't as supported as widely as I'd like as of 5/19/18
 const Utils = (function(){
     'use strict';
-
-    let checkForIE = function (){
-        if(navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0){
-            alert(
-                'Internet Explorer does not render this site properly. Please use Firefox, Chrome, or Edge instead.'
-            );
-            window.location.replace('https://www.mozilla.org/en-US/firefox/new/');            
-        }
-    } 
-    checkForIE();
-
+    // let checkForIE = function (){
+    //     if(navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0){
+    //         alert(
+    //             'Internet Explorer does not render this site properly. Please use Firefox, Chrome, or Edge instead.'
+    //         );
+    //         window.location.replace('https://www.mozilla.org/en-US/firefox/new/');            
+    //     }
+    // } 
+    // checkForIE();
     return {
-        CheckForWindows: () => {
-            return navigator.platform.indexOf('Win') > -1
-        },
+        // CheckForWindows: () => {
+        //     return navigator.platform.indexOf('Win') > -1
+        // },
         InitDevValues: () => {
             viewModel.swisCode = '123456'
             viewModel.propertyLocationStreetNumber  = '1'
@@ -86,7 +83,6 @@ const Utils = (function(){
             viewModel.contactInfoAttorneyFirstName = '43'
             viewModel.contactInfoAttorneyAreaCode = '440'
             viewModel.contactInfoAttorneyPhoneNum = '450-0000'
-        },
-        CheckForInternetExplorer : checkForIE
+        } // ,CheckForInternetExplorer : checkForIE
     };
 })();
