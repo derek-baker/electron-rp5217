@@ -32,7 +32,8 @@
       "installerIcon": "electron_build_resources/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "RP5217"
+      "shortcutName": "RP5217",
+      "runAfterFinish": false
     },
     "fileAssociations": {
       "ext": "sdg",
