@@ -1,8 +1,5 @@
 window.addEventListener("load", function(){
-    'use strict';
-    // if(true){
-    //     Utils.InitDevValues();
-    // }
+    'use strict';    
 
     // Uncheck 4A-C if Parent checkbox is unchecked
     const fourPartOfParcelCheckbox = document.getElementById('fourPartOfParcelCheckbox');
@@ -51,12 +48,25 @@ window.addEventListener("load", function(){
             ,''
         );
     };
+
+
     let hiddenInput = document.getElementById('markupInput');
-    let downloadButton = document.getElementById('postButton');
-    let markup = null;
+    let markup = undefined;
+    // Specify behavior for 'Create PDF' buttons
+    let downloadButton = document.getElementById('postButton');    
     downloadButton.addEventListener('click', function (event) {
         // We clean out the hidden input to avoid unwanted data-growth
-        hiddenInput.setAttribute('value', null);
+        hiddenInput.setAttribute('value', '');
+        markup = document.documentElement.outerHTML;
+        markup = cleanMarkup(markup);
+        hiddenInput.setAttribute('value', JSON.stringify(markup));
+        let submitBtn = document.getElementById('submitBtn')
+        submitBtn.click();
+    });
+    let downloadButtonBottom = document.getElementById('postButtonBottom');    
+    downloadButtonBottom.addEventListener('click', function (event) {
+        // We clean out the hidden input to avoid unwanted data-growth
+        hiddenInput.setAttribute('value', '');
         markup = document.documentElement.outerHTML;
         markup = cleanMarkup(markup);
         hiddenInput.setAttribute('value', JSON.stringify(markup));
@@ -64,6 +74,7 @@ window.addEventListener("load", function(){
         submitBtn.click();
     });
     
+
     // Event fires before file-download dialog opens(to hide spinner)
     // Spinner is triggered by Vue instance's validateBeforeSubmit method
     window.addEventListener('beforeunload', function() {

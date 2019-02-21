@@ -38,6 +38,22 @@ and Electron <script>document.write(process.versions.electron)</script>.
             In order to print the form, you must use the Create PDF option.  
             Note that all the required fields need to be populated before doing so.
             <br><br>
+            <b>Instructions</b>
+            <br>
+            <a id="saveInstructions" href="#" target="_blank" rel="noopener">
+              Instructions For Saving The Form To Your Computer
+            </a><br>
+            <a id="fillingInstructions" href="#" target="_blank" rel="noopener">
+              Instructions For Filling Out The Form
+            </a><br>
+            <a id="pdfInstructions" href="#" target="_blank" rel="noopener">
+              Instructions For Creating A PDF
+            </a><br>
+            <a id="printInstructions" href="#" target="_blank">
+              Instructions For Printing The Form
+            </a>          
+            <br><br>
+
             If you any experience unexpected behaviour while using this app,
             please submit a support request using the button below.
             <br><br>
@@ -60,7 +76,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
 
   <div id="pageContent" class="container-fluid">
     <div class="row">
-      <div id="widgets" class="btn-group btn-group-justified" role="group">
+      <div id="navbarTop" class="btn-group btn-group-justified" role="group">
 
         <navbar-button text="Open File " identifier="importDataButton" target=""
                        buttonclasses="btn-primary" glyphclasses="glyphicon-floppy-open">
@@ -559,8 +575,37 @@ and Electron <script>document.write(process.versions.electron)</script>.
         </div>
         <input id="markupInput" type="hidden" name="markup">        
       </form>     
-      </div>    
+    </div>    
+      
+    <div class="row">
+        <div id="navbarBottom" class="btn-group btn-group-justified" role="group">  
+          
+          <navbar-buttonbottom text="Open File " identifier="importDataButtonBottom" target=""
+                       buttonclasses="btn-primary" glyphclasses="glyphicon-floppy-open">
+          </navbar-buttonbottom>
+          
+          <navbar-buttonbottom text="Save " identifier="saveFileButtonBottom" target=""
+                          buttonclasses="btn-warning" glyphclasses="glyphicon-floppy-save">
+          </navbar-buttonbottom>
+  
+          <navbar-buttonbottom text="Save As " identifier="saveAsFileButtonBottom" target=""
+                          buttonclasses="btn-danger" glyphclasses="glyphicon-floppy-save">
+          </navbar-buttonbottom>
+  
+          <div class="btn-group" role="group">
+            <button id="postButtonBottom" class="btn btn-success btn-md" type="button">
+              Create PDF <span class="glyphicon glyphicon-copy"></span>
+            </button>        
+          </div>
+  
+          <navbar-buttonbottom text="Info " identifier="modalButtonButton" target="#myModal"
+                          buttonclasses="btn-info" glyphclasses="glyphicon-question-sign">
+          </navbar-buttonbottom>
+        </div>  
+      </div>
   </div>
+
+
 </div>  
 
 <script src="javascripts/index.utils.js"></script>  
@@ -568,6 +613,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <script src="javascripts/index.vue.js"></script> 
 <!-- <script src="./dist/build.js"></script> -->
 <script src="javascripts/index.vue.navbar.js"></script>
+<script src="javascripts/index.vue.navbar.bottom.js"></script>
 <script src="javascripts/lib/bcmath-min.js"></script>
 <script src="javascripts/lib/pdf417-min.js"></script>	    
 <script src="javascripts/index.barcode.js"></script>
@@ -591,7 +637,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
   if(!!window.callPhantom){ 
       document.getElementById('printMessage').classList.remove("printMessageShow"); 
       document.getElementById('content').classList.remove("contentHiddenForPrint");
-      document.getElementById('widgets').style.display = 'none';
+      document.getElementById('navbarTop').style.display = 'none';
+      document.getElementById('navbarBottom').style.display = 'none';
   }
 </script>
 

@@ -5,61 +5,73 @@
 const {ipcRenderer, shell} = require('electron');
 const { envConfigs } = require('./config');
 const { checkConnectivity } = require('./index.renderer.connectivity');
+const { configureInstructions } = require('./index.renderer.instructions');
 
 // import viewModel from './dist/build.js';
 
 document.addEventListener("DOMContentLoaded", (event) => {
     ipcRenderer.send('loaded'); 
 
+    // Specify behavior for 'Open File' buttons
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
         ipcRenderer.send('openFile', () => { return; }); 
     });
-
-    const saveAsBtn = document.getElementById('saveAsFileButton');
-    saveAsBtn.addEventListener('click', (event) => {
-        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
+    const openFileBottomButton = document.getElementById('importDataButtonBottom')
+    openFileBottomButton.addEventListener("click", (event) => {
+        ipcRenderer.send('openFile', () => { return; }); 
     });
+
+    // Specify behavior for 'Save' buttons
     const saveBtn = document.getElementById('saveFileButton');
     saveBtn.addEventListener('click', (event) => {
         ipcRenderer.send('save', JSON.stringify(viewModel.$data) );
     });
+    const saveBtnBottom = document.getElementById('saveFileButtonBottom');
+    saveBtnBottom.addEventListener('click', (event) => {
+        ipcRenderer.send('save', JSON.stringify(viewModel.$data) );
+    });
 
+    // Specify behavior for 'Save As' buttons
+    const saveAsBtn = document.getElementById('saveAsFileButton');
+    saveAsBtn.addEventListener('click', (event) => {
+        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
+    });
+    const saveAsBtnBottom = document.getElementById('saveAsFileButtonBottom');
+    saveAsBtnBottom.addEventListener('click', (event) => {
+        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
+    });
+    
     ipcRenderer.on('saved-file', (event) => {
         document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
-        // string removed above added to title in index.barcode.js
-        // if (!path) path = 'No path' // document.getElementById('file-saved').innerHTML = `Path selected: ${path}`
+        // string removed above added to title in index.barcode.js (TODO)        
     });
 
 
+    // Prod is default.... 
     let env = 'prod';
-    const contactButtonListener = function(clickEvent){
+    const contactButtonListenerCallback = function(clickEvent){
         clickEvent.preventDefault();
-        shell.openExternal(envConfigs[env].contactEndpoint);
+        shell.openExternal(envConfigs[env].contactUrl);
     };
     let supportLink = document.getElementById('supportLink');
-    supportLink.addEventListener('click', contactButtonListener);
+    supportLink.addEventListener('click', contactButtonListenerCallback);
+    // ...but if we're running in Dev, we'll adjust URLs of services we depend on accordingly.
     // Event below sent after parent DomContentLoaded listener communicates over 'loaded' channel with main process.
     ipcRenderer.on('runningDevLocal', function(){        
         env = 'dev'; 
         // The form is pointed at prod by default
-        document.getElementById('form').action = envConfigs[env].pdfCreationEndpoint;       
+        document.getElementById('form').action = envConfigs[env].pdfCreationUrl;       
         // Remove the old listener to avoid having two.
-        supportLink.removeEventListener('click', contactButtonListener);
-        supportLink.addEventListener('click', contactButtonListener);
+        supportLink.removeEventListener('click', contactButtonListenerCallback);
+        supportLink.addEventListener('click', contactButtonListenerCallback);
     });    
-    checkConnectivity()
-    // if (env === 'prod') {
-    //     if ( !checkConnectivity() ) {
-    //         alert(
-    //             'It appears you do not have internet connectivity. ' + 
-    //             'You\'ll be unable to generate PDFs if you aren\'t connected to the internet.'
-    //         );
-    //     }
-    // };
+    checkConnectivity();
+    configureInstructions();
 });
 
 ipcRenderer.on('stateRequest', () => {
+    // TODO: should not be using $data property
     ipcRenderer.send('stateResponse', viewModel.$data);    
 });
 

@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    Vue.component('navbar-button', { 
+    Vue.component('navbar-buttonbottom', { 
         props: ['text', 'identifier', 'target', 'buttonclasses', 'glyphclasses'],
         template: `<div class="btn-group" role="group">
                         <button style="border-radius:0;" v-bind:id='identifier' class="btn btn-md" 
@@ -16,6 +16,6 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     new Vue({ 
-        el: '#navbarTop'
+        el: '#navbarBottom'
     });
 });
