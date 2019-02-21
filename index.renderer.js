@@ -2,7 +2,7 @@
 
 // This file is required by the index.html file and will be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
-const {ipcRenderer, shell} = require('electron');
+const { ipcRenderer, shell } = require('electron');
 const { envConfigs } = require('./config');
 const { checkConnectivity } = require('./index.renderer.connectivity');
 const { configureInstructions } = require('./index.renderer.instructions');
@@ -10,6 +10,12 @@ const { configureInstructions } = require('./index.renderer.instructions');
 // import viewModel from './dist/build.js';
 
 document.addEventListener("DOMContentLoaded", (event) => {
+    // let myNotification = new Notification('Title', {
+    //     body: 'Lorem Ipsum Dolor Sit Amet'
+    // })
+    // myNotification.onclick = () => {
+    //     console.log('Notification clicked')
+    // }
     ipcRenderer.send('loaded'); 
 
     // Specify behavior for 'Open File' buttons
@@ -68,6 +74,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });    
     checkConnectivity();
     configureInstructions();
+});
+
+ipcRenderer.on('alertChannel', function(event, msg){
+    console.log( msg )
+    alert(msg);
 });
 
 ipcRenderer.on('stateRequest', () => {

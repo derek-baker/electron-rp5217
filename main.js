@@ -7,6 +7,7 @@ const fs = require('fs');
 const { CompareObjectsForEquality } = require('./main.modules/main.utils');
 // const { readFile, saveFile } = require('./main.modules/main.fileManipulation');
 
+// app.setAppUserModelId(process.execPath);
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
@@ -54,7 +55,8 @@ const createWindow = () => {
 	// });
 	// mainWindow.loadFile(`index.html#v${app.getVersion()}`);
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
-	if (runningInDev) { 
+	// if (runningInDev) { 
+	if(true){
 		mainWindow.webContents.openDevTools(); 		
 	}
 	mainWindow.once('close', (event) => {
@@ -62,9 +64,11 @@ const createWindow = () => {
 		event.sender.send('stateRequest');  // event.defaultPrevented = false;
 	});
 	mainWindow.on('closed', function () {
-		// Dereference the window object, usually you would store windows in an array if your app supports multi windows, this is the time when you should delete the corresponding element.
+		// Dereference the window object, usually you would store windows in an array if your app supports multi windows, 
+		// this is the time when you should delete the corresponding element.
 		mainWindow = null;
 	});	
+	
 };
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows. Some APIs can only be used after this event occurs.
@@ -73,9 +77,15 @@ const createWindow = () => {
 
 app.on('ready', function() {	
 	createWindow();
-	autoUpdater.checkForUpdatesAndNotify();
+	// let result = mainWindow.webContents.send('alertChannel', 'checking for update');
+	// console.log(result)
+	// app.on('checking-for-update', function() {
+	// 	mainWindow.send('alertChannel', 'checking for update');
+	// });
+	// autoUpdater.checkForUpdatesAndNotify()
+		// .then( (result) => { if(true) alert(result) })
+		// .catch(console.log(err));
 });
-  
 
 app.on('window-all-closed', function () {
 	// On OS X it is common for applications and their menu bar to stay active until the user quits explicitly with Cmd + Q
@@ -122,6 +132,15 @@ ipcMain.on('loaded', (event) => {
 	if (runningInDev) { 		
 		event.sender.send('runningDevLocal');	
 	}
+	// Wait until mainWindow content is loaded so that we can use browser alerts because autoUpdater is broken-ish.
+	// Also, note that this method won't be invoked while the app is running in Dev mode.
+	autoUpdater.checkForUpdatesAndNotify()
+		.then( ( updateCheckResult ) =>  { 
+			if (updateCheckResult.updateInfo.version !== updateCheckResult.versionInfo.version) { 
+				mainWindow.webContents.send('alertChannel', updateCheckResult ) 
+			}
+		})
+		.catch( (reason) => mainWindow.webContents.send('alertChannel', reason) );
 });
 
 ipcMain.on('openFile', (event, path) => {
