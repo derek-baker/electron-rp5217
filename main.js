@@ -136,8 +136,7 @@ ipcMain.on('loaded', (event) => {
 	// Also, note that this method won't be invoked while the app is running in Dev mode.
 	autoUpdater.checkForUpdatesAndNotify()
 		.then( ( updateCheckResult ) =>  { 
-			// if (updateCheckResult.updateInfo.version !== updateCheckResult.versionInfo.version) {
-			if (true) {
+			if (updateCheckResult.downloadPromise) {
 				mainWindow.webContents.send('alertChannel', updateCheckResult ) 
 			}
 		})
