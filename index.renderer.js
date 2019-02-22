@@ -6,55 +6,53 @@ const { ipcRenderer, shell } = require('electron');
 const { envConfigs } = require('./config');
 const { checkConnectivity } = require('./index.renderer.connectivity');
 const { configureInstructions } = require('./index.renderer.instructions');
+const { createButtonListeners } = require('./index.renderer.buttonBehavior');
 
 // import viewModel from './dist/build.js';
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    // let myNotification = new Notification('Title', {
-    //     body: 'Lorem Ipsum Dolor Sit Amet'
-    // })
-    // myNotification.onclick = () => {
-    //     console.log('Notification clicked')
-    // }
     ipcRenderer.send('loaded'); 
 
-    // Specify behavior for 'Open File' buttons
-    const openFileButton = document.getElementById('importDataButton')
-    openFileButton.addEventListener("click", (event) => {
-        ipcRenderer.send('openFile', () => { return; }); 
-    });
-    const openFileBottomButton = document.getElementById('importDataButtonBottom')
-    openFileBottomButton.addEventListener("click", (event) => {
-        ipcRenderer.send('openFile', () => { return; }); 
-    });
+    createButtonListeners();
+    // // Specify behavior for 'Open File' buttons
+    // const openFileButton = document.getElementById('importDataButton')
+    // openFileButton.addEventListener("click", (event) => {
+    //     ipcRenderer.send('openFile', () => { return; }); 
+    // });
+    // const openFileBottomButton = document.getElementById('importDataButtonBottom')
+    // openFileBottomButton.addEventListener("click", (event) => {
+    //     ipcRenderer.send('openFile', () => { return; }); 
+    // });
 
-    // Specify behavior for 'Save' buttons
-    const saveBtn = document.getElementById('saveFileButton');
-    saveBtn.addEventListener('click', (event) => {
-        ipcRenderer.send('save', JSON.stringify(viewModel.$data) );
-    });
-    const saveBtnBottom = document.getElementById('saveFileButtonBottom');
-    saveBtnBottom.addEventListener('click', (event) => {
-        ipcRenderer.send('save', JSON.stringify(viewModel.$data) );
-    });
+    // // Specify behavior for 'Save' buttons
+    // const saveBtn = document.getElementById('saveFileButton');
+    // saveBtn.addEventListener('click', (event) => {
+    //     ipcRenderer.send('save', JSON.stringify(viewModel.$data) );
+    // });
+    // const saveBtnBottom = document.getElementById('saveFileButtonBottom');
+    // saveBtnBottom.addEventListener('click', (event) => {
+    //     ipcRenderer.send('save', JSON.stringify(viewModel.$data) );
+    // });
 
-    // Specify behavior for 'Save As' buttons
-    const saveAsBtn = document.getElementById('saveAsFileButton');
-    saveAsBtn.addEventListener('click', (event) => {
-        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
-    });
-    const saveAsBtnBottom = document.getElementById('saveAsFileButtonBottom');
-    saveAsBtnBottom.addEventListener('click', (event) => {
-        ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
-    });
+    // // Specify behavior for 'Save As' buttons
+    // const saveAsBtn = document.getElementById('saveAsFileButton');
+    // saveAsBtn.addEventListener('click', (event) => {
+    //     ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
+    // });
+    // const saveAsBtnBottom = document.getElementById('saveAsFileButtonBottom');
+    // saveAsBtnBottom.addEventListener('click', (event) => {
+    //     ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
+    // });
     
+
+    // Display dirty file status
     ipcRenderer.on('saved-file', (event) => {
         document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
         // string removed above added to title in index.barcode.js (TODO)        
     });
 
 
-    // Prod is default.... 
+    // Set environment-specific values (Prod is default) 
     let env = 'prod';
     const contactButtonListenerCallback = function(clickEvent){
         clickEvent.preventDefault();
@@ -62,22 +60,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
     };
     let supportLink = document.getElementById('supportLink');
     supportLink.addEventListener('click', contactButtonListenerCallback);
-    // ...but if we're running in Dev, we'll adjust URLs of services we depend on accordingly.
+    // If we're running in Dev or Test, we'll adjust URLs of services we depend on accordingly.
     // Event below sent after parent DomContentLoaded listener communicates over 'loaded' channel with main process.
-    ipcRenderer.on('runningDevLocal', function(){        
-        env = 'dev'; 
+    ipcRenderer.on('runningInDevOrTestChannel', function(event, runtimeEnv) {        
+        env = runtimeEnv;
         // The form is pointed at prod by default
         document.getElementById('form').action = envConfigs[env].pdfCreationUrl;       
-        // Remove the old listener to avoid having two.
+        // Remove the old listener to avoid having two conflicting callbacks.
         supportLink.removeEventListener('click', contactButtonListenerCallback);
         supportLink.addEventListener('click', contactButtonListenerCallback);
-    });    
-    checkConnectivity();
+    });
+
+    // Instructions-configuration is not environmentally-specific as the wiki is on GitHub
     configureInstructions();
+
+    checkConnectivity();
 });
 
 ipcRenderer.on('alertChannel', function(event, msg){
-    console.log( msg )
     alert(
         'A new version of the RP5217 Editor is being downloaded in the background. To use the new version, close and re-open the app.'
     );

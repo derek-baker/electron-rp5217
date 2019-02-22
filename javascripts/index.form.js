@@ -70,7 +70,8 @@ window.addEventListener("load", function(){
         markup = document.documentElement.outerHTML;
         markup = cleanMarkup(markup);
         hiddenInput.setAttribute('value', JSON.stringify(markup));
-        let submitBtn = document.getElementById('submitBtn')
+        let submitBtn = document.getElementById('submitBtn');
+        console.log(`POSTing form data to : ${document.getElementById('form').action}`)
         submitBtn.click();
     });
     

@@ -7,12 +7,14 @@ const fs = require('fs');
 const { CompareObjectsForEquality } = require('./main.modules/main.utils');
 // const { readFile, saveFile } = require('./main.modules/main.fileManipulation');
 
-// app.setAppUserModelId(process.execPath);
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
-const runningInDev = (process.env['NODE_ENV'] === 'dev') ? true : false; 
+const env = process.env['NODE_ENV'];
+const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false; 
+
+
 // Keep global reference to window object else window will  
 // close when the JavaScript object is garbage collected.
 let mainWindow;
@@ -53,9 +55,8 @@ const createWindow = () => {
 	// globalShortcut.register('CommandOrControl+S', () => {
 	// 	if(currentFilePath){ saveFile(event, filename, data); }		
 	// });
-	// mainWindow.loadFile(`index.html#v${app.getVersion()}`);
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
-	if (runningInDev) { 
+	if (runningInDevOrTest) { 
 		mainWindow.webContents.openDevTools(); 		
 	}
 	mainWindow.once('close', (event) => {
@@ -70,34 +71,15 @@ const createWindow = () => {
 	
 };
 
-// This method will be called when Electron has finished initialization and is ready to create browser windows. Some APIs can only be used after this event occurs.
-// app.on('ready', createWindow());
-// Quit when all windows are closed.
-
+// This method will be called when Electron has finished initialization and is ready to create browser windows. 
+// Some APIs can only be used after this event occurs.
 app.on('ready', function() {	
-	createWindow();
-	// let result = mainWindow.webContents.send('alertChannel', 'checking for update');
-	// console.log(result)
-	// app.on('checking-for-update', function() {
-	// 	mainWindow.send('alertChannel', 'checking for update');
-	// });
-	// autoUpdater.checkForUpdatesAndNotify()
-		// .then( (result) => { if(true) alert(result) })
-		// .catch(console.log(err));
+	createWindow();	
 });
 
 app.on('window-all-closed', function () {
-	// On OS X it is common for applications and their menu bar to stay active until the user quits explicitly with Cmd + Q
-	if (process.platform !== 'darwin') {
-		app.quit()
-	}
+	app.quit()
 });
-// app.on('activate', function () {
-// 	// On OS X it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open.
-// 	if (mainWindow === null) {
-// 		createWindow()
-// 	}
-// });
 
 ipcMain.on('stateResponse', (event, data) => {
 	if (CompareObjectsForEquality(dataSnapshot, data) === false) {
@@ -123,19 +105,20 @@ ipcMain.on('stateResponse', (event, data) => {
 });
 
 ipcMain.on('loaded', (event) => {
-	// When running app via 'npm start', the args are different so...
+	// When running app via 'npm start', the args are different than when we run the installed app, 
+	// but we want a fast way to load data during dev and while testing ReleaseCandidates.
 	readFile(
 		event,
-		(runningInDev) ? process.argv[2] : process.argv[1]
+		(runningInDevOrTest) ? process.argv[2] : process.argv[1]
 	);
-	if (runningInDev) { 		
-		event.sender.send('runningDevLocal');	
+	if (runningInDevOrTest) { 		
+		event.sender.send('runningInDevOrTestChannel', env);	
 	}
-	// Wait until mainWindow content is loaded so that we can use browser alerts because autoUpdater is broken-ish.
+	// Wait until mainWindow content is loaded so that we can use browser alerts because notifications are broken-ish.
 	// Also, note that this method won't be invoked while the app is running in Dev mode.
 	autoUpdater.checkForUpdatesAndNotify()
 		.then( ( updateCheckResult ) =>  { 
-			if ( updateCheckResult.versionInfo.version !== app.getVersion() ) {
+			if ( !runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion() ) {
 				mainWindow.webContents.send(
 					'alertChannel', 
 					'A new version of therp RP5217 Editor is being downloaded in the background. ' +  
@@ -147,10 +130,9 @@ ipcMain.on('loaded', (event) => {
 });
 
 ipcMain.on('openFile', (event, path) => {
-	dialog.showOpenDialog(function (fileNames) {
-		// fileNames is an array that contains all the selected files
-		if (fileNames !== undefined) {
-			readFile(event, fileNames[0]);
+	dialog.showOpenDialog(function (filepaths) {
+		if (filepaths !== undefined) {
+			readFile(event, filepaths[0]);
 		}
 		return console.log("No file selected");
 	});

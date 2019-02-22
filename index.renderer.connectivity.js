@@ -11,7 +11,8 @@ const createAlert = function() {
 
 const checkConnectivity = function() {    
     dns.lookupService('8.8.8.8', 53, function (err, hostname, service) {                
-        if (hostname) {            
+        if (hostname) {    
+            // TODO: should pass in the URL 
             dns.lookup('systemsdevelopmentgroup.com', function (err, address, family) {        
                 if (address) {                     
                     return; // Return without creating any alerts

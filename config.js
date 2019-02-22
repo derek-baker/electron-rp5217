@@ -1,20 +1,26 @@
 "use strict";
 
+const devHost = 'http://localhost:8080';
+const testHost = 'http://35.196.192.252:8080'
+const prodHost = 'https://systemsdevelopmentgroup.com'
+
+
 const pdfCreationEndpoint = 'createPdf';
 const contactEndpoint = 'contactSdg';
 
+
 const envConfigs = {
     dev : {
-        pdfCreationUrl: `http://localhost:8080/${pdfCreationEndpoint}`,
-        contactUrl: `http://localhost:8080/${contactEndpoint}`
+        pdfCreationUrl: `${devHost}/${pdfCreationEndpoint}`,
+        contactUrl: `${devHost}/${contactEndpoint}`
     },
-    // test : {
-    //     pdfCreationUrl: `http://localhost:8080/createPdf`,
-    //     contactUrl: `http://localhost:8080/contact`
-    // },
+    test : {
+        pdfCreationUrl: `${testHost}/${pdfCreationEndpoint}`,
+        contactUrl: `${testHost}/${contactEndpoint}`
+    },
     prod : {
-        pdfCreationUrl: `https://systemsdevelopmentgroup.com/${pdfCreationEndpoint}`,
-        contactUrl: `https://systemsdevelopmentgroup.com/${contactEndpoint}`
+        pdfCreationUrl: `${prodHost}/${pdfCreationEndpoint}`,
+        contactUrl: `${prodHost}/${contactEndpoint}`
     }
 };
 

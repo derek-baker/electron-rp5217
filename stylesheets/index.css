@@ -54,6 +54,10 @@ hr{
 #numParcelInputDiv{
   padding-top: 14px;
 }
+/* rule below is overridden when PDF is produced */
+#saleConditionComments{
+  font-size: 8.5px
+}
 /* /IDs */
 
 
