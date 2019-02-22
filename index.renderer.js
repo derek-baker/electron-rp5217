@@ -78,7 +78,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 ipcRenderer.on('alertChannel', function(event, msg){
     console.log( msg )
-    alert(msg);
+    alert(
+        'A new version of the RP5217 Editor is being downloaded in the background. To use the new version, close and re-open the app.'
+    );
 });
 
 ipcRenderer.on('stateRequest', () => {
