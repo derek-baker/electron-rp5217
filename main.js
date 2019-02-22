@@ -136,8 +136,12 @@ ipcMain.on('loaded', (event) => {
 	// Also, note that this method won't be invoked while the app is running in Dev mode.
 	autoUpdater.checkForUpdatesAndNotify()
 		.then( ( updateCheckResult ) =>  { 
-			if (updateCheckResult.downloadPromise) {
-				mainWindow.webContents.send('alertChannel', updateCheckResult ) 
+			if ( updateCheckResult.versionInfo.version !== app.getVersion() ) {
+				mainWindow.webContents.send(
+					'alertChannel', 
+					'A new version of the RP5217 Editor is being downloaded in the background. ' +  
+					'To use the new version, close and re-open the app.' 
+				); 
 			}
 		})
 		.catch( (reason) => mainWindow.webContents.send('alertChannel', reason) );
