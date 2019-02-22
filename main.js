@@ -55,8 +55,7 @@ const createWindow = () => {
 	// });
 	// mainWindow.loadFile(`index.html#v${app.getVersion()}`);
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
-	// if (runningInDev) { 
-	if(true){
+	if (runningInDev) { 
 		mainWindow.webContents.openDevTools(); 		
 	}
 	mainWindow.once('close', (event) => {
@@ -139,7 +138,7 @@ ipcMain.on('loaded', (event) => {
 			if ( updateCheckResult.versionInfo.version !== app.getVersion() ) {
 				mainWindow.webContents.send(
 					'alertChannel', 
-					'A new version of the RP5217 Editor is being downloaded in the background. ' +  
+					'A new version of therp RP5217 Editor is being downloaded in the background. ' +  
 					'To use the new version, close and re-open the app.' 
 				); 
 			}
