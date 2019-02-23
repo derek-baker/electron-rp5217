@@ -1,29 +1,27 @@
 // Wanted viewModel to be accessible outside the listener block
 let viewModel = null;
+
 document.addEventListener("DOMContentLoaded", function(){
     'use strict';
 
-    const dummyValue = new Date().toLocaleDateString('en-US');
-    // const spinner = document.getElementById('spinner');                            
-
-    function _mapEmptyStringToStringNull(stringToEval){
+    const _mapEmptyStringToStringNull = function(stringToEval) {
         return (stringToEval === '') ? 'null' : stringToEval;
-    }
-
-    let pad = (number) => {
+    };
+    const _pad = function(number) {
         if (number < 10) {
-          return '0' + number;
+            return '0' + number;
         }
         return number;
-    }    
+    };
+
     Date.prototype.toISO = function() {
-        return pad(this.getUTCDate()) +
-            '-' + pad(this.getUTCMonth() + 1) +
+        return _pad(this.getUTCDate()) +
+            '-' + _pad(this.getUTCMonth() + 1) +
             '-' + this.getUTCFullYear();
     };    
     // Precondition: dateToUnformat should arrive formatted as: mm/dd/yyyy or m/d/yyyy
     // Postcondition: function returns date formatted as: yyyy-mm-dd
-    let _unformatDate = function _unformatDate(dateToUnformat){
+    const _unformatDate = function _unformatDate(dateToUnformat){
         if(dateToUnformat.includes('/')){
             let datePartsArr = dateToUnformat.split('/');
             return new Date(
@@ -33,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function(){
         return (dateToUnformat.includes('-') === true) ? dateToUnformat : 'null';
     }
 
-    // TODO: populate this with data POSTed from IMO
     viewModel = new Vue({
         el: '#app',
         data: {
@@ -108,58 +105,7 @@ document.addEventListener("DOMContentLoaded", function(){
             ,contactInfoAttorneyPhoneNum: null
             ,validationCounterForNumberOfParcels: 0
         },
-        methods: {
-            // Runs after load event
-            // InitModelWithValsFromImo: function(
-            //     SwisCode
-            //     ,PropLocStreetNumber
-            //     ,PropLocStreetName
-            //     ,PropLocCityTown
-            //     ,PropLocZipcode
-            //     ,PropLocVillage
-            //     ,ParcelsTransferredOnDeed
-            //     ,DeedPropertySizeFrontFeet
-            //     ,DeedPropertySizeDepth
-            //     ,Acres
-            //     ,SellerLastNameOrCompany
-            //     ,SellerFirstName
-            //     ,SellerLastNameOrCompanyTwo
-            //     ,SellerFirstNameTwo
-            //     ,DescriptionDropDown
-            //     ,IsCondominium
-            //     ,IsInAgriculturalDistrict
-            //     ,AssessmentRollYear
-            //     ,TotalAssessedValue
-            //     ,PropertyClass
-            //     ,SchoolDistrictName
-            //     ,TaxMapIdentifier
-            // ){  
-            //     this.swisCode = SwisCode;
-            //     this.propertyLocationStreetNumber = PropLocStreetNumber;
-            //     this.propertyLocationStreetName = PropLocStreetName.replace('&amp;', '&');
-            //     this.propertyLocationCityTown = PropLocCityTown;
-            //     this.propertyLocationZipcode = PropLocZipcode;
-            //     this.propertyLocationVillage = PropLocVillage;
-            //     this.fourNumberOfParcels = ParcelsTransferredOnDeed;
-            //     this.fourFrontFeet = DeedPropertySizeFrontFeet.replace(',', '');
-            //     this.fourDepth = DeedPropertySizeDepth.replace(',', '');
-            //     this.fourAcres = Acres;                
-            //     this.sellerNameLastNameCompany = SellerLastNameOrCompany.replace('&amp;', '&');
-            //     this.sellerNameFirstName = SellerFirstName.replace('&amp;', '&');
-            //     this.sellerNameLastNameCompanyTwo = SellerLastNameOrCompanyTwo.replace('&amp;', '&');
-            //     this.sellerNameFirstNameTwo = SellerFirstNameTwo.replace('&amp;', '&');  
-            //     this.propertyUseSelect = DescriptionDropDown;                
-            //     this.ownershipIsCondo = (IsCondominium.length > 0) ? true : false;
-            //     this.locatedWithinAg = (IsInAgriculturalDistrict.length > 0) ? true : false;
-            //     this.assessmentRollYear = AssessmentRollYear;
-            //     this.assessmentTotalValue = TotalAssessedValue;
-            //     this.assessmentPropClassFirstInput = PropertyClass;
-            //     this.assessmentSchoolDistrict = SchoolDistrictName;
-            //     this.taxMapIdOne = TaxMapIdentifier;
-            //     setTimeout(() => {
-            //         document.getElementById('assessmentTotalValue').dispatchEvent(new KeyboardEvent('keyup')); 
-            //     }, 500);
-            // },
+        methods: {            
             InitModelWithValsFromDataStore: function(
                 swisCode,
                 propertyLocationStreetNumber,
@@ -248,13 +194,13 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.taxAddressState = taxAddressState;
                 this.taxAddressZipCode = taxAddressZipCode;
                 this.fourNumberOfParcels = fourNumberOfParcels;
-                this.fourPartOfParcelCheckbox = fourPartOfParcelCheckbox ;//=== 'true');
+                this.fourPartOfParcelCheckbox = fourPartOfParcelCheckbox ;
                 this.fourFrontFeet = (fourFrontFeet) ? fourFrontFeet.replace(',', '') : null;
                 this.fourDepth = (fourDepth) ? fourDepth.replace(',', '') : null;
                 this.fourAcres = fourAcres;
-                this.fourSubDivAuthExists = fourSubDivAuthExists ;//=== 'true');
-                this.fourSubDivApprovalRequired = fourSubDivApprovalRequired ;//=== 'true');
-                this.fourParcelApprovedWithMap = fourParcelApprovedWithMap ;//=== 'true');                
+                this.fourSubDivAuthExists = fourSubDivAuthExists ;
+                this.fourSubDivApprovalRequired = fourSubDivApprovalRequired ;
+                this.fourParcelApprovedWithMap = fourParcelApprovedWithMap ;                
 
                 this.sellerNameLastNameCompany = (sellerNameLastNameCompany) ? sellerNameLastNameCompany.replace('&amp;', '&') : null;
                 this.sellerNameFirstName = (sellerNameFirstName) ? sellerNameFirstName.replace('&amp;', '&') : null;
@@ -262,25 +208,25 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.sellerNameFirstNameTwo = (sellerNameFirstNameTwo) ? sellerNameFirstNameTwo.replace('&amp;', '&') : null;  
 
                 this.propertyUseSelect = propertyUseSelect;                
-                this.ownershipIsCondo = ownershipIsCondo ;//=== 'true');
-                this.constructionOnVacant = constructionOnVacant ;//=== 'true');
-                this.locatedWithinAg = locatedWithinAg ;//=== 'true');
-                this.buyerReceivedDisclosureNotice = buyerReceivedDisclosureNotice ;//=== 'true');
+                this.ownershipIsCondo = ownershipIsCondo ;
+                this.constructionOnVacant = constructionOnVacant ;
+                this.locatedWithinAg = locatedWithinAg ;
+                this.buyerReceivedDisclosureNotice = buyerReceivedDisclosureNotice ;
                 this.saleContractDate = saleContractDate;
                 this.saleTransferDate = saleTransferDate;
                 this.salePrice = salePrice;
                 this.salePersonalPropertyVal = salePersonalPropertyVal;
                 this.saleConditionComments = saleConditionComments;
-                this.saleInfoCheckA = saleInfoCheckA ;//=== 'true');
-                this.saleInfoCheckB = saleInfoCheckB ;//=== 'true');
-                this.saleInfoCheckC = saleInfoCheckC ;//=== 'true');
-                this.saleInfoCheckD = saleInfoCheckD ;//=== 'true');
-                this.saleInfoCheckE = saleInfoCheckE ;//=== 'true');
-                this.saleInfoCheckF = saleInfoCheckF ;//=== 'true');
-                this.saleInfoCheckG = saleInfoCheckG ;//=== 'true');
-                this.saleInfoCheckH = saleInfoCheckH ;//=== 'true');
-                this.saleInfoCheckI = saleInfoCheckI ;//=== 'true');
-                this.saleInfoCheckJ = saleInfoCheckJ ;//=== 'true');
+                this.saleInfoCheckA = saleInfoCheckA ;
+                this.saleInfoCheckB = saleInfoCheckB ;
+                this.saleInfoCheckC = saleInfoCheckC ;
+                this.saleInfoCheckD = saleInfoCheckD ;
+                this.saleInfoCheckE = saleInfoCheckE ;
+                this.saleInfoCheckF = saleInfoCheckF ;
+                this.saleInfoCheckG = saleInfoCheckG ;
+                this.saleInfoCheckH = saleInfoCheckH ;
+                this.saleInfoCheckI = saleInfoCheckI ;
+                this.saleInfoCheckJ = saleInfoCheckJ ;
                 this.assessmentRollYear = assessmentRollYear;
                 this.assessmentTotalValue = assessmentTotalValue;
                 this.assessmentPropClassFirstInput = assessmentPropClassFirstInput;
@@ -306,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     document.getElementById('assessmentTotalValue').dispatchEvent(new KeyboardEvent('keyup')); 
                 }, 500);
             },
-            addCommaFormatting: function(event){
+            addCommaFormatting: function(event) {
                 let propName = event.target.attributes[1].nodeValue;
                 let assessmentValue = event.target._value;
                 if(assessmentValue != null && assessmentValue.toString() !== ''){
@@ -318,15 +264,15 @@ document.addEventListener("DOMContentLoaded", function(){
                     let x1 = x[0];
                     let x2 = x.length > 1 ? '.' + x[1] : '';
                     var rgx = /(\d+)(\d{3})/;
-                    while (rgx.test(x1)){
+                    while (rgx.test(x1)) {
                         x1 = x1.replace(rgx, '$1' + ',' + '$2');                    
                     }
                     this[propName] = x1 + x2;                    
                 }
             },
-            formatAsPhoneNumber: function(event){
+            formatAsPhoneNumber: function(event) {
                 let propName = event.target.attributes[0].nodeValue;
-                if(event.target._value.toString() !== ''){
+                if(event.target._value.toString() !== '') {
                 // if(event.target._value){
                     let input = event.target._value.toString();
                     input = input.replace(/\D/g,'');
@@ -336,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     if(size <= 3){
                         input = input;                        
                     }
-                    else if(size <= 7 && size > 3){
+                    else if(size <= 7 && size > 3) {
                         input = input.substring(0,3) + '-' + input.substring(3,size);                        
                     }       
                     this[propName] = input;                    
@@ -344,6 +290,7 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             // Called by index.barcode._initBarcodePrereqs() to create a string to encode in the barcode
             mergeData: function () {
+                const dummyValue = new Date().toLocaleDateString('en-US');
                 // Purpose of the ternaries that check for null below attempt 
                 // to avoid calling .replace() on null values
                 let contractDate = (this.saleContractDate === null) ? dummyValue : this.saleContractDate;
@@ -455,10 +402,11 @@ document.addEventListener("DOMContentLoaded", function(){
             comparefourNumberOfParcelsWithParcelIdCount: function(){
                 const values = [this.taxMapIdOne, this.taxMapIdTwo, this.taxMapIdThree, this.taxMapIdFour];
                 let count = 0;
-                values.map((x) => { if(!(x === null || x === undefined || x === '')){count++;} });
+                // Should probably just have the if below check if x is truthy
+                values.map((x) => { if( !(x === null || x === undefined || x === '') ) { count++; } });
                 return count;
             },
-            // This is used to create a mutex between option J and all other options
+            // This is used in a mutex between option J and all other options
             uncheckSaleConditionsCheckboxes: function(){
                 this.saleInfoCheckA = false;
                 this.saleInfoCheckB = false;
@@ -500,8 +448,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.$validator.validateAll().then((result) => {
                     if(result && this.ensureThatAtLeastOneSaleConditionIsSelected() && this.ensureThatSaleDatePrecedesTransferDate()){
                         // Note that a listener in index.form.js will remove the class below before file-dialog opens
-                        document.getElementById('spinner')
-                        spinner.className = 'spinner';
+                        document.getElementById('spinner').className = 'spinner';
                         alert(
                             'Before printing, please set paper size in printer settings to ' + 
                             'legal paper(8.5" x 14") for the filing document.'
