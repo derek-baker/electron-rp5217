@@ -9,7 +9,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">  
-  <title>RP5217</title>
+  <title>RP5217 Editor</title>
   <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
   <link media="all" rel="stylesheet" href="stylesheets/index.css">    
   <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
@@ -610,7 +610,6 @@ and Electron <script>document.write(process.versions.electron)</script>.
 
 </div>  
 
-<!-- <script src="javascripts/index.utils.js"></script>   -->
 <script src="javascripts/lib/vue.min.js"></script>
 <script src="javascripts/index.vue.js"></script> 
 <!-- <script src="./dist/build.js"></script> -->
@@ -629,7 +628,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
 
 <!-- As this markup is sent to the server, you'll need to .replace() it in javascripts/index.form.js -->
 <script>
-  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./index.renderer.js'); 
+  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer/index/index.renderer.main.js'); 
 </script> 
 
 

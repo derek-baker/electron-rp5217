@@ -44,7 +44,7 @@ window.addEventListener("load", function(){
 
     const cleanMarkup = function(webMarkup){
         return webMarkup.replace(
-            "window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./index.renderer.js');"
+            "window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer/index/index.renderer.main.js');"
             ,''
         );
     };
@@ -52,19 +52,7 @@ window.addEventListener("load", function(){
 
     let hiddenInput = document.getElementById('markupInput');
     let markup = undefined;
-    // Specify behavior for 'Create PDF' buttons
-    let downloadButton = document.getElementById('postButton');    
-    downloadButton.addEventListener('click', function (event) {
-        // We clean out the hidden input to avoid unwanted data-growth
-        hiddenInput.setAttribute('value', '');
-        markup = document.documentElement.outerHTML;
-        markup = cleanMarkup(markup);
-        hiddenInput.setAttribute('value', JSON.stringify(markup));
-        let submitBtn = document.getElementById('submitBtn')
-        submitBtn.click();
-    });
-    let downloadButtonBottom = document.getElementById('postButtonBottom');    
-    downloadButtonBottom.addEventListener('click', function (event) {
+    const postButtonActionOverride = function(){
         // We clean out the hidden input to avoid unwanted data-growth
         hiddenInput.setAttribute('value', '');
         markup = document.documentElement.outerHTML;
@@ -73,6 +61,15 @@ window.addEventListener("load", function(){
         let submitBtn = document.getElementById('submitBtn');
         console.log(`POSTing form data to : ${document.getElementById('form').action}`)
         submitBtn.click();
+    };
+    // Specify behavior for 'Create PDF' buttons
+    let downloadButton = document.getElementById('postButton');    
+    downloadButton.addEventListener('click', function (event) {
+        postButtonActionOverride();        
+    });
+    let downloadButtonBottom = document.getElementById('postButtonBottom');    
+    downloadButtonBottom.addEventListener('click', function (event) {
+        postButtonActionOverride();        
     });
     
 
@@ -85,7 +82,7 @@ window.addEventListener("load", function(){
         }, 1000);
     });
 
-    // init Bootstrap tooltip (has to be done manually)
+    // init Bootstrap tooltip(s) (has to be done manually)
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });

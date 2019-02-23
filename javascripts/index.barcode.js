@@ -5,8 +5,8 @@ window.addEventListener("load", function() {
     const blockWidthInPixels = 1;
     const blockHeightInPixels = 1;
 
-    function _initBarcodePrereqs(){
-        let textToEncode = viewModel.mergeData();  
+    function _initBarcodePrereqs(mergedData){
+        let textToEncode = mergedData;  
         PDF417.init(textToEncode);          
         let barcode = PDF417.getBarcodeArray();
         return barcode;
@@ -29,7 +29,7 @@ window.addEventListener("load", function() {
     }
 
     function _generate() {
-        let barcode = _initBarcodePrereqs();
+        let barcode = _initBarcodePrereqs( viewModel.mergeData() );
         // create canvas element based on number of columns and rows in barcode
         let canvasBarcodeContainer = document.getElementById('barcode');
         if(document.getElementById('barcode').firstChild !== null) {
@@ -75,6 +75,7 @@ window.addEventListener("load", function() {
         setTimeout(function() {
             _createHiddenDataUrl();            
         }, 200);
+        // TODO: find better way to avoid this race condition
     });
     //form.dispatchEvent(new MouseEvent('click')); 
 });

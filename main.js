@@ -1,6 +1,6 @@
 "use strict;"
 
-const { app, BrowserWindow, ipcMain, dialog, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
 const fs = require('fs');
@@ -52,9 +52,6 @@ const saveFile = (event, filename, data) => {
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({ width: 1000, height: 800 });
-	// globalShortcut.register('CommandOrControl+S', () => {
-	// 	if(currentFilePath){ saveFile(event, filename, data); }		
-	// });
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
 	if (runningInDevOrTest) { 
 		mainWindow.webContents.openDevTools(); 		
@@ -81,28 +78,6 @@ app.on('window-all-closed', function () {
 	app.quit()
 });
 
-ipcMain.on('stateResponse', (event, data) => {
-	if (CompareObjectsForEquality(dataSnapshot, data) === false) {
-		let choice = dialog.showMessageBox(mainWindow, {
-			type: 'question',
-			buttons: ['Yes', 'No'],
-			title: 'Confirm',
-			message: 'You have unsaved progress. Are you sure you want to close the application?'
-		});
-		if (choice === 0) {
-			mainWindow.close();
-			return
-		}
-		// event.preventDefault();
-		dataSnapshot = data;
-		mainWindow.once('close', (event) => {
-			event.preventDefault();
-			event.sender.send('stateRequest');
-		}); // event.defaultPrevented = false; 		
-		return;
-	}
-	mainWindow.close();
-});
 
 ipcMain.on('loaded', (event) => {
 	// When running app via 'npm start', the args are different than when we run the installed app, 
@@ -129,6 +104,31 @@ ipcMain.on('loaded', (event) => {
 		.catch( (reason) => mainWindow.webContents.send('alertChannel', reason) );
 });
 
+
+ipcMain.on('stateResponse', (event, data) => {
+	if (CompareObjectsForEquality(dataSnapshot, data) === false) {
+		let choice = dialog.showMessageBox(mainWindow, {
+			type: 'question',
+			buttons: ['Yes', 'No'],
+			title: 'Confirm',
+			message: 'You have unsaved progress. Are you sure you want to close the application?'
+		});
+		if (choice === 0) {
+			mainWindow.close();
+			return
+		}
+		// event.preventDefault();
+		dataSnapshot = data;
+		mainWindow.once('close', (event) => {
+			event.preventDefault();
+			event.sender.send('stateRequest');
+		}); // event.defaultPrevented = false; 		
+		return;
+	}
+	mainWindow.close();
+});
+
+
 ipcMain.on('openFile', (event, path) => {
 	dialog.showOpenDialog(function (filepaths) {
 		if (filepaths !== undefined) {
@@ -137,6 +137,7 @@ ipcMain.on('openFile', (event, path) => {
 		return console.log("No file selected");
 	});
 });
+
 
 const options = {
 	title: 'Save Your Progress',
@@ -153,7 +154,10 @@ ipcMain.on('save-dialog', (event, data) => {
 	
 });
 ipcMain.on('save', (event, data) => {
-	if(!currentFilePath){
+	// Check to see if the user has already saved the file...
+	if(!currentFilePath) {
+		event.sender.send('saveComplete'); 
+		// ...and show the Save As dialog if they have not.
 		dialog.showSaveDialog(options, (filename) => {
 			// TODO: listen for use closing save dialog with X in top right
 			saveFile(event, filename, data);		
@@ -161,6 +165,7 @@ ipcMain.on('save', (event, data) => {
 		return;
 	}
 	saveFile(event, currentFilePath, data);
+	event.sender.send('saveComplete');
 });
 
 // process.on('uncaughtException', function (exception) {
