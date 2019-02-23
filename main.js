@@ -65,6 +65,25 @@ const createWindow = () => {
 		// this is the time when you should delete the corresponding element.
 		mainWindow = null;
 	});	
+
+
+	mainWindow.webContents.on('did-finish-load', () => {
+		// For page size options, see URL below
+		// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
+		mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
+			if (error) throw error
+			fs.writeFile('pdfTest.pdf', data, (error) => {
+	
+			//getTitle of Window
+			console.log(mainWindow.webContents.getTitle())
+	
+			//Silent Print 
+	
+			if (error) throw error
+				console.log('Write PDF successfully.')
+			})
+		})
+	})
 	
 };
 

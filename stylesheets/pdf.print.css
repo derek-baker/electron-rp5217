@@ -1,10 +1,32 @@
-.printMessageHidden {display:none}
+/* .printMessageHidden {display:none}
 
 @media print {
     .contentHiddenForPrint{
         display:none;
     }
     .printMessageShow {display: block;}
-}
+} */
+/* input[type="text"]{ line-height: 28px; } */
 
+/* .sectionTitle {font-size: 50%; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; } */
+
+.text-muted { 
+    font-size: 50%; 
+    /* position:absolute; margin-top: 0px !important;  */
+}                  
+/* #numFour > input {margin-top:0px;} */
+/* #fourMsg {margin-bottom:5px !important;} */
+
+@media print {
+    img {width: 95%}
+    input {font-size:10px;} 
+    
+    #finePrint {display:none;}
+
+    /* .sectionHeader { font-size: 11px;} */
+    .sectionHeader > h6 {font-size: 11px; margin-top: 5px; margin-bottom:5px;}
+    .sectionTitle {font-size: 70%} 
+    
+    .smallerUnderline {font-size: 70%} 
+}
 

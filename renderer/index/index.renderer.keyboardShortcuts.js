@@ -21,6 +21,16 @@ const addKeyupListener = function() {
                 })
                 .catch((reason) => console.log(reason) );
         }
+
+        if (keyboardEvent.ctrlKey && (keyboardEvent.key === 's' || keyboardEvent.key === 'S')) {
+            startSpinner();
+            // Hack to avoid race condition with other listeners
+            wait(500)
+                .then( () => { 
+                    ipcRenderer.send('save', getViewModelData() );
+                })
+                .catch((reason) => console.log(reason) );
+        }
     });
 };
 

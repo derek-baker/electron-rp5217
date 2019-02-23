@@ -13,7 +13,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
   <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
   <link media="all" rel="stylesheet" href="stylesheets/index.css">    
   <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
-  <link rel="stylesheet" href="stylesheets/pdf.print.css">      
+  <link rel="stylesheet" href="stylesheets/pdf.print.css?v=1">      
   <!-- Do not remove or alter the <style> tags below -->
   <style></style> 
 </head>
@@ -21,9 +21,9 @@ and Electron <script>document.write(process.versions.electron)</script>.
 
 
 
-<h3 id="printMessage" class="printMessageHidden printMessageShow">
+<!-- <h3 id="printMessage" class="printMessageHidden printMessageShow">
   Please use the download button instead of printing from the browser.
-</h3>
+</h3> -->
 
 <div id="content" class="contentHiddenForPrint">
   
@@ -247,8 +247,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
               </div>
             </div>
             
-            <div class="col-xs-5 topPadding">
-              <small><u>(Only if part of a parcel) Check as they apply</u></small><br>
+            <div id="numFour" class="col-xs-5 topPadding lessLineHeight">
+              <small><u id="fourMsg">(Only if part of a parcel) Check as they apply</u></small><br>
               <input v-model="fourSubDivAuthExists" id="fourSubDivAuthExists" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourSubDivAuthExists"><small>4A. Planning Board with Subdivision Authority Exists</small><br>
               <input v-model="fourSubDivApprovalRequired" id="fourSubDivApprovalRequired" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourSubDivApprovalRequired"><small>4B. Subdivision Approval was Required for Transfer</small><br>
               <input v-model="fourParcelApprovedWithMap" id="fourParcelApprovedWithMap" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourParcelApprovedWithMap"><small>4C. Parcel Approved for Subdivision with Map Provided </small><br>
@@ -304,7 +304,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
               </select>
             </div>
 
-            <div class="col-xs-7">
+            <div class="col-xs-7 lessLineHeight">
               <small><u>Check the boxes below as they apply:</u></small><br>
               <input v-model="ownershipIsCondo" id="ownershipIsCondo" class="skinnyCheckboxInput" type="checkbox" name="ownershipIsCondo"><small>8. Ownership Type is Condominium</small><br>
               <input v-model="constructionOnVacant" id="constructionOnVacant" class="skinnyCheckboxInput noTopMargin" type="checkbox" name="constructionOnVacant"><small>9. New Construction on a Vacant Land</small><br>
@@ -313,7 +313,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
             </div>              
           </div>
 
-          <hr>
+          <hr class="sectionBreak">
           <p class="sectionTitle inline">SALE INFORMATION</p>
 
           <div class="row">
@@ -365,16 +365,17 @@ and Electron <script>document.write(process.versions.electron)</script>.
               <div class="row">
                 <div id="SaleConditionsDiv" class="col-xs-12 sectionHeader lessLineHeight">
                   <h6>*15. Check one or more of these conditions as applicable to transfer:</h6>
-                  <input v-model="saleInfoCheckA" id="saleInfoCheckA" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckA"><small>A. Sale Between Relatives or Former Relatives</small><br>                    
-                  <input v-model="saleInfoCheckB" id="saleInfoCheckB" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckB"><small>B. Sale between Related Companies or Partners in Business</small><br>                    
-                  <input v-model="saleInfoCheckC" id="saleInfoCheckC" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckC"><small>C. One of the Buyers is also a Seller</small><br>                    
-                  <input v-model="saleInfoCheckD" id="saleInfoCheckD" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckD"><small>D. Buyer or Seller is Government Agency or Lending Institution</small><br>                    
-                  <input v-model="saleInfoCheckE" id="saleInfoCheckE" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckE"><small>E. Deed Type not Warranty or Bargain and Sale (Specify Below)</small><br>                    
-                  <input v-model="saleInfoCheckF" id="saleInfoCheckF" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckF"><small>F. Sale of Fractional or Less than Fee Interest (Specify Below)</small><br>                    
-                  <input v-model="saleInfoCheckG" id="saleInfoCheckG" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckG"><small>G. Significant Property Change Between Taxable Status and Sale Dates</small><br>                    
-                  <input v-model="saleInfoCheckH" id="saleInfoCheckH" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckH"><small>H. Sale of Business is included in Sale Price</small><br>                    
-                  <input v-model="saleInfoCheckI" id="saleInfoCheckI" class="skinnyCheckboxInput noTopMargin saleCondition" type="checkbox" name="saleInfoCheckI"><small>I. Other Unusual Factors Affecting Sale Price (Specify Below)</small><br>                    
-                  <input v-model="saleInfoCheckJ" id="saleInfoCheckJ" class="skinnyCheckboxInput noTopMargin" type="checkbox" name="saleInfoCheckJ"><small>J. None</small><br>                    
+                  <!-- Added saleConditionCheckbox becuase I wasn't sure why J didn't have the saleCondition class -->
+                  <input v-model="saleInfoCheckA" id="saleInfoCheckA" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckA"><small>A. Sale Between Relatives or Former Relatives</small><br>                    
+                  <input v-model="saleInfoCheckB" id="saleInfoCheckB" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckB"><small>B. Sale between Related Companies or Partners in Business</small><br>                    
+                  <input v-model="saleInfoCheckC" id="saleInfoCheckC" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckC"><small>C. One of the Buyers is also a Seller</small><br>                    
+                  <input v-model="saleInfoCheckD" id="saleInfoCheckD" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckD"><small>D. Buyer or Seller is Government Agency or Lending Institution</small><br>                    
+                  <input v-model="saleInfoCheckE" id="saleInfoCheckE" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckE"><small>E. Deed Type not Warranty or Bargain and Sale (Specify Below)</small><br>                    
+                  <input v-model="saleInfoCheckF" id="saleInfoCheckF" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckF"><small>F. Sale of Fractional or Less than Fee Interest (Specify Below)</small><br>                    
+                  <input v-model="saleInfoCheckG" id="saleInfoCheckG" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckG"><small>G. Significant Property Change Between Taxable Status and Sale Dates</small><br>                    
+                  <input v-model="saleInfoCheckH" id="saleInfoCheckH" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckH"><small>H. Sale of Business is included in Sale Price</small><br>                    
+                  <input v-model="saleInfoCheckI" id="saleInfoCheckI" class="skinnyCheckboxInput noTopMargin saleCondition saleConditionCheckbox" type="checkbox" name="saleInfoCheckI"><small>I. Other Unusual Factors Affecting Sale Price (Specify Below)</small><br>                    
+                  <input v-model="saleInfoCheckJ" id="saleInfoCheckJ" class="skinnyCheckboxInput noTopMargin saleConditionCheckbox" type="checkbox" name="saleInfoCheckJ"><small>J. None</small><br>                    
                 </div>                  
               </div>
 
@@ -387,7 +388,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
 
           </div>
           
-          <hr>
+          <hr class="sectionBreak">
           <p class="sectionTitle inline">ASSESSMENT INFORMATION - Data should reflect the latest Final Assessment and Tax Bill</p>
           
           <div class="row">
@@ -457,7 +458,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
               <input v-model="taxMapIdFour" id="taxMapIdFour" type="text" name="taxMapIdFour">                    
             </div>
           </div>
-        <hr>
+        <hr class="sectionBreak">
         <p class="sectionTitle inline">CERTIFICATION</p><br>
         <small class="lessLineHeight"><b>I Certify that the items of information entered on this form are true and correct (to the best of my knowledge and belief) and I understand that the making of any willful false statement of material fact herein subject me to the <u>provisions of the penal law</u> relative to the making and filing of false instruments.</b></small>
 
@@ -496,7 +497,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
           </div>
           
           <div id="contactInfoDiv" class="col-xs-7">
-            <div class="text-center"><p class="noBottomMargin"><u>BUYER CONTACT INFO</u></p></div>
+            <div class="text-center"><p class="noBottomMargin"><u class="smallerUnderline">BUYER CONTACT INFO</u></p></div>
             <small id="finePrint" class="lessLineHeight">(Note: If buyer is LLC,society, association, corporation, joint stock company, estate or entity that is not an individual agent or fiduciary, then a name and contact information of an individual/responsible party who can answer questions regarding the transfer must be entered. Type or print clearly.)</small>
             <div class="row">
               <div class="col-xs-6">
@@ -546,7 +547,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
             </div>
 
             <div class="row">
-              <div class="text-center"><p class="noBottomMargin"><u>BUYER'S ATTORNEY</u></p></div>
+              <div class="text-center"><p class="noBottomMargin"><u class="smallerUnderline">BUYER'S ATTORNEY</u></p></div>
             </div>
 
             <div class="row">
@@ -635,8 +636,9 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <script src="javascripts/lib/jquery.min.js"></script>  
 <script src="javascripts/lib/bootstrap.min.js"></script>  
 <script>
-  if(!!window.callPhantom){ 
-      document.getElementById('printMessage').classList.remove("printMessageShow"); 
+  // if(!!window.callPhantom){ 
+    if(true){
+      // document.getElementById('printMessage').classList.remove("printMessageShow"); 
       document.getElementById('content').classList.remove("contentHiddenForPrint");
       document.getElementById('navbarTop').style.display = 'none';
       document.getElementById('navbarBottom').style.display = 'none';
