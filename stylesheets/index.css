@@ -123,5 +123,8 @@ hr{
 .smallFont{
   font-size: 7px;
 }
+.currencyInput{
+  width:93%;
+}
 /* /CLASSES */
 

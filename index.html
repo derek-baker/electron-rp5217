@@ -13,14 +13,11 @@ and Electron <script>document.write(process.versions.electron)</script>.
   <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
   <link media="all" rel="stylesheet" href="stylesheets/index.css">    
   <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
-  <link rel="stylesheet" href="stylesheets/pdf.print.css?v=1">      
+  <link rel="stylesheet" href="stylesheets/pdf.print.css">      
   <!-- Do not remove or alter the <style> tags below -->
   <style></style> 
 </head>
 <body>
-
-
-
 <!-- <h3 id="printMessage" class="printMessageHidden printMessageShow">
   Please use the download button instead of printing from the browser.
 </h3> -->
@@ -216,7 +213,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
                   <h6>4. Number of Assessment Roll Parcels Transferred</h6>
                 </div>
                 <div id="numParcelInputDiv" class="col-xs-2">
-                  <input v-validate="'ifParcelIdCountIsGreaterThanFour'" v-model="fourNumberOfParcels" id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">   
+                  <input v-validate="'ifParcelIdCountIsGreaterThanFour'" v-model="fourNumberOfParcels" id="fourNumberOfParcels" 
+                         type="number" name="fourNumberOfParcels">   
                   <!-- <input v-model="fourNumberOfParcels" id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">    -->
                 </div>
                 <div class="col-xs-6 noPadding topPadding">
@@ -249,9 +247,12 @@ and Electron <script>document.write(process.versions.electron)</script>.
             
             <div id="numFour" class="col-xs-5 topPadding lessLineHeight">
               <small><u id="fourMsg">(Only if part of a parcel) Check as they apply</u></small><br>
-              <input v-model="fourSubDivAuthExists" id="fourSubDivAuthExists" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourSubDivAuthExists"><small>4A. Planning Board with Subdivision Authority Exists</small><br>
-              <input v-model="fourSubDivApprovalRequired" id="fourSubDivApprovalRequired" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourSubDivApprovalRequired"><small>4B. Subdivision Approval was Required for Transfer</small><br>
-              <input v-model="fourParcelApprovedWithMap" id="fourParcelApprovedWithMap" class="skinnyCheckboxInput partialConditionCheckboxes" type="checkbox" name="fourParcelApprovedWithMap"><small>4C. Parcel Approved for Subdivision with Map Provided </small><br>
+              <input v-model="fourSubDivAuthExists" id="fourSubDivAuthExists" class="skinnyCheckboxInput partialConditionCheckboxes" 
+                      type="checkbox" name="fourSubDivAuthExists"><small>4A. Planning Board with Subdivision Authority Exists</small><br>
+              <input v-model="fourSubDivApprovalRequired" id="fourSubDivApprovalRequired" class="skinnyCheckboxInput partialConditionCheckboxes" 
+                      type="checkbox" name="fourSubDivApprovalRequired"><small>4B. Subdivision Approval was Required for Transfer</small><br>
+              <input v-model="fourParcelApprovedWithMap" id="fourParcelApprovedWithMap" class="skinnyCheckboxInput partialConditionCheckboxes" 
+                      type="checkbox" name="fourParcelApprovedWithMap"><small>4C. Parcel Approved for Subdivision with Map Provided </small><br>
             </div>
           </div>
 
@@ -340,7 +341,10 @@ and Electron <script>document.write(process.versions.electron)</script>.
                   <h6>*13. Full Sale Price</h6>
                 </div>
                 <div class="col-xs-7">
-                  <input v-on:keyup="addCommaFormatting($event)" debounce="1500" v-model="salePrice" id="salePrice" name="salePrice" required>                    
+                  <span>$
+                    <input v-on:keyup="addCommaFormatting($event)" debounce="1500" v-model="salePrice" id="salePrice" class="currencyInput" 
+                           name="salePrice" required>                    
+                  </span>
                 </div>
               </div>
               <div class="row">
@@ -355,7 +359,10 @@ and Electron <script>document.write(process.versions.electron)</script>.
                 </div>
                 <div class="col-xs-7">
                   <br>
-                  <input v-model="salePersonalPropertyVal" v-on:keyup="addCommaFormatting($event)" debounce="1500" id="salePersonalPropertyVal" name="salePersonalPropertyVal">                    
+                  <span>$
+                    <input v-model="salePersonalPropertyVal" v-on:keyup="addCommaFormatting($event)" debounce="1500" id="salePersonalPropertyVal" class="currencyInput" 
+                           name="salePersonalPropertyVal">                    
+                  </span>
                 </div>                  
               </div>
 
@@ -408,7 +415,10 @@ and Electron <script>document.write(process.versions.electron)</script>.
               </div>
               <div class="col-xs-9">
                 <br>
-                <input v-model="assessmentTotalValue" v-on:keyup="addCommaFormatting($event)" debounce="1500" id="assessmentTotalValue" name="assessmentTotalValue" required>                    
+                <span>$
+                  <input v-model="assessmentTotalValue" v-on:keyup="addCommaFormatting($event)" debounce="1500" id="assessmentTotalValue" class="currencyInput"
+                         name="assessmentTotalValue" required>                    
+                </span>                
               </div>
             </div>
           </div>
@@ -632,7 +642,6 @@ and Electron <script>document.write(process.versions.electron)</script>.
   window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer/index/index.renderer.main.js'); 
 </script> 
 
-
 <script src="javascripts/lib/jquery.min.js"></script>  
 <script src="javascripts/lib/bootstrap.min.js"></script>  
 <script>
@@ -640,8 +649,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
     if(true){
       // document.getElementById('printMessage').classList.remove("printMessageShow"); 
       document.getElementById('content').classList.remove("contentHiddenForPrint");
-      document.getElementById('navbarTop').style.display = 'none';
-      document.getElementById('navbarBottom').style.display = 'none';
+      // document.getElementById('navbarTop').style.display = 'none';
+      // document.getElementById('navbarBottom').style.display = 'none';
   }
 </script>
 

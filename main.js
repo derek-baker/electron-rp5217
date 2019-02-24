@@ -72,16 +72,20 @@ const createWindow = () => {
 		// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
 		mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
 			if (error) throw error
-			fs.writeFile('pdfTest.pdf', data, (error) => {
+			const fileName = 'pdfTest.pdf'
+			fs.writeFile(fileName, data, (error) => {
 	
-			//getTitle of Window
-			console.log(mainWindow.webContents.getTitle())
-	
-			//Silent Print 
-	
-			if (error) throw error
-				console.log('Write PDF successfully.')
-			})
+				//getTitle of Window
+				console.log(mainWindow.webContents.getTitle())
+		
+				//Silent Print 
+		
+				if (error) throw error
+				console.log('Write PDF successfully.');
+				const { shell } = require('electron');
+				// shell.openExternal(fileName);
+			});
+
 		})
 	})
 	
