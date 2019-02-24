@@ -36,7 +36,7 @@ const readFile = (event, filepath) => {
 			snapshotData(data);
 		});
 	}
-}
+};
 const saveFile = (event, filename, data) => {
 	if(filename){
 		fs.writeFile(filename, data, function (err) {
@@ -48,7 +48,7 @@ const saveFile = (event, filename, data) => {
 		snapshotData(data);
 		event.sender.send('saved-file');
 	}	
-} 
+}; 
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({ width: 1000, height: 800 });
@@ -66,29 +66,27 @@ const createWindow = () => {
 		mainWindow = null;
 	});	
 
-
 	mainWindow.webContents.on('did-finish-load', () => {
+		// TODO: need validation prior to printing document
+
+		// TODO: alert(
+		// 	'Before printing, please set paper size in printer settings to ' + 
+		// 	'legal paper(8.5" x 14") for the filing document.'
+		// );
+
 		// For page size options, see URL below
 		// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
 		mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
-			if (error) throw error
-			const fileName = 'pdfTest.pdf'
-			fs.writeFile(fileName, data, (error) => {
-	
-				//getTitle of Window
-				console.log(mainWindow.webContents.getTitle())
-		
-				//Silent Print 
-		
-				if (error) throw error
-				console.log('Write PDF successfully.');
-				const { shell } = require('electron');
-				// shell.openExternal(fileName);
-			});
+			if (error) { throw error; }
 
+			const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
+			fs.writeFile(fileName, data, (error) => {
+				if (error) { throw error; }
+				const { shell } = require('electron');
+				shell.openExternal(fileName);
+			});
 		})
-	})
-	
+	});
 };
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows. 
