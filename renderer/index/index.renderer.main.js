@@ -55,7 +55,7 @@ ipcRenderer.on('fileData', (event, data) => {
         alert(
             'The file you attempted to open appears to be corrupt.' +  
             'If the issue persists, submit a support request to the following URL: https://systemsdevelopmentgroup.com/contactSdg'
-        )
+        );
         return;
     } 
     

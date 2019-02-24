@@ -430,7 +430,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     this.saleInfoCheckH !== true &&
                     this.saleInfoCheckI !== true &&
                     this.saleInfoCheckJ !== true
-                ){
+                ) {
                     alert('You must select at least one condition for section 15');
                     return false;
                 }
