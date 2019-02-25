@@ -12,6 +12,10 @@
     #finePrint {display:none;}
     #navbarTop {display:none;}
     #navbarBottom {display:none;}
+    #swisCodeOverlay {
+        left: 180px;
+        /* font-size: 200%; */
+    }
 
     .sectionHeader > h6 {font-size: 11px; margin-top: 5px; margin-bottom:5px;}
     .sectionTitle {font-size: 70%} 
