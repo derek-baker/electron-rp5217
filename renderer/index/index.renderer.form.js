@@ -3,7 +3,7 @@
 const { ipcRenderer } = require('electron');
 
 const _postButtonActionOverride = function() { 
-    if (
+    if (       
         document.getElementById('form').reportValidity()
         &&
         viewModel.validateBeforeSubmit()
@@ -13,10 +13,7 @@ const _postButtonActionOverride = function() {
             'legal paper(8.5" x 14") for the filing document.'
         );
         ipcRenderer.send('triggerPrintChannel');
-    }
-    else {
-
-    }
+    }    
 };
 
 const addTriggerPrintListener = function() {

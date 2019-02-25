@@ -5,21 +5,21 @@ const testHost = 'http://35.196.192.252:8080'
 const prodHost = 'https://systemsdevelopmentgroup.com'
 
 
-const pdfCreationEndpoint = 'createPdf';
+// const pdfCreationEndpoint = 'createPdf';
 const contactEndpoint = 'contactSdg';
 
 
 const envConfigs = {
     dev : {
-        pdfCreationUrl: `${devHost}/${pdfCreationEndpoint}`,
+        // pdfCreationUrl: `${devHost}/${pdfCreationEndpoint}`,
         contactUrl: `${devHost}/${contactEndpoint}`
     },
     test : {
-        pdfCreationUrl: `${testHost}/${pdfCreationEndpoint}`,
+        // pdfCreationUrl: `${testHost}/${pdfCreationEndpoint}`,
         contactUrl: `${testHost}/${contactEndpoint}`
     },
     prod : {
-        pdfCreationUrl: `${prodHost}/${pdfCreationEndpoint}`,
+        // pdfCreationUrl: `${prodHost}/${pdfCreationEndpoint}`,
         contactUrl: `${prodHost}/${contactEndpoint}`
     }
 };

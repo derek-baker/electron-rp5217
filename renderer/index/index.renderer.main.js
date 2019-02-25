@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     envConfig();
     // Instructions-configuration is not environmentally-specific as the wiki is on GitHub
     configureInstructions();
-    // PDF-creation requires access to a remote API endpoint
+
+    // DEPRECATED: PDF-creation requires access to a remote API endpoint
     checkConnectivity();
 
     addKeyupListener();
@@ -48,7 +49,7 @@ ipcRenderer.on('setTitle', (event, formName) => {
 
 ipcRenderer.on('fileData', (event, data) => {
     let result = undefined;
-    try{
+    try {
         result = JSON.parse(data);     
     }
     catch (error) {

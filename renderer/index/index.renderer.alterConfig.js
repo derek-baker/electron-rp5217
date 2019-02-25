@@ -16,8 +16,10 @@ const envConfig = function() {
     // Event below sent after parent DomContentLoaded listener communicates over 'loaded' channel with main process.
     ipcRenderer.on('runningInDevOrTestChannel', function(event, runtimeEnv) {        
         env = runtimeEnv;
-        // The form is pointed at prod by default
-        document.getElementById('form').action = envConfigs[env].pdfCreationUrl;       
+
+        // DEPRECATED: The form is pointed at prod by default
+        // document.getElementById('form').action = envConfigs[env].pdfCreationUrl;       
+
         // Remove the old listener to avoid having two conflicting callbacks.
         supportLink.removeEventListener('click', contactButtonListenerCallback);
         supportLink.addEventListener('click', contactButtonListenerCallback);

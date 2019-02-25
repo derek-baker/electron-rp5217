@@ -474,7 +474,9 @@ document.addEventListener("DOMContentLoaded", function(){
                     && 
                     this.ensureThatSaleDatePrecedesTransferDate()
                     &&
-                    this.ensureThatSalePriceGreaterThanPropertyValueInSale(this.salePrice, this.salePersonalPropertyVal)
+                    this.ensureThatSalePriceGreaterThanPropertyValueInSale(
+                        this.salePrice, this.salePersonalPropertyVal
+                    )
                 ) {
                     // Note that a listener in index.form.js will remove the class below before file-dialog opens
                     // document.getElementById('spinner').className = 'spinner';                    
