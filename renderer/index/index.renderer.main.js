@@ -3,7 +3,6 @@
 // This file is required by the index.html file and will be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const { ipcRenderer } = require('electron');
-const { checkConnectivity } = require('./index.renderer.connectivity');
 const { configureInstructions } = require('./index.renderer.instructions');
 const { createButtonListeners } = require('./index.renderer.buttonBehavior');
 const { envConfig } = require('./index.renderer.alterConfig');
@@ -23,8 +22,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     envConfig();
     // Instructions-configuration is not environmentally-specific as the wiki is on GitHub
     configureInstructions();
-
-    checkConnectivity();
 
     addKeyupListener();    
 });

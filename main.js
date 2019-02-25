@@ -51,7 +51,8 @@ const saveFile = (event, filename, data) => {
 }; 
 
 const createWindow = () => {
-	mainWindow = new BrowserWindow({ width: 1000, height: 800 });
+	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 800 });
+	// Passing version as GET param so we can display it to the user
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
 	if (runningInDevOrTest) { 
 		mainWindow.webContents.openDevTools(); 		
@@ -166,6 +167,19 @@ ipcMain.on('save', (event, data) => {
 	saveFile(event, currentFilePath, data);
 	event.sender.send('saveComplete');
 });
+
+// ipcMain.on('triggerPrintChannel', function(event) {
+// 	// For page size options, see URL below
+// 	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
+// 	// mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
+// 	// 	if (error) { throw error; }
+// 	// 	const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
+// 	// 	fs.writeFile(fileName, data, (error) => {
+// 	// 		if (error) { throw error; }
+// 	// 		shell.openExternal(fileName);
+// 	// 	});
+// 	// });
+// });
 
 // process.on('uncaughtException', function (exception) {
 // 	console.log(exception);
