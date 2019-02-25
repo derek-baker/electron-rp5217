@@ -8,7 +8,6 @@ const { configureInstructions } = require('./index.renderer.instructions');
 const { createButtonListeners } = require('./index.renderer.buttonBehavior');
 const { envConfig } = require('./index.renderer.alterConfig');
 const { addKeyupListener } = require('./index.renderer.keyboardShortcuts');
-// const { addTriggerPrintListener } = require('./index.renderer.printForm');
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -25,11 +24,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Instructions-configuration is not environmentally-specific as the wiki is on GitHub
     configureInstructions();
 
-    // DEPRECATED: PDF-creation requires access to a remote API endpoint
     checkConnectivity();
 
-    addKeyupListener();
-    // addTriggerPrintListener();
+    addKeyupListener();    
 });
 
 ipcRenderer.on('alertChannel', function(event, msg){
@@ -57,7 +54,8 @@ ipcRenderer.on('fileData', (event, data) => {
         console.log(error);
         alert(
             'The file you attempted to open appears to be corrupt.' +  
-            'If the issue persists, submit a support request to the following URL: https://systemsdevelopmentgroup.com/contactSdg'
+            'If the issue persists, submit a support request at the following URL:' +
+            'https://systemsdevelopmentgroup.com/contactSdg'
         );
         return;
     } 
