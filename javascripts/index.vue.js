@@ -7,13 +7,14 @@ document.addEventListener("DOMContentLoaded", function(){
     const _mapEmptyStringToStringNull = function(stringToEval) {
         return (stringToEval === '') ? 'null' : stringToEval;
     };
+
+
     const _pad = function(number) {
         if (number < 10) {
             return '0' + number;
         }
         return number;
     };
-
     Date.prototype.toISO = function() {
         return _pad(this.getUTCDate()) +
             '-' + _pad(this.getUTCMonth() + 1) +
@@ -293,8 +294,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 const dummyValue = new Date().toLocaleDateString('en-US');
                 // Purpose of the ternaries that check for null below attempt 
                 // to avoid calling .replace() on null values
-                let contractDate = (this.saleContractDate === null) ? dummyValue : this.saleContractDate;
-                let transferDate = (this.saleTransferDate === null) ? dummyValue : this.saleTransferDate;
+                const contractDate = (this.saleContractDate === null) ? dummyValue : this.saleContractDate;
+                const transferDate = (this.saleTransferDate === null) ? dummyValue : this.saleTransferDate;
 
                 const propertyCodes = this.assessmentPropClassFirstInput.split('-');
                 const propertyClassBeforeHyphen = (propertyCodes[0] === '') ? 'null' : propertyCodes[0];                
@@ -307,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 const _contactInfoPhoneNumber = (this.contactInfoPhoneNumber === null) ? '' : this.contactInfoPhoneNumber.replace('-', '');
                 const _contactInfoAttorneyPhoneNum = (this.contactInfoAttorneyPhoneNum === null) ? '' : this.contactInfoAttorneyPhoneNum.replace('-', '');
 
-                let stringToEncode = 
+                const stringToEncode = 
                     _mapEmptyStringToStringNull(this.propertyLocationStreetNumber) + '|' + 
                     _mapEmptyStringToStringNull(this.propertyLocationStreetName) + '|' +
                     _mapEmptyStringToStringNull(this.propertyLocationCityTown) + '|' +
@@ -445,20 +446,22 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             validateBeforeSubmit: function(){
                 // Makes use of vee-validator.js
-                this.$validator.validateAll().then((result) => {
-                    if(result && this.ensureThatAtLeastOneSaleConditionIsSelected() && this.ensureThatSaleDatePrecedesTransferDate()){
-                        // Note that a listener in index.form.js will remove the class below before file-dialog opens
-                        document.getElementById('spinner').className = 'spinner';
-                        alert(
-                            'Before printing, please set paper size in printer settings to ' + 
-                            'legal paper(8.5" x 14") for the filing document.'
-                        );
-                        // The click-listener on the download button fires before this and builds part of the payload                                                 
-                        document.getElementById('form').submit();                        
-                        return;
-                    }
-                    // If you find yourself here trying to debug a vee-validator, consider removing the 'required'                    
-                });
+                // this.$validator.validateAll()
+                //     .then( (result) => {
+                if(this.ensureThatAtLeastOneSaleConditionIsSelected() && this.ensureThatSaleDatePrecedesTransferDate()) {
+                    // Note that a listener in index.form.js will remove the class below before file-dialog opens
+                    // document.getElementById('spinner').className = 'spinner';
+                    // alert(
+                    //     'Before printing, please set paper size in printer settings to ' + 
+                    //     'legal paper(8.5" x 14") for the filing document.'
+                    // );
+                    console.log('true')
+                    return true;
+                }
+                console.log('false')
+                return false;
+                // If you find yourself here trying to debug a vee-validator, consider removing the 'required'                    
+                // });
             }
         }
     });    

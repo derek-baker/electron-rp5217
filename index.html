@@ -18,11 +18,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
   <style></style> 
 </head>
 <body>
-<!-- <h3 id="printMessage" class="printMessageHidden printMessageShow">
-  Please use the download button instead of printing from the browser.
-</h3> -->
 
-<div id="content" class="contentHiddenForPrint">
+<div id="content">
   
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -104,8 +101,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
     </div>
 
     <div id="app">
-      <form @submit.prevent="validateBeforeSubmit" id="form" action="https://systemsdevelopmentgroup.com/createPdf" method="post">    
-        <button id='submitBtn' class='hidden' type='submit'></button>
+      <form @submit.prevent="validateBeforeSubmit" id="form">    
+        <!-- <button id='submitBtn' class='hidden' type='button'></button> -->
         <div class="container-fluid">
           <input v-model="swisCode" type="hidden" name="SwisCode">
           <div class="row">
@@ -637,22 +634,12 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <script src="javascripts/index.vue.spinner.js"></script> 
 
 
-<!-- As this markup is sent to the server, you'll need to .replace() it in javascripts/index.form.js -->
 <script>
   window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer/index/index.renderer.main.js'); 
 </script> 
 
 <script src="javascripts/lib/jquery.min.js"></script>  
 <script src="javascripts/lib/bootstrap.min.js"></script>  
-<script>
-  // if(!!window.callPhantom){ 
-    if(true){
-      // document.getElementById('printMessage').classList.remove("printMessageShow"); 
-      document.getElementById('content').classList.remove("contentHiddenForPrint");
-      // document.getElementById('navbarTop').style.display = 'none';
-      // document.getElementById('navbarBottom').style.display = 'none';
-  }
-</script>
 
 </body>
 </html>

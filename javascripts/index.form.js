@@ -41,38 +41,7 @@ window.addEventListener("load", function(){
             viewModel[conditionCheckboxCollection[i].id] = true; 
         });
     }    
-
-    const cleanMarkup = function(webMarkup){
-        return webMarkup.replace(
-            "window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer/index/index.renderer.main.js');"
-            ,''
-        );
-    };
-
-
-    let hiddenInput = document.getElementById('markupInput');
-    let markup = undefined;
-    const postButtonActionOverride = function(){
-        // We clean out the hidden input to avoid unwanted data-growth
-        hiddenInput.setAttribute('value', '');
-        markup = document.documentElement.outerHTML;
-        markup = cleanMarkup(markup);
-        hiddenInput.setAttribute('value', JSON.stringify(markup));
-        let submitBtn = document.getElementById('submitBtn');
-        console.log(`POSTing form data to : ${document.getElementById('form').action}`)
-        submitBtn.click();
-    };
-    // Specify behavior for 'Create PDF' buttons
-    let downloadButton = document.getElementById('postButton');    
-    downloadButton.addEventListener('click', function (event) {
-        postButtonActionOverride();        
-    });
-    let downloadButtonBottom = document.getElementById('postButtonBottom');    
-    downloadButtonBottom.addEventListener('click', function (event) {
-        postButtonActionOverride();        
-    });
     
-
     // Event fires before file-download dialog opens(to hide spinner)
     // Spinner is triggered by Vue instance's validateBeforeSubmit method
     window.addEventListener('beforeunload', function() {

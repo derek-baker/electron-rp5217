@@ -1,6 +1,6 @@
 "use strict;"
 
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
 const fs = require('fs');
@@ -64,28 +64,6 @@ const createWindow = () => {
 		// Dereference the window object, usually you would store windows in an array if your app supports multi windows, 
 		// this is the time when you should delete the corresponding element.
 		mainWindow = null;
-	});	
-
-	mainWindow.webContents.on('did-finish-load', () => {
-		// TODO: need validation prior to printing document
-
-		// TODO: alert(
-		// 	'Before printing, please set paper size in printer settings to ' + 
-		// 	'legal paper(8.5" x 14") for the filing document.'
-		// );
-
-		// For page size options, see URL below
-		// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
-		mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
-			if (error) { throw error; }
-
-			const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
-			fs.writeFile(fileName, data, (error) => {
-				if (error) { throw error; }
-				const { shell } = require('electron');
-				shell.openExternal(fileName);
-			});
-		})
 	});
 };
 
@@ -175,7 +153,7 @@ ipcMain.on('save-dialog', (event, data) => {
 	
 });
 ipcMain.on('save', (event, data) => {
-	// Check to see if the user has already saved the file...
+	// Check to see if the user has previously saved the file...
 	if(!currentFilePath) {
 		event.sender.send('saveComplete'); 
 		// ...and show the Save As dialog if they have not.
@@ -187,6 +165,20 @@ ipcMain.on('save', (event, data) => {
 	}
 	saveFile(event, currentFilePath, data);
 	event.sender.send('saveComplete');
+});
+
+ipcMain.on('triggerPrintChannel', function(event) {
+	// For page size options, see URL below
+	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
+	mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
+		if (error) { throw error; }
+
+		const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
+		fs.writeFile(fileName, data, (error) => {
+			if (error) { throw error; }
+			shell.openExternal(fileName);
+		});
+	});
 });
 
 // process.on('uncaughtException', function (exception) {
