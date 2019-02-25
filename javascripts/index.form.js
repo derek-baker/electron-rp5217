@@ -55,5 +55,33 @@ window.addEventListener("load", function(){
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
+
+
+    const _postButtonActionOverride = function() { 
+        if (       
+            document.getElementById('form').reportValidity()
+            &&
+            viewModel.validateBeforeSubmit()
+        ) {
+            alert(
+                'Before printing, please set paper size in printer settings to Legal(8.5" x 14").\n\n' +
+                'In the \'Print\' dialog that opens when printing a document: \n' + 
+                'Highlight a printer > Preferences > Advanced > Select \'Legal\' in the \'Paper Size\' dropdown'
+            );
+            window.print();
+        }    
+    };
+    const addTriggerPrintListener = function() {
+        // Specify behavior for 'Create PDF' buttons
+        let downloadButton = document.getElementById('postButton');    
+        downloadButton.addEventListener('click', function (event) {
+            _postButtonActionOverride();        
+        });
+        let downloadButtonBottom = document.getElementById('postButtonBottom');    
+        downloadButtonBottom.addEventListener('click', function (event) {
+            _postButtonActionOverride();        
+        });
+    };
+    addTriggerPrintListener();
 });
 

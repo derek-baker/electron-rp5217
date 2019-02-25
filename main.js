@@ -167,19 +167,26 @@ ipcMain.on('save', (event, data) => {
 	event.sender.send('saveComplete');
 });
 
-ipcMain.on('triggerPrintChannel', function(event) {
-	// For page size options, see URL below
-	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
-	mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
-		if (error) { throw error; }
+// ipcMain.on('triggerPrintChannel', function(event) {
+// 	// For page size options, see URL below
+// 	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
+// 	// mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
+// 	// 	if (error) { throw error; }
 
-		const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
-		fs.writeFile(fileName, data, (error) => {
-			if (error) { throw error; }
-			shell.openExternal(fileName);
-		});
-	});
-});
+// 	// 	const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
+// 	// 	fs.writeFile(fileName, data, (error) => {
+// 	// 		if (error) { throw error; }
+// 	// 		shell.openExternal(fileName);
+// 	// 	});
+// 	// });
+	
+// 	// https://electronjs.org/docs/api/web-contents#contentsprintoptions-callback
+// 	// const printOptions = { silent: false, printBackground: false,  };
+// 	// mainWindow.webContents.print(printOptions, function(result) {
+// 	// 	console.log('result')
+// 	// 	console.log(result)
+// 	// });
+// });
 
 // process.on('uncaughtException', function (exception) {
 // 	console.log(exception);

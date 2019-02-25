@@ -452,9 +452,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     parseInt(salePrice.replace(/,/g, ''), 10) 
                     < 
                     parseInt(salePersonalPropertyVal.replace(/,/g, ''), 10) 
-                ) {
-                    console.log(parseInt(salePrice.replace(/,/g, ''), 10) )
-                    console.log( parseInt(salePersonalPropertyVal.replace(/,/g, ''), 10))
+                ) {                    
                     alert('Personal property(14) cannot be greater than Sale Price(13)');
                     return false;
                 }
@@ -486,10 +484,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 ) {
                     // Note that a listener in index.form.js will remove the class below before file-dialog opens
                     // document.getElementById('spinner').className = 'spinner';                    
-                    console.log('true')
                     return true;
                 }
-                console.log('false')
                 return false;
             }
         }

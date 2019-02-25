@@ -8,7 +8,7 @@ const { configureInstructions } = require('./index.renderer.instructions');
 const { createButtonListeners } = require('./index.renderer.buttonBehavior');
 const { envConfig } = require('./index.renderer.alterConfig');
 const { addKeyupListener } = require('./index.renderer.keyboardShortcuts');
-const { addTriggerPrintListener } = require('./index.renderer.form');
+// const { addTriggerPrintListener } = require('./index.renderer.printForm');
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     checkConnectivity();
 
     addKeyupListener();
-    addTriggerPrintListener();
+    // addTriggerPrintListener();
 });
 
 ipcRenderer.on('alertChannel', function(event, msg){

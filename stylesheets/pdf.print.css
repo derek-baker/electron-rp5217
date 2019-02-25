@@ -1,6 +1,11 @@
 
 /* Rules applied when using Print/PrintToPdf */
 @media print {
+    @page {
+        size: Legal; 
+        margin:0;
+    }
+
     img {width: 95%}
     input {font-size:10px;} 
     
