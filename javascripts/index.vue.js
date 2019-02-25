@@ -1,5 +1,5 @@
 // Wanted viewModel to be accessible outside the listener block
-let viewModel = null;
+let viewModel;
 
 document.addEventListener("DOMContentLoaded", function(){
     'use strict';
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function(){
             ,contactInfoAttorneyFirstName: null
             ,contactInfoAttorneyAreaCode: null
             ,contactInfoAttorneyPhoneNum: null
-            ,validationCounterForNumberOfParcels: 0
+            ,validationCounterForNumberOfParcels: false
         },
         methods: {            
             InitModelWithValsFromDataStore: function(
@@ -444,17 +444,31 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 return true;
             },
+            checkIfParcelIdCountIsGreaterThanFour() {
+                if (
+                    Number(this.fourNumberOfParcels) > 4 
+                    && 
+                    this.validationCounterForNumberOfParcels !== true
+                ) { 
+                    this.validationCounterForNumberOfParcels = true;
+                    alert(
+                        'When filling out question 20, Please attach an additional sheet that ' +  
+                        'lists the relevant tax-map identifiers, as this form only has space ' + 
+                        'for four tax-map identifiers by default.'
+                    );
+                }
+            },
             validateBeforeSubmit: function(){
                 // Makes use of vee-validator.js
                 // this.$validator.validateAll()
                 //     .then( (result) => {
-                if(this.ensureThatAtLeastOneSaleConditionIsSelected() && this.ensureThatSaleDatePrecedesTransferDate()) {
+                if (
+                    this.ensureThatAtLeastOneSaleConditionIsSelected() 
+                    && 
+                    this.ensureThatSaleDatePrecedesTransferDate()
+                ) {
                     // Note that a listener in index.form.js will remove the class below before file-dialog opens
-                    // document.getElementById('spinner').className = 'spinner';
-                    // alert(
-                    //     'Before printing, please set paper size in printer settings to ' + 
-                    //     'legal paper(8.5" x 14") for the filing document.'
-                    // );
+                    // document.getElementById('spinner').className = 'spinner';                    
                     console.log('true')
                     return true;
                 }

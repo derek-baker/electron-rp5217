@@ -210,9 +210,11 @@ and Electron <script>document.write(process.versions.electron)</script>.
                   <h6>4. Number of Assessment Roll Parcels Transferred</h6>
                 </div>
                 <div id="numParcelInputDiv" class="col-xs-2">
-                  <input v-validate="'ifParcelIdCountIsGreaterThanFour'" v-model="fourNumberOfParcels" id="fourNumberOfParcels" 
-                         type="number" name="fourNumberOfParcels">   
-                  <!-- <input v-model="fourNumberOfParcels" id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">    -->
+                  <!-- TODO -->
+                  <input v-model="fourNumberOfParcels" 
+                         v-on:keyup="checkIfParcelIdCountIsGreaterThanFour()" debounce="1500" 
+                         v-on:click="checkIfParcelIdCountIsGreaterThanFour()"
+                         id="fourNumberOfParcels" type="number" name="fourNumberOfParcels">                     
                 </div>
                 <div class="col-xs-6 noPadding topPadding">
                   <small class="text-muted"># of Parcels</small><small>&nbsp;&nbsp; OR &nbsp;&nbsp;</small>
@@ -626,16 +628,21 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <script src="javascripts/lib/bcmath-min.js"></script>
 <script src="javascripts/lib/pdf417-min.js"></script>	    
 <script src="javascripts/index.barcode.js"></script>
-<script src="javascripts/lib/vee-validate.dev.js"></script>
-<script>Vue.use(VeeValidate);</script>
+<!-- <script src="javascripts/lib/vee-validate.dev.js"></script>
+<script>Vue.use(VeeValidate);</script> -->
 <script src="javascripts/index.validate.js"></script>
 <script src="javascripts/index.form.js"></script>
 <script src="javascripts/index.vue.version.js"></script>
 <script src="javascripts/index.vue.spinner.js"></script> 
 
 
+<!-- Electron-specific manipulations of the browser runtime -->
 <script>
-  window.nodeRequire = require; delete window.require; delete window.exports; delete window.module; nodeRequire('./renderer/index/index.renderer.main.js'); 
+  window.nodeRequire = require; 
+  delete window.require; 
+  delete window.exports; 
+  delete window.module; 
+  nodeRequire('./renderer/index/index.renderer.main.js'); 
 </script> 
 
 <script src="javascripts/lib/jquery.min.js"></script>  
