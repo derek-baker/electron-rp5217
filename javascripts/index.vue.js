@@ -444,6 +444,16 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 return true;
             },
+            ensureThatSalePriceGreaterThanPropertyValueInSale(
+                salePrice,
+                salePersonalPropertyVal
+            ){
+                if(salePrice < salePersonalPropertyVal) {
+                    alert('Personal property(14) cannot be greater than Sale Price(13)');
+                    return false;
+                }
+                return true;
+            },
             checkIfParcelIdCountIsGreaterThanFour() {
                 if (
                     Number(this.fourNumberOfParcels) > 4 
@@ -458,14 +468,13 @@ document.addEventListener("DOMContentLoaded", function(){
                     );
                 }
             },
-            validateBeforeSubmit: function(){
-                // Makes use of vee-validator.js
-                // this.$validator.validateAll()
-                //     .then( (result) => {
+            validateBeforeSubmit: function() {                
                 if (
                     this.ensureThatAtLeastOneSaleConditionIsSelected() 
                     && 
                     this.ensureThatSaleDatePrecedesTransferDate()
+                    &&
+                    this.ensureThatSalePriceGreaterThanPropertyValueInSale(this.salePrice, this.salePersonalPropertyVal)
                 ) {
                     // Note that a listener in index.form.js will remove the class below before file-dialog opens
                     // document.getElementById('spinner').className = 'spinner';                    
@@ -474,8 +483,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 console.log('false')
                 return false;
-                // If you find yourself here trying to debug a vee-validator, consider removing the 'required'                    
-                // });
             }
         }
     });    
