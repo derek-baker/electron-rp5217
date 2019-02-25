@@ -6,7 +6,7 @@
   "author": "Systems Development Group <dbaker@sdgnys.com>",
   "main": "main.js",
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "lint-es":  "npx eslint javascripts/*",
     "start-dev": "SET \"NODE_ENV=dev\" && electron . \"..\\data.sdg\"",
     "start-test": "SET \"NODE_ENV=test\" && electron . \"..\\data.sdg\"",
