@@ -1,63 +1,121 @@
-const Application = require('spectron').Application
-const assert = require('assert')
-const electronPath = require('electron') // Require Electron from the binaries included in node_modules.
-const path = require('path')
+"use strict";
 
-describe('Application launch', function () {
-    this.timeout(10000)
+const Application = require('spectron').Application;
+const assert = require('assert');
+const electronPath = require('electron'); 
+const path = require('path');
+
+
+describe('Spectron Intra-App Integration Tests', function () {
+    this.timeout(100000)
 
     beforeEach(function () {
-        this.app = new Application({
-            // Your electron path can be any binary
-            // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
-            // But for the sake of the example we fetch it from our node_modules.
+        this.app = new Application({            
             path: electronPath,
-
-            // Assuming you have the following directory structure
-
-            //  |__ my project
-            //     |__ ...
-            //     |__ main.js
-            //     |__ package.json
-            //     |__ index.html
-            //     |__ ...
-            //     |__ test
-            //        |__ spec.js  <- You are here! ~ Well you should be.
-
-            // The following line tells spectron to look and use the main.js file
-            // and the package.json located 1 level above.
-            args: [path.join(__dirname, '..')]
-        })
+            // args tells spectron to look and use the main.js file and the package.json located 1 level above.
+            args: [path.join(__dirname, '..')],
+            env: {
+                NODE_ENV: "test"
+            },
+            requireName: "nodeRequire"
+        });
         return this.app.start()
-    })
+    });
 
     afterEach(function () {
         if (this.app && this.app.isRunning()) {
-            // console.log('attempting to stop...');
             return this.app.stop()
         }
-    })
+    });
 
     it('shows an initial window', function () {
-        return this.app.client.getWindowCount().then(function (count) {
-            // assert.equal(count, 1)
-            // Note that getWindowCount() will return 2 if `dev tools` are opened.
-            assert.equal(count, 1)
-        });        
+        return this.app.client.getWindowCount()
+            .then( function(count) { assert.strictEqual(count, 1); } 
+        );        
     });
-    
 
-    // it('shows an initial window', function () {
-    //     return this.app.client.getWindowCount().then(function (count) {
-    //         // assert.equal(count, 1)
-    //         // Note that getWindowCount() will return 2 if `dev tools` are opened.
-    //         assert.equal(count, 1)
-    //     });
-    // });
-    it('should contain text', () => {
-        app.client.getText('#error-alert').then(function (errorText) {
-            console.log('The #error-alert text content is ' + errorText)
-        });
+    
+    it('Top open button triggers valid inter-process communication', function() {
+        let result = {actual: ''};
+        const expected = 'recieved'
+        const eventCallback = function(val) {
+            val.actual = expected;
+        } 
+        this.app.electron.remote.ipcMain.on('openFile', eventCallback(result));
+
+        return this.app.client.waitUntilWindowLoaded().$('#importDataButton').click()
+                   .then( (response) => { assert.strictEqual(result.actual, expected); });        
     });
+
+
+    it('Bottom open button triggers valid inter-process communication', function() {
+        let result = {actual: ''};
+        const expected = 'recieved'
+        const eventCallback = function(val) {
+            val.actual = expected;
+        } 
+        this.app.electron.remote.ipcMain.on('openFile', eventCallback(result));
+
+        return this.app.client.waitUntilWindowLoaded().$('#importDataButtonBottom').click()
+                   .then( (response) => { assert.strictEqual(result.actual, expected); });        
+    });
+
+
+    it('Top save button triggers valid inter-process communication', function() {
+        let result = {actual: ''};
+        const expected = 'recieved'
+        const eventCallback = function(val) {
+            val.actual = expected;
+        } 
+        this.app.electron.remote.ipcMain.on('save', eventCallback(result));
+
+        return this.app.client.waitUntilWindowLoaded().$('#saveFileButton').click()
+                   .then( (response) => { assert.strictEqual(result.actual, expected); });        
+    });
+
+
+    it('Bottom save button triggers valid inter-process communication', function() {
+        let result = {actual: ''};
+        const expected = 'recieved'
+        const eventCallback = function(val) {
+            val.actual = expected;
+        } 
+        this.app.electron.remote.ipcMain.on('save', eventCallback(result));
+
+        return this.app.client.waitUntilWindowLoaded().$('#saveFileButtonBottom').click()
+                   .then( (response) => { assert.strictEqual(result.actual, expected); });        
+    });
+
+    
+    it('Top save-as button triggers valid inter-process communication', function() {
+        let result = {actual: '', data: undefined};
+        const expected = 'recieved'
+        const eventCallback = function(data, val) {
+            val.actual = expected;
+            val.data = data;
+        } 
+        // this.app.electron.remote.ipcMain.on('save-dialog', eventCallback(data, result));
+        this.app.electron.remote.ipcMain.on('save-dialog', function(){console.log('test: '); console.log(arguments)});
+
+        return this.app.client.waitUntilWindowLoaded().$('#saveAsFileButton').click()
+                .then( (response) => { 
+                    assert.strictEqual(result.actual, expected); 
+                    assert.strictEqual( ((result.data) ? true : false), true);
+                });        
+    });
+
+
+    it('Bottom save-as button triggers valid inter-process communication', function() {
+        let result = {actual: ''};
+        const expected = 'recieved'
+        const eventCallback = function(val) {
+            val.actual = expected;
+        } 
+        this.app.electron.remote.ipcMain.on('save-dialog', eventCallback(result));
+
+        return this.app.client.waitUntilWindowLoaded().$('#saveAsFileButtonBottom').click()
+                   .then( (response) => { assert.strictEqual(result.actual, expected); });        
+    });
+
     return;
 })

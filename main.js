@@ -12,6 +12,8 @@ autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
 const env = process.env['NODE_ENV'];
+const runningInDev = (env === 'dev') ? true : false; 
+const runningInTest = (env === 'test') ? true : false; 
 const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false; 
 
 
@@ -20,6 +22,7 @@ const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false;
 let mainWindow;
 let currentFilePath;
 let dataSnapshot;
+
 const snapshotData = (data) => {
 	dataSnapshot = data;
 }
@@ -51,10 +54,10 @@ const saveFile = (event, filename, data) => {
 }; 
 
 const createWindow = () => {
-	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 800 });
+	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 800, webPreferences: {nodeIntegration: true} });
 	// Passing version as GET param so we can display it to the user
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
-	if (runningInDevOrTest) { 
+	if (runningInDev) { 
 		mainWindow.webContents.openDevTools(); 		
 	}
 	mainWindow.once('close', (event) => {
@@ -84,16 +87,12 @@ ipcMain.on('loaded', (event) => {
 	// but we want a fast way to load data during dev and while testing ReleaseCandidates.
 	readFile(
 		event,
-		(runningInDevOrTest) ? process.argv[2] : process.argv[1]
+		(runningInDev) ? process.argv[2] : process.argv[1]
 	);
 	if (runningInDevOrTest) { 		
 		event.sender.send('runningInDevOrTestChannel', env);	
 	}
-	// https://www.electron.build/tutorials/release-using-channels
-	// autoUpdater.channel = "latest";
-	// autoUpdater.channel = "beta";
-
-	// Wait until mainWindow content is loaded so that we can use browser alerts because notifications are broken-ish.
+	// Wait until mainWindow content is loaded so that we can use browser alerts because native notifications are broken-ish.
 	// Also, note that this method won't be invoked while the app is running in Dev mode.	
 	autoUpdater.checkForUpdatesAndNotify()
 		.then( ( updateCheckResult ) =>  { 
@@ -110,7 +109,10 @@ ipcMain.on('loaded', (event) => {
 
 
 ipcMain.on('stateResponse', (event, data) => {
-	if (CompareObjectsForEquality(dataSnapshot, data) === false) {
+	if (runningInTest === false 
+		&& 
+		CompareObjectsForEquality(dataSnapshot, data) === false
+	) {
 		let choice = dialog.showMessageBox(mainWindow, {
 			type: 'question',
 			buttons: ['Yes', 'No'],
@@ -133,24 +135,31 @@ ipcMain.on('stateResponse', (event, data) => {
 });
 
 
+const openOptions = {
+	filters: [
+		{ name: 'Sdg Data File', extensions: ['sdg'] }
+	]
+};
 ipcMain.on('openFile', (event, path) => {
-	dialog.showOpenDialog(function (filepaths) {
+	// ipcMain.emit('openDialogTriggered');
+	dialog.showOpenDialog(mainWindow, openOptions, (filepaths) => {
+		// TODO: app should only open .sdg files
 		if (filepaths !== undefined) {
 			readFile(event, filepaths[0]);
 		}
-		return console.log("No file selected");
-	});
+		console.log("No file selected");
+		return; 
+	});	
 });
 
 
-const options = {
-	title: 'Save Your Progress',
+const saveOptions = {
 	filters: [
 		{ name: 'Sdg Data File', extensions: ['sdg'] }
 	]
 };
 ipcMain.on('save-dialog', (event, data) => {
-	dialog.showSaveDialog(options, (filename) => {
+	dialog.showSaveDialog(saveOptions, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
 		saveFile(event, filename, data);		
 		readFile(event, filename);
@@ -162,7 +171,7 @@ ipcMain.on('save', (event, data) => {
 	if(!currentFilePath) {
 		event.sender.send('saveComplete'); 
 		// ...and show the Save As dialog if they have not.
-		dialog.showSaveDialog(options, (filename) => {
+		dialog.showSaveDialog(saveOptions, (filename) => {
 			// TODO: listen for use closing save dialog with X in top right
 			saveFile(event, filename, data);		
 		});
