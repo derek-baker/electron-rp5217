@@ -1,6 +1,6 @@
 {
   "name": "rp5217",
-  "version": "1.2.0-beta",
+  "version": "1.2.1",
   "license": "MIT",
   "description": "app to generate pdfs with 417 barcode",
   "author": "Systems Development Group <dbaker@sdgnys.com>",
@@ -19,7 +19,6 @@
   "build": {
     "appId": "com.electron.rp5217",
     "artifactName": "RP5217 Setup.exe",
-    "generateUpdatesFilesForAllChannels": true,
     "directories": {
       "output": "electron_dist"
     },

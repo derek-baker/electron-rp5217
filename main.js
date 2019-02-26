@@ -89,17 +89,19 @@ ipcMain.on('loaded', (event) => {
 	if (runningInDevOrTest) { 		
 		event.sender.send('runningInDevOrTestChannel', env);	
 	}
-	// Wait until mainWindow content is loaded so that we can use browser alerts because notifications are broken-ish.
-	// Also, note that this method won't be invoked while the app is running in Dev mode.
+	// https://www.electron.build/tutorials/release-using-channels
 	// autoUpdater.channel = "latest";
-	autoUpdater.channel = "beta";
+	// autoUpdater.channel = "beta";
+
+	// Wait until mainWindow content is loaded so that we can use browser alerts because notifications are broken-ish.
+	// Also, note that this method won't be invoked while the app is running in Dev mode.	
 	autoUpdater.checkForUpdatesAndNotify()
 		.then( ( updateCheckResult ) =>  { 
 			if ( !runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion() ) {
 				mainWindow.webContents.send(
 					'alertChannel', 
 					'A new version of therp RP5217 Editor is being downloaded in the background. ' +  
-					'To use the new version, close and re-open the app.' 
+					'To use the new version, please close and re-open the RP5217 Editor.' 
 				); 
 			}
 		})
