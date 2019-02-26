@@ -91,6 +91,8 @@ ipcMain.on('loaded', (event) => {
 	}
 	// Wait until mainWindow content is loaded so that we can use browser alerts because notifications are broken-ish.
 	// Also, note that this method won't be invoked while the app is running in Dev mode.
+	// autoUpdater.channel = "latest";
+	autoUpdater.channel = "beta";
 	autoUpdater.checkForUpdatesAndNotify()
 		.then( ( updateCheckResult ) =>  { 
 			if ( !runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion() ) {
