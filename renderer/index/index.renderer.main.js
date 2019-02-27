@@ -42,6 +42,8 @@ ipcRenderer.on('setTitle', (event, formName) => {
 });
 
 ipcRenderer.on('fileData', (event, data) => {
+    console.log('fileData...')
+    console.log(data)
     let result = undefined;
     try {
         result = JSON.parse(data);     

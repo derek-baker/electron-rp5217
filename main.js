@@ -1,11 +1,12 @@
 "use strict;"
 
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
-const fs = require('fs');
+// const fs = require('fs');
 const { CompareObjectsForEquality } = require('./main.modules/main.utils');
-// const { readFile, saveFile } = require('./main.modules/main.fileManipulation');
+const { readFile, saveFile } = require('./main.modules/main.filesystem');
+
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -16,42 +17,12 @@ const runningInDev = (env === 'dev') ? true : false;
 const runningInTest = (env === 'test') ? true : false; 
 const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false; 
 
-
 // Keep global reference to window object else window will  
 // close when the JavaScript object is garbage collected.
 let mainWindow;
 let currentFilePath;
 let dataSnapshot;
 
-const snapshotData = (data) => {
-	dataSnapshot = data;
-}
-const readFile = (event, filepath) => {
-	if (fs.existsSync(filepath)) {
-		fs.readFile(filepath, 'utf-8', (err, data) => {
-			if (err) {
-				console.log(`An error ocurred reading the file ${filepath}\n` + err.message);
-				return;
-			}
-			event.sender.send('fileData', data);
-			event.sender.send('setTitle', filepath);
-			currentFilePath = filepath;
-			snapshotData(data);
-		});
-	}
-};
-const saveFile = (event, filename, data) => {
-	if(filename){
-		fs.writeFile(filename, data, function (err) {
-			if (err) {			
-				dialog.showErrorBox('Error', err);
-				return;
-			}
-		});
-		snapshotData(data);
-		event.sender.send('saved-file');
-	}	
-}; 
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 800, webPreferences: {nodeIntegration: true} });
@@ -71,8 +42,8 @@ const createWindow = () => {
 	});
 };
 
-// This method will be called when Electron has finished initialization and is ready to create browser windows. 
-// Some APIs can only be used after this event occurs.
+// This method will be called when Electron has finished initialization and is ready  
+// to create browser windows. Some APIs can only be used after this event occurs.
 app.on('ready', function() {	
 	createWindow();	
 });
@@ -82,13 +53,36 @@ app.on('window-all-closed', function () {
 });
 
 
+const readFileWrapper = function(event, fileToOpen) {
+	let res = {};
+	readFile( fileToOpen, res )
+		.then( () => {
+			dataSnapshot = res.dataFromFile;
+			currentFilePath = res.currentFileTarget;
+			console.log(res
+				)
+			event.sender.send('fileData', dataSnapshot);
+			event.sender.send('setTitle', currentFilePath);
+		})
+		.catch( (err) => console.log(err) );
+};
+
+
 ipcMain.on('loaded', (event) => {
-	// When running app via 'npm start', the args are different than when we run the installed app, 
+	// When running app via 'npm start-<config>', the args are different than when we run the installed app, 
 	// but we want a fast way to load data during dev and while testing ReleaseCandidates.
-	readFile(
-		event,
-		(runningInDev) ? process.argv[2] : process.argv[1]
-	);
+	let targetFile = (runningInDev) ? process.argv[2] : process.argv[1];
+	readFileWrapper(event, targetFile);
+	// let fileToOpen = (runningInDev) ? process.argv[2] : process.argv[1];
+	// let res = {};
+	// readFile( fileToOpen, res )
+	// 	.then( () => {
+	// 		dataSnapshot = res.dataFromFile;
+	// 		currentFilePath = res.currentFileTarget;
+	// 		event.sender.send('fileData', dataSnapshot);
+	// 		event.sender.send('setTitle', currentFilePath);
+	// 	})catch( (err) => console.log(err) );
+	
 	if (runningInDevOrTest) { 		
 		event.sender.send('runningInDevOrTestChannel', env);	
 	}
@@ -140,15 +134,21 @@ const openOptions = {
 		{ name: 'Sdg Data File', extensions: ['sdg'] }
 	]
 };
-ipcMain.on('openFile', (event, path) => {
-	// ipcMain.emit('openDialogTriggered');
+ipcMain.on('openFile', (event) => {
 	dialog.showOpenDialog(mainWindow, openOptions, (filepaths) => {
-		// TODO: app should only open .sdg files
-		if (filepaths !== undefined) {
-			readFile(event, filepaths[0]);
-		}
-		console.log("No file selected");
-		return; 
+		if (filepaths !== undefined) {	
+			let targetFile = (runningInDev) ? process.argv[2] : process.argv[1];
+			readFileWrapper(event, targetFile);
+			// let fileToOpen = (runningInDev) ? process.argv[2] : process.argv[1];
+			// let res = {};
+			// readFile( fileToOpen, res )
+			// 	.then( () => {
+			// 		dataSnapshot = res.extractedData;
+			// 		currentFilePath = res.targetFile;
+			// 		event.sender.send('fileData', dataSnapshot);
+			// 		event.sender.send('setTitle', currentFilePath);
+			// 	}).catch( (err) => console.log(err) );
+		}		
 	});	
 });
 
@@ -158,26 +158,29 @@ const saveOptions = {
 		{ name: 'Sdg Data File', extensions: ['sdg'] }
 	]
 };
-ipcMain.on('save-dialog', (event, data) => {
+ipcMain.on('save-dialog', (event, data = '') => {
 	dialog.showSaveDialog(saveOptions, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
-		saveFile(event, filename, data);		
-		readFile(event, filename);
+		dataSnapshot = saveFile(event, filename, data);
+		// Reading file back in to trigger behaviors that cascade
+		let result = readFile(event, filename);
+		dataSnapshot = result.extractedData;
+		currentFilePath = result.targetFile;
 	});
-	
 });
 ipcMain.on('save', (event, data) => {
 	// Check to see if the user has previously saved the file...
 	if(!currentFilePath) {
+		// Emit event to stop spinner
 		event.sender.send('saveComplete'); 
 		// ...and show the Save As dialog if they have not.
 		dialog.showSaveDialog(saveOptions, (filename) => {
 			// TODO: listen for use closing save dialog with X in top right
-			saveFile(event, filename, data);		
+			dataSnapshot = saveFile(event, filename, data);		
 		});
 		return;
 	}
-	saveFile(event, currentFilePath, data);
+	dataSnapshot = saveFile(event, currentFilePath, data);
 	event.sender.send('saveComplete');
 });
 

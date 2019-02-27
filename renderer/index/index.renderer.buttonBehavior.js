@@ -8,11 +8,11 @@ const createButtonListeners = function() {
     // Specify behavior for 'Open File' buttons
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
-        ipcRenderer.send('openFile', () => { return; }); 
+        ipcRenderer.send('openFile'); 
     });
     const openFileBottomButton = document.getElementById('importDataButtonBottom')
     openFileBottomButton.addEventListener("click", (event) => {
-        ipcRenderer.send('openFile', () => { return; }); 
+        ipcRenderer.send('openFile'); 
     });
 
     // Specify behavior for 'Save' buttons
