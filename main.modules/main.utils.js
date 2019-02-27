@@ -1,7 +1,8 @@
 "use strict";
 
 // PURPOSE: used to see if model has changed, because that would indicate a "dirty" file.
-const CompareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
+// RETURNS: Boolean true when object values are the same. False otherwise.
+const compareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
     if(
         viewModelCurrent === null 
             || viewModelCurrent === undefined
@@ -16,19 +17,19 @@ const CompareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
     const akeys = Object.keys(snapshot);
     const bkeys = Object.keys(viewModelCurrent);
     const len = akeys.length;
+    // if(viewModelCurrent === null || viewModelCurrent === undefined){ return false; }
 
-    if(viewModelCurrent === null || viewModelCurrent === undefined){ return false; }
     if (len != bkeys.length) {
-        console.log(len.toString() + ' ' + bkeys.length.toString());
+        // console.log(len.toString() + ' ' + bkeys.length.toString());
         return false;
     }
     for (let i = 0; i < len; i++) {
         if (snapshot[akeys[i]] !== viewModelCurrent[akeys[i]]) {
-            console.log(snapshot[akeys[i]] + ' ' + viewModelCurrent[akeys[i]]);
+            // console.log(snapshot[akeys[i]] + ' ' + viewModelCurrent[akeys[i]]);
             return false;
         }
     }
     return true;
 }
 
-module.exports = { CompareObjectsForEquality };
+module.exports = { compareObjectsForEquality };

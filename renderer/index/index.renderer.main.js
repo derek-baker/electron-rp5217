@@ -14,11 +14,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ipcRenderer.send('loaded'); 
 
     createButtonListeners();
-    // Display dirty file status
     envConfig();
-    // Instructions-configuration is not environmentally-specific as the wiki is on GitHub
     configureInstructions();
-
     addKeyupListener();    
 
     ipcRenderer.on('saved-file', (event) => {
