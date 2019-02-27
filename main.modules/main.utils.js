@@ -18,7 +18,6 @@ const compareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
     const bkeys = Object.keys(viewModelCurrent);
     const len = akeys.length;
     // if(viewModelCurrent === null || viewModelCurrent === undefined){ return false; }
-
     if (len != bkeys.length) {
         // console.log(len.toString() + ' ' + bkeys.length.toString());
         return false;
