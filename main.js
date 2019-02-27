@@ -137,10 +137,16 @@ const saveOptions = {
 		{ name: 'Sdg Data File', extensions: ['sdg'] }
 	]
 };
-ipcMain.on('save-dialog', (event, data = '') => {
+ipcMain.on('save-dialog', (event, data) => {
 	dialog.showSaveDialog(saveOptions, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
-		dataSnapshot = saveFile(event, filename, data);
+		// dataSnapshot = saveFile(event, filename, data);
+		saveFile(filename, data)
+			.then( () => { 
+				event.sender.send('saved-file');
+				dataSnapshot = data; 
+			})
+			.catch( (err) => { console.log(err); });
 		// Reading file back in to trigger behaviors that cascade
 		// let result = readFile(event, filename);
 		readFileWrapper(event, filename);
@@ -156,11 +162,23 @@ ipcMain.on('save', (event, data) => {
 		// ...and show the Save As dialog if they have not.
 		dialog.showSaveDialog(saveOptions, (filename) => {
 			// TODO: listen for use closing save dialog with X in top right
-			dataSnapshot = saveFile(event, filename, data);		
+			// dataSnapshot = saveFile(event, filename, data);		
+			saveFile(filename, data)
+				.then( () => { 
+					event.sender.send('saved-file');
+					dataSnapshot = data; 
+				})
+				.catch( (err) => { console.log(err); });		
 		});
 		return;
 	}
-	dataSnapshot = saveFile(event, currentFilePath, data);
+	// dataSnapshot = saveFile(event, currentFilePath, data);
+	saveFile(currentFilePath, data)
+		.then( () => { 
+			event.sender.send('saved-file');
+			dataSnapshot = data; 
+		})
+		.catch( (err) => { console.log(err); });	
 	event.sender.send('saveComplete');
 });
 

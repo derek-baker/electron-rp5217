@@ -107,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function(){
             ,validationCounterForNumberOfParcels: false
         },
         watch: {
+            // Note that the string represents the name of a method on this instance
             fourPartOfParcelCheckbox: 'updateTitle',            
             fourSubDivAuthExists: 'updateTitle',
             fourSubDivApprovalRequired: 'updateTitle',

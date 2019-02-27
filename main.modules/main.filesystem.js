@@ -3,11 +3,14 @@
 const fs = require('fs');
 const util = require('util');
 
-fs.readFileAsync = util.promisify(fs.readFile);
+
+fs.readFilePromisified = util.promisify(fs.readFile);
+fs.writeFilePromisified = util.promisify(fs.writeFile);
+
 
 const readFile = async (filepath, result) => {
 	if (fs.existsSync(filepath)) {
-		await fs.readFileAsync(filepath, 'utf-8')
+		await fs.readFilePromisified(filepath, 'utf-8')
 			.then( (data) => {				
 				result.dataFromFile = data;
 				result.currentFileTarget = filepath;								
@@ -16,18 +19,15 @@ const readFile = async (filepath, result) => {
 	}
 };
 
-const saveFile = (event, filename, data, dialog) => {
+const saveFile = async (filename, data, dialog) => {
 	if (filename) {
-		fs.writeFile(filename, data, function (err) {
-			if (err) {			
-				dialog.showErrorBox('Error', err);
-				return;
-			}
-		});
-		if (event) { // <== added to allow tests to run
-			event.sender.send('saved-file');
-        }
-        return data;
+		await fs.writeFilePromisified(filename, data)
+			// .then( () => { 
+			// 	if (event) { event.sender.send('saved-file'); } 
+			// 	// return data;
+			// })
+			.catch( (err) => { dialog.showErrorBox('Error', err); } );
+        // return data;
 	}	
 }; 
 
