@@ -106,7 +106,32 @@ document.addEventListener("DOMContentLoaded", function(){
             ,contactInfoAttorneyPhoneNum: null
             ,validationCounterForNumberOfParcels: false
         },
-        methods: {            
+        watch: {
+            fourPartOfParcelCheckbox: 'updateTitle',            
+            fourSubDivAuthExists: 'updateTitle',
+            fourSubDivApprovalRequired: 'updateTitle',
+            fourParcelApprovedWithMap: 'updateTitle',
+            ownershipIsCondo: 'updateTitle',
+            constructionOnVacant: 'updateTitle',
+            locatedWithinAg: 'updateTitle',
+            buyerReceivedDisclosureNotice: 'updateTitle', 
+            saleInfoCheckA: 'updateTitle',
+            saleInfoCheckB: 'updateTitle',
+            saleInfoCheckC: 'updateTitle',
+            saleInfoCheckD: 'updateTitle',
+            saleInfoCheckE: 'updateTitle',
+            saleInfoCheckF: 'updateTitle',
+            saleInfoCheckG: 'updateTitle',
+            saleInfoCheckH: 'updateTitle',
+            saleInfoCheckI: 'updateTitle',   
+            saleInfoCheckJ: 'updateTitle'
+        },
+        methods: {   
+            updateTitle: function(){
+                document.title = 
+                            `${document.title.replace(' (YOUR WORK IS UNSAVED)', '')} (YOUR WORK IS UNSAVED)`;       
+                            // string added above removed from title in renderer.js
+            },         
             InitModelWithValsFromDataStore: function(
                 swisCode,
                 propertyLocationStreetNumber,
@@ -249,6 +274,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.contactInfoAttorneyFirstName = contactInfoAttorneyFirstName;
                 this.contactInfoAttorneyAreaCode = contactInfoAttorneyAreaCode;
                 this.contactInfoAttorneyPhoneNum = contactInfoAttorneyPhoneNum;
+                // Trigger barcode regeneration
                 setTimeout(() => {
                     document.getElementById('assessmentTotalValue').dispatchEvent(new KeyboardEvent('keyup')); 
                 }, 500);

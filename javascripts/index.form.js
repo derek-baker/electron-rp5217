@@ -14,7 +14,6 @@ window.addEventListener("load", function(){
     
     var partialConditionCheckboxCollection = document.getElementsByClassName('partialConditionCheckboxes');
     for(let i = 0; i < partialConditionCheckboxCollection.length; i++){
-        // Validation 
         partialConditionCheckboxCollection[i].addEventListener('click', () => {
             if(viewModel.fourPartOfParcelCheckbox === false){
                 // Wait without blocking to avoid race condition

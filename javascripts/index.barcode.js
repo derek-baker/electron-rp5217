@@ -60,11 +60,16 @@ window.addEventListener("load", function() {
 
     let form = document.getElementById('form');
     
+    let isFirstKeyup = true;
     form.addEventListener('keyup', function() {
-        _createHiddenDataUrl();  
+        _createHiddenDataUrl();
+        if (isFirstKeyup) {
+            isFirstKeyup = false;
+            return;
+        }  
         document.title = 
-            `${document.title.replace(' (YOUR WORK IS UNSAVED)', '')} (YOUR WORK IS UNSAVED)`;       
-            // string added above removed from title in renderer.js
+                `${document.title.replace(' (YOUR WORK IS UNSAVED)', '')} (YOUR WORK IS UNSAVED)`;       
+                // string added above removed from title in renderer.js
     });
     // Hack to trigger barcode to display 
     form.dispatchEvent(new KeyboardEvent('keyup')); 

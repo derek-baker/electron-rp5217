@@ -15,15 +15,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     createButtonListeners();
     // Display dirty file status
-    ipcRenderer.on('saved-file', (event) => {
-        document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
-        // string removed above added to title in index.barcode.js (TODO: refactor behavior to single location)        
-    });
     envConfig();
     // Instructions-configuration is not environmentally-specific as the wiki is on GitHub
     configureInstructions();
 
     addKeyupListener();    
+
+    ipcRenderer.on('saved-file', (event) => {
+        document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
+        // string removed above added to title in index.barcode.js (TODO: refactor behavior to single location)        
+    });
 });
 
 ipcRenderer.on('alertChannel', function(event, msg){
@@ -42,8 +43,6 @@ ipcRenderer.on('setTitle', (event, formName) => {
 });
 
 ipcRenderer.on('fileData', (event, data) => {
-    console.log('fileData...')
-    console.log(data)
     let result = undefined;
     try {
         result = JSON.parse(data);     

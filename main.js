@@ -3,7 +3,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
-// const fs = require('fs');
 const { CompareObjectsForEquality } = require('./main.modules/main.utils');
 const { readFile, saveFile } = require('./main.modules/main.filesystem');
 
@@ -55,12 +54,11 @@ app.on('window-all-closed', function () {
 
 const readFileWrapper = function(event, fileToOpen) {
 	let res = {};
+	// Using res to imitate pass-by-ref
 	readFile( fileToOpen, res )
 		.then( () => {
 			dataSnapshot = res.dataFromFile;
 			currentFilePath = res.currentFileTarget;
-			console.log(res
-				)
 			event.sender.send('fileData', dataSnapshot);
 			event.sender.send('setTitle', currentFilePath);
 		})
@@ -73,16 +71,6 @@ ipcMain.on('loaded', (event) => {
 	// but we want a fast way to load data during dev and while testing ReleaseCandidates.
 	let targetFile = (runningInDev) ? process.argv[2] : process.argv[1];
 	readFileWrapper(event, targetFile);
-	// let fileToOpen = (runningInDev) ? process.argv[2] : process.argv[1];
-	// let res = {};
-	// readFile( fileToOpen, res )
-	// 	.then( () => {
-	// 		dataSnapshot = res.dataFromFile;
-	// 		currentFilePath = res.currentFileTarget;
-	// 		event.sender.send('fileData', dataSnapshot);
-	// 		event.sender.send('setTitle', currentFilePath);
-	// 	})catch( (err) => console.log(err) );
-	
 	if (runningInDevOrTest) { 		
 		event.sender.send('runningInDevOrTestChannel', env);	
 	}
@@ -137,17 +125,8 @@ const openOptions = {
 ipcMain.on('openFile', (event) => {
 	dialog.showOpenDialog(mainWindow, openOptions, (filepaths) => {
 		if (filepaths !== undefined) {	
-			let targetFile = (runningInDev) ? process.argv[2] : process.argv[1];
-			readFileWrapper(event, targetFile);
-			// let fileToOpen = (runningInDev) ? process.argv[2] : process.argv[1];
-			// let res = {};
-			// readFile( fileToOpen, res )
-			// 	.then( () => {
-			// 		dataSnapshot = res.extractedData;
-			// 		currentFilePath = res.targetFile;
-			// 		event.sender.send('fileData', dataSnapshot);
-			// 		event.sender.send('setTitle', currentFilePath);
-			// 	}).catch( (err) => console.log(err) );
+			// let targetFile = (runningInDev) ? process.argv[2] : process.argv[1];
+			readFileWrapper(event, filepaths[0]);			
 		}		
 	});	
 });
@@ -163,9 +142,10 @@ ipcMain.on('save-dialog', (event, data = '') => {
 		// TODO: listen for use closing save dialog with X in top right
 		dataSnapshot = saveFile(event, filename, data);
 		// Reading file back in to trigger behaviors that cascade
-		let result = readFile(event, filename);
-		dataSnapshot = result.extractedData;
-		currentFilePath = result.targetFile;
+		// let result = readFile(event, filename);
+		readFileWrapper(event, filename);
+		// dataSnapshot = result.extractedData;
+		// currentFilePath = result.targetFile;
 	});
 });
 ipcMain.on('save', (event, data) => {
@@ -183,19 +163,6 @@ ipcMain.on('save', (event, data) => {
 	dataSnapshot = saveFile(event, currentFilePath, data);
 	event.sender.send('saveComplete');
 });
-
-// ipcMain.on('triggerPrintChannel', function(event) {
-// 	// For page size options, see URL below
-// 	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
-// 	// mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
-// 	// 	if (error) { throw error; }
-// 	// 	const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
-// 	// 	fs.writeFile(fileName, data, (error) => {
-// 	// 		if (error) { throw error; }
-// 	// 		shell.openExternal(fileName);
-// 	// 	});
-// 	// });
-// });
 
 // process.on('uncaughtException', function (exception) {
 // 	console.log(exception);

@@ -1,5 +1,6 @@
 "use strict";
 
+// PURPOSE: used to see if model has changed, because that would indicate a "dirty" file.
 const CompareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
     if(
         viewModelCurrent === null 
