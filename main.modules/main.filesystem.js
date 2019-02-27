@@ -22,12 +22,7 @@ const readFile = async (filepath, result) => {
 const saveFile = async (filename, data, dialog) => {
 	if (filename) {
 		await fs.writeFilePromisified(filename, data)
-			// .then( () => { 
-			// 	if (event) { event.sender.send('saved-file'); } 
-			// 	// return data;
-			// })
-			.catch( (err) => { dialog.showErrorBox('Error', err); } );
-        // return data;
+			.catch( (err) => { dialog.showErrorBox('Error', err); } );        
 	}	
 }; 
 

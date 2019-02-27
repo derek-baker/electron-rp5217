@@ -125,7 +125,6 @@ const openOptions = {
 ipcMain.on('openFile', (event) => {
 	dialog.showOpenDialog(mainWindow, openOptions, (filepaths) => {
 		if (filepaths !== undefined) {	
-			// let targetFile = (runningInDev) ? process.argv[2] : process.argv[1];
 			readFileWrapper(event, filepaths[0]);			
 		}		
 	});	
@@ -140,18 +139,15 @@ const saveOptions = {
 ipcMain.on('save-dialog', (event, data) => {
 	dialog.showSaveDialog(saveOptions, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
-		// dataSnapshot = saveFile(event, filename, data);
-		saveFile(filename, data)
+		saveFile(filename, data, dialog)
 			.then( () => { 
 				event.sender.send('saved-file');
 				dataSnapshot = data; 
 			})
 			.catch( (err) => { console.log(err); });
-		// Reading file back in to trigger behaviors that cascade
-		// let result = readFile(event, filename);
+		// Reading file back in to trigger behaviors that cascade		
 		readFileWrapper(event, filename);
-		// dataSnapshot = result.extractedData;
-		// currentFilePath = result.targetFile;
+		
 	});
 });
 ipcMain.on('save', (event, data) => {
@@ -162,8 +158,7 @@ ipcMain.on('save', (event, data) => {
 		// ...and show the Save As dialog if they have not.
 		dialog.showSaveDialog(saveOptions, (filename) => {
 			// TODO: listen for use closing save dialog with X in top right
-			// dataSnapshot = saveFile(event, filename, data);		
-			saveFile(filename, data)
+			saveFile(filename, data, dialog)
 				.then( () => { 
 					event.sender.send('saved-file');
 					dataSnapshot = data; 
@@ -172,8 +167,7 @@ ipcMain.on('save', (event, data) => {
 		});
 		return;
 	}
-	// dataSnapshot = saveFile(event, currentFilePath, data);
-	saveFile(currentFilePath, data)
+	saveFile(currentFilePath, data, dialog)
 		.then( () => { 
 			event.sender.send('saved-file');
 			dataSnapshot = data; 
