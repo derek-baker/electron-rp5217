@@ -4,8 +4,8 @@ const fs = require('fs');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
-const { compareObjectsForEquality } = require('./main.modules/main.utils');
-const { readFile, saveFile } = require('./main.modules/main.filesystem');
+const { compareObjectsForEquality } = require('./mainProcess.modules/main.utils');
+const { readFile, saveFile } = require('./mainProcess.modules/main.filesystem');
 const { testPdfFilePath } = require('./config');
 
 

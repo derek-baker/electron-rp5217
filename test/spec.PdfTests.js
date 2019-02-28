@@ -1,17 +1,19 @@
 "use strict";
 
-const Application = require('spectron').Application;
-const assert = require('assert');
-const electronPath = require('electron'); 
 const path = require('path');
 const fs = require('fs');
-const { testPdfFilePath } = require('../config');
+const assert = require('assert');
+// const util = require('util');
+const Application = require('spectron').Application;
+const electronPath = require('electron'); 
 const PDFParser = require("pdf2json");
+const { testPdfFilePath } = require('../config');
+// const loadPdfPromisified = util.promisify(PDFParser.loadPDF);
 
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 
-describe('Spectron Intra-App IPC Integration Tests', function () {
+describe('Spectron PDF-Related Integration Tests', function () {
     this.timeout(100000)
 
     beforeEach(function () {
@@ -24,7 +26,8 @@ describe('Spectron Intra-App IPC Integration Tests', function () {
             },
             requireName: "nodeRequire"
         });
-        return this.app.start()
+        return this.app.start();
+        // return this.app.client.waitUntilWindowLoaded().execute('document.getElementById("printToPdfButton").click()');
     });
 
     afterEach(function () {
@@ -53,42 +56,37 @@ describe('Spectron Intra-App IPC Integration Tests', function () {
     // });
 
 
-    it('creates a blank PDF with correct layout', function() {
+    it('can create a blank PDF with correct layout', async function() {
         // Arrange
         let actual;
         const expected = fs.readFileSync( 
             ( path.join(__dirname, 'Assets', 'blankPdfAsTextForTest.Expected.json') ), 
             {encoding: 'utf-8'} 
         );
+        const outputTextFileForTest = path.join(__dirname, "pdfTextForTest.json");  
 
-        const outputTextFile = path.join(__dirname, "pdfTextForTest.json");  
+        // We want a textual representation of the PDF that we can Diff
         let pdfParser = new PDFParser();
         pdfParser.on("pdfParser_dataError", (errData) => { 
             console.error(errData.parserError) 
         });
-        pdfParser.on("pdfParser_dataReady", async (pdfData) => {
-            try{
-                fs.writeFileSync(outputTextFile, JSON.stringify(pdfData), {encoding: 'utf-8'});
-                actual = fs.readFileSync(outputTextFile, {encoding: 'utf-8'});
-                // Tear Down
-                if (fs.existsSync(testPdfFilePath)) { fs.unlinkSync(testPdfFilePath) };
-                if (fs.existsSync(outputTextFile)) { fs.unlinkSync(outputTextFile) };
-                // Assert
-                assert.strictEqual(actual, expected); 
-            }
-            catch (err) {
-                console.error(err);
-            }
-        });
-        
+        pdfParser.on("pdfParser_dataReady", (pdfData) => {            
+            fs.writeFileSync(outputTextFileForTest, JSON.stringify(pdfData), {encoding: 'utf-8'});
+            actual = fs.readFileSync(outputTextFileForTest, {encoding: 'utf-8'});                                              
+        }); 
+
         // Act
         this.app.client.waitUntilWindowLoaded().execute('document.getElementById("printToPdfButton").click()');
-        return wait(2000) // <== We think the pdf should have been written in 2 seconds
-            .then( async (response) => { 
-                await pdfParser.loadPDF(testPdfFilePath);  
-                // See pdfParser listeners for Assert
-             })
-             .catch( (err) => console.log(err));
+        await wait(2000) // <== We think the pdf should have been written in 2 seconds
+            .then( (response) => pdfParser.loadPDF(testPdfFilePath) )
+            .catch( (err) => console.log(err));       
+        await wait(2000) // <== And we wait some more because "Callback Hell"
+        // Assert       
+        assert.strictEqual(actual, expected);
+        
+        // Tear Down
+        if (fs.existsSync(testPdfFilePath)) { fs.unlinkSync(testPdfFilePath) };
+        if (fs.existsSync(outputTextFileForTest)) { fs.unlinkSync(outputTextFileForTest) }; 
     });
 
     return;

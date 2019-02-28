@@ -7,7 +7,7 @@ const util = require('util');
 fs.readFilePromisified = util.promisify(fs.readFile);
 fs.writeFilePromisified = util.promisify(fs.writeFile);
 
-
+// NOTE: changes to result are both visible to the caller and used by the caller
 const readFile = async (filepath, result) => {
 	if (fs.existsSync(filepath)) {
 		await fs.readFilePromisified(filepath, 'utf-8')

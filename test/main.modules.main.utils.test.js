@@ -1,5 +1,5 @@
 // const assert = require('assert');
-// const { compareObjectsForEquality } = require('../main.modules/main.utils');
+// const { compareObjectsForEquality } = require('../mainProcess.modules/main.utils');
 
 // describe('Object-Comparison Unit Tests', function () {
 //     this.timeout(10000)
