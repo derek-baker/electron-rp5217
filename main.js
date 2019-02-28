@@ -1,10 +1,12 @@
 "use strict;"
 
+const fs = require('fs');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
 const { compareObjectsForEquality } = require('./main.modules/main.utils');
 const { readFile, saveFile } = require('./main.modules/main.filesystem');
+const { testPdfFilePath } = require('./config');
 
 
 autoUpdater.logger = log;
@@ -183,10 +185,12 @@ ipcMain.on('triggerPrintChannel', function(event) {
 	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
 	mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
 		if (error) { throw error; }
-		const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
+		// const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
+		const fileName = testPdfFilePath;
+		console.log(fileName);
 		fs.writeFile(fileName, data, (error) => {
 			if (error) { throw error; }
-			shell.openExternal(fileName);
+			// shell.openExternal(fileName);
 		});
 	});
 });

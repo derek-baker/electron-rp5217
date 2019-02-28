@@ -43,7 +43,8 @@
   },
   "dependencies": {
     "electron-log": "^1.3.0",
-    "electron-updater": "^4.0.7"
+    "electron-updater": "^4.0.7",
+    "pdf2json": "^1.1.8"
   },
   "devDependencies": {
     "css-loader": "^1.0.1",

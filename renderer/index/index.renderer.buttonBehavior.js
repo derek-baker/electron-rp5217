@@ -34,6 +34,12 @@ const createButtonListeners = function() {
     saveAsBtnBottom.addEventListener('click', (event) => {
         ipcRenderer.send('save-dialog', JSON.stringify(viewModel.$data) );
     });
+
+    // Hidden button used only as a hook for testing
+    const printToPdfButton = document.getElementById('printToPdfButton');
+    printToPdfButton.addEventListener('click', (event) => {
+        ipcRenderer.send('triggerPrintChannel');
+    });
 };
 
 module.exports = { createButtonListeners };

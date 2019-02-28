@@ -25,7 +25,9 @@ and Electron <script>document.write(process.versions.electron)</script>.
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
             <h4 class="modal-title" id="myModalLabel">Please Read</h4>
           </div>
           <div class="modal-body">
@@ -93,6 +95,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
         <navbar-button text="Info " identifier="modalButton" target="#myModal"
                        buttonclasses="btn-info" glyphclasses="glyphicon-question-sign">
         </navbar-button>
+        <!-- button below added for use in EndToEnd test -->
+        <button id="printToPdfButton" style="display:none" type="button"></button>
       </div>  
 
       <div class="col-xs-12">
