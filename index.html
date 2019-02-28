@@ -14,8 +14,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
   <link media="all" rel="stylesheet" href="stylesheets/index.css">    
   <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
   <link rel="stylesheet" href="stylesheets/pdf.print.css">      
-  <!-- Do not remove or alter the <style> tags below -->
-  <style></style> 
+  <!-- <style></style>  -->
 </head>
 <body>
 
@@ -95,7 +94,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
         <navbar-button text="Info " identifier="modalButton" target="#myModal"
                        buttonclasses="btn-info" glyphclasses="glyphicon-question-sign">
         </navbar-button>
-        <!-- button below added for use in EndToEnd test -->
+        <!-- Button below added for use in EndToEnd test only -->
         <button id="printToPdfButton" style="display:none" type="button"></button>
       </div>  
 
@@ -590,8 +589,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
           </div>
         </div>
         
-        </div>
-        <!-- <input id="markupInput" type="hidden" name="markup">         -->
+        </div>        
       </form>     
     </div>    
       
@@ -651,6 +649,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
 
 <script src="javascripts/lib/jquery.min.js"></script>  
 <script src="javascripts/lib/bootstrap.min.js"></script>  
+
+<script src="javascripts/index.testUtils.js"></script>  
 
 </body>
 </html>
