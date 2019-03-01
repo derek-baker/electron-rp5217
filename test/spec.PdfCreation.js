@@ -12,7 +12,7 @@ const { testPdfFilePath } = require('../config');
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 
-describe('Spectron PDF-Related Integration Tests', function () {
+describe('Spectron PDF-Related Integration Tests (THIS SUITE TAKES A LONG TIME WHEN IT FAILS)', function () {
     this.timeout(100000)
 
     beforeEach(function () {
@@ -48,14 +48,16 @@ describe('Spectron PDF-Related Integration Tests', function () {
         // Arrange
         let actualForFillTest;
         const expectedForFillTest = fs.readFileSync( 
-            ( path.join(__dirname, 'Assets', 'filledPdfAsTextForTest.Expected.json') ), 
+            ( path.join(__dirnamcleae, 'Assets', 'filledPdfAsTextForTest.Expected.json') ), 
             {encoding: 'utf-8'} 
         );
         const outputTextFileForFillTest = path.join(__dirname, "pdfTextForFilledTest.json");  
 
         let pdfParserForFillTest = new PDFParser();
         pdfParserForFillTest.on("pdfParser_dataError", (errData) => { 
-            console.error(errData.parserError) 
+            console.error("ERROR WHILE PARSING PDF");
+            console.error(errData);
+            // console.error(errData.parserError) 
         });
         pdfParserForFillTest.on("pdfParser_dataReady", (pdfData) => {            
             fs.writeFileSync(outputTextFileForFillTest, JSON.stringify(pdfData), {encoding: 'utf-8'});

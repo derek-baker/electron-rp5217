@@ -1,6 +1,7 @@
 
-/* Rules applied when using Print/PrintToPdf */
+/* Rules applied when using Print or PrintToPdf */
 @media print {
+
     @page {
         size: Legal; 
         margin:0;
@@ -12,14 +13,13 @@
     #finePrint {display:none;}
     #navbarTop {display:none;}
     #navbarBottom {display:none;}
-    #swisCodeOverlay {
-        left: 180px;
-        /* font-size: 200%; */
-    }
-
+    /* #brandFauxButton {display:none;} */
+    #swisCodeOverlay { left: 180px; }
+    
     .sectionHeader > h6 {font-size: 11px; margin-top: 5px; margin-bottom:5px;}
     .sectionTitle {font-size: 70%} 
     .smallerUnderline {font-size: 70%} 
     .text-muted { font-size: 65%; }     
 }
+
 

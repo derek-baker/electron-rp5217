@@ -19,6 +19,14 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <body>
 
 <div id="content">
+
+    <div id="brandFauxButton">
+        <button class="btn btn-lg btn-default" type="button">
+            <!-- <span class='glyphicon glyphicon-question-sign'></span> -->
+            <img class="img-responsive" src="images/SdgLogo.png">
+        </button>
+    </div>
+    
   
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -27,7 +35,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="myModalLabel">Please Read</h4>
+            <img src="images/SdgLogo.png">
+            <!-- <h4 class="modal-title" id="myModalLabel">Please Read</h4> -->
           </div>
           <div class="modal-body">
             In order to print the form, you must use the Create PDF option.  
@@ -69,7 +78,8 @@ and Electron <script>document.write(process.versions.electron)</script>.
     <progress-spinner></progress-spinner>
   </div>  
 
-  <div id="pageContent" class="container-fluid">
+  <div id="pageContent" class="container-fluid">    
+
     <div class="row">
       <div id="navbarTop" class="btn-group btn-group-justified" role="group">
 

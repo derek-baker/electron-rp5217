@@ -33,6 +33,11 @@ hr{
 
 
 /* IDs */
+#brandFauxButton {
+  position:fixed; 
+  right:1%; 
+  top:1%;
+}
 #swisCodeOverlay{
   position:absolute; 
   top: -115px; 

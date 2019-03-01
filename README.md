@@ -18,3 +18,5 @@
 
 <!-- This doesn't appear to work -->
 <!-- https://electronjs.org/docs/tutorial/notifications#windows -->
+
+<!-- WHEN YOU MAKE CHANGES, RUN THE TESTS!!! (npm run test) -->
