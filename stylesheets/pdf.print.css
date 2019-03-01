@@ -13,7 +13,7 @@
     #finePrint {display:none;}
     #navbarTop {display:none;}
     #navbarBottom {display:none;}
-    /* #brandFauxButton {display:none;} */
+    #brandFauxButton {display:none;}
     #swisCodeOverlay { left: 180px; }
     
     .sectionHeader > h6 {font-size: 11px; margin-top: 5px; margin-bottom:5px;}

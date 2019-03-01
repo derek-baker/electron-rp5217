@@ -20,3 +20,11 @@
 <!-- https://electronjs.org/docs/tutorial/notifications#windows -->
 
 <!-- WHEN YOU MAKE CHANGES, RUN THE TESTS!!! (npm run test) -->
+
+<!-- 
+    TO PUBLISH RELEASE:
+        make changes
+        run tests : npm run test
+        if the tests pass, increment version number appropriately in package.json, git commit and git push
+        publish the release: npm run publish
+-->

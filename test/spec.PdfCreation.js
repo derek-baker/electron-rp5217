@@ -3,7 +3,6 @@
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
-const util = require('util')
 const Application = require('spectron').Application;
 const electronPath = require('electron'); 
 const PDFParser = require("pdf2json");
@@ -48,7 +47,7 @@ describe('Spectron PDF-Related Integration Tests (THIS SUITE TAKES A LONG TIME W
         // Arrange
         let actualForFillTest;
         const expectedForFillTest = fs.readFileSync( 
-            ( path.join(__dirnamcleae, 'Assets', 'filledPdfAsTextForTest.Expected.json') ), 
+            ( path.join(__dirname, 'Assets', 'filledPdfAsTextForTest.Expected.json') ), 
             {encoding: 'utf-8'} 
         );
         const outputTextFileForFillTest = path.join(__dirname, "pdfTextForFilledTest.json");  

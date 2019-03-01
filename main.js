@@ -163,6 +163,7 @@ ipcMain.on('save', (event, data) => {
 			saveFile(filename, data, dialog)
 				.then( () => { 
 					event.sender.send('saved-file');
+					event.sender.send('setTitle', currentFilePath);
 					dataSnapshot = data; 
 				})
 				.catch( (err) => { console.log(err); });		
