@@ -10,7 +10,7 @@ const { addKeyupListener } = require('./index.renderer.keyboardShortcuts');
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    // Some functionality needs the DOMContented to be loaded prior to proceeding.
+    // Some functionality needs the DOMContent to be loaded prior to proceeding.
     ipcRenderer.send('loaded'); 
 
     createButtonListeners();
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     ipcRenderer.on('saved-file', (event) => {
         document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
-        // string removed above added to title in index.barcode.js (TODO: refactor behavior to single location)        
+        // string removed above added to title in javascripts/index.barcode.js (TODO: refactor behavior to single location)        
     });
 });
 
@@ -31,12 +31,12 @@ ipcRenderer.on('alertChannel', function(event, msg){
 });
 
 ipcRenderer.on('stateRequest', () => {
-    // TODO: should not be using $data property
+    // TODO: should not be using $data property(externally anyway)
     ipcRenderer.send('stateResponse', viewModel.$data);    
 });
 
 ipcRenderer.on('setTitle', (event, formName) => {
-    document.title = 'RP5217 Editor - ' + formName;
+    document.title = 'RP5217 Editor ' + ( (formName) ? `- ${formName}`: '' );
 });
 
 ipcRenderer.on('fileData', (event, data) => {
@@ -54,78 +54,81 @@ ipcRenderer.on('fileData', (event, data) => {
         );
         return;
     } 
+    if(result){
+        // Why didn't I just pass in result? Sigh...
+        viewModel.InitModelWithValsFromDataStore(          
+            result.swisCode,
+            result.propertyLocationStreetNumber,
+            result.propertyLocationStreetName,
+            result.propertyLocationCityTown,
+            result.propertyLocationVillage,
+            result.propertyLocationZipcode,
+            result.buyerLastNameCompanyOne,
+            result.buyerFirstNameOne,
+            result.buyerLastNameCompanyTwo,
+            result.buyerFirstNameTwo,
+            result.taxAddressBuyerLastNameCompany,
+            result.taxAddressBuyerFirstName,
+            result.taxAddressStreetNumberAndName,
+            result.taxAddressCityTown,
+            result.taxAddressState,
+            result.taxAddressZipCode,
+            result.fourNumberOfParcels,
+            result.fourPartOfParcelCheckbox,
+            result.fourFrontFeet,
+            result.fourDepth,
+            result.fourAcres,
+            result.fourSubDivAuthExists,
+            result.fourSubDivApprovalRequired,
+            result.fourParcelApprovedWithMap,
+            result.sellerNameLastNameCompany,
+            result.sellerNameFirstName,
+            result.sellerNameLastNameCompanyTwo,
+            result.sellerNameFirstNameTwo,
+            result.propertyUseSelect,
+            result.ownershipIsCondo,
+            result.constructionOnVacant,
+            result.locatedWithinAg,
+            result.buyerReceivedDisclosureNotice,
+            result.saleContractDate,
+            result.saleTransferDate,
+            result.salePrice,
+            result.salePersonalPropertyVal,
+            result.saleConditionComments,
+            result.saleInfoCheckA,
+            result.saleInfoCheckB,
+            result.saleInfoCheckC,
+            result.saleInfoCheckD,
+            result.saleInfoCheckE,
+            result.saleInfoCheckF,
+            result.saleInfoCheckG,
+            result.saleInfoCheckH,
+            result.saleInfoCheckI,
+            result.saleInfoCheckJ,
+            result.assessmentRollYear,
+            result.assessmentPropClassFirstInput,
+            result.assessmentTotalValue,
+            result.assessmentSchoolDistrict,
+            result.taxMapIdOne,
+            result.taxMapIdTwo,
+            result.taxMapIdThree,
+            result.taxMapIdFour,
+            result.contactInfoLastName,
+            result.contactInfoFirstName,
+            result.contactInfoAreaCode,
+            result.contactInfoPhoneNumber,
+            result.contactInfoStreetNumber,
+            result.contactInfoStreetName,
+            result.contactInfoCityTown,
+            result.contactInfoState,
+            result.contactInfoZipCode,
+            result.contactAttorneyInfoLastName,
+            result.contactInfoAttorneyFirstName,
+            result.contactInfoAttorneyAreaCode,
+            result.contactInfoAttorneyPhoneNum
+        );
+    }
     
-    viewModel.InitModelWithValsFromDataStore(          
-        result.swisCode,
-        result.propertyLocationStreetNumber,
-        result.propertyLocationStreetName,
-        result.propertyLocationCityTown,
-        result.propertyLocationVillage,
-        result.propertyLocationZipcode,
-        result.buyerLastNameCompanyOne,
-        result.buyerFirstNameOne,
-        result.buyerLastNameCompanyTwo,
-        result.buyerFirstNameTwo,
-        result.taxAddressBuyerLastNameCompany,
-        result.taxAddressBuyerFirstName,
-        result.taxAddressStreetNumberAndName,
-        result.taxAddressCityTown,
-        result.taxAddressState,
-        result.taxAddressZipCode,
-        result.fourNumberOfParcels,
-        result.fourPartOfParcelCheckbox,
-        result.fourFrontFeet,
-        result.fourDepth,
-        result.fourAcres,
-        result.fourSubDivAuthExists,
-        result.fourSubDivApprovalRequired,
-        result.fourParcelApprovedWithMap,
-        result.sellerNameLastNameCompany,
-        result.sellerNameFirstName,
-        result.sellerNameLastNameCompanyTwo,
-        result.sellerNameFirstNameTwo,
-        result.propertyUseSelect,
-        result.ownershipIsCondo,
-        result.constructionOnVacant,
-        result.locatedWithinAg,
-        result.buyerReceivedDisclosureNotice,
-        result.saleContractDate,
-        result.saleTransferDate,
-        result.salePrice,
-        result.salePersonalPropertyVal,
-        result.saleConditionComments,
-        result.saleInfoCheckA,
-        result.saleInfoCheckB,
-        result.saleInfoCheckC,
-        result.saleInfoCheckD,
-        result.saleInfoCheckE,
-        result.saleInfoCheckF,
-        result.saleInfoCheckG,
-        result.saleInfoCheckH,
-        result.saleInfoCheckI,
-        result.saleInfoCheckJ,
-        result.assessmentRollYear,
-        result.assessmentPropClassFirstInput,
-        result.assessmentTotalValue,
-        result.assessmentSchoolDistrict,
-        result.taxMapIdOne,
-        result.taxMapIdTwo,
-        result.taxMapIdThree,
-        result.taxMapIdFour,
-        result.contactInfoLastName,
-        result.contactInfoFirstName,
-        result.contactInfoAreaCode,
-        result.contactInfoPhoneNumber,
-        result.contactInfoStreetNumber,
-        result.contactInfoStreetName,
-        result.contactInfoCityTown,
-        result.contactInfoState,
-        result.contactInfoZipCode,
-        result.contactAttorneyInfoLastName,
-        result.contactInfoAttorneyFirstName,
-        result.contactInfoAttorneyAreaCode,
-        result.contactInfoAttorneyPhoneNum
-    );
     // Need to ensure that barcode is in sync with data, and this triggers a regeneration
     document.getElementById('form').dispatchEvent(new KeyboardEvent('keyup')); 
 }); 

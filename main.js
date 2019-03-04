@@ -149,7 +149,6 @@ ipcMain.on('save-dialog', (event, data) => {
 			.catch( (err) => { console.log(err); });
 		// Reading file back in to trigger behaviors that cascade		
 		readFileWrapper(event, filename);
-		
 	});
 });
 ipcMain.on('save', (event, data) => {
@@ -163,8 +162,10 @@ ipcMain.on('save', (event, data) => {
 			saveFile(filename, data, dialog)
 				.then( () => { 
 					event.sender.send('saved-file');
-					event.sender.send('setTitle', currentFilePath);
-					dataSnapshot = data; 
+					// event.sender.send('setTitle', filename);
+					// dataSnapshot = data;
+					// currentFilePath = fileName;
+					readFileWrapper(event, filename); 
 				})
 				.catch( (err) => { console.log(err); });		
 		});
@@ -173,7 +174,8 @@ ipcMain.on('save', (event, data) => {
 	saveFile(currentFilePath, data, dialog)
 		.then( () => { 
 			event.sender.send('saved-file');
-			dataSnapshot = data; 
+			// dataSnapshot = data; 
+			readFileWrapper(event, currentFilePath);
 		})
 		.catch( (err) => { console.log(err); });	
 	event.sender.send('saveComplete');

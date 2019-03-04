@@ -67,8 +67,8 @@ window.addEventListener("load", function() {
             isFirstKeyup = false;
             return;
         }  
-        document.title = 
-                `${document.title.replace(' (YOUR WORK IS UNSAVED)', '')} (YOUR WORK IS UNSAVED)`;       
+        document.title =  
+                `${document.title.replace(' (YOUR WORK IS UNSAVED)', '')} (YOUR WORK IS UNSAVED)`; //  <==Hack       
                 // string added above removed from title in renderer.js
     });
     // Hack to trigger barcode to display 
