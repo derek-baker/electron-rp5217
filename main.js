@@ -147,7 +147,7 @@ ipcMain.on('save-dialog', (event, data) => {
 				dataSnapshot = data; 
 			})
 			.catch( (err) => { console.log(err); });
-		// Reading file back in to trigger behaviors that cascade		
+		// Reading file back in to trigger behaviors 
 		readFileWrapper(event, filename);
 	});
 });
@@ -162,9 +162,6 @@ ipcMain.on('save', (event, data) => {
 			saveFile(filename, data, dialog)
 				.then( () => { 
 					event.sender.send('saved-file');
-					// event.sender.send('setTitle', filename);
-					// dataSnapshot = data;
-					// currentFilePath = fileName;
 					readFileWrapper(event, filename); 
 				})
 				.catch( (err) => { console.log(err); });		
@@ -174,7 +171,6 @@ ipcMain.on('save', (event, data) => {
 	saveFile(currentFilePath, data, dialog)
 		.then( () => { 
 			event.sender.send('saved-file');
-			// dataSnapshot = data; 
 			readFileWrapper(event, currentFilePath);
 		})
 		.catch( (err) => { console.log(err); });	
@@ -182,13 +178,12 @@ ipcMain.on('save', (event, data) => {
 });
 
 
-// Triggered by integration tests
+// Triggered only by integration tests
 ipcMain.on('triggerPrintChannel', function(event) {
 	// For page size options, see URL below
 	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
 	mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
 		if (error) { throw error; }
-		// const fileName = `${app.getPath('userData')}\\pdfTest_${Date.now().toString()}.pdf`;
 		const fileName = testPdfFilePath;
 		console.log(fileName);
 		fs.writeFile(fileName, data, (error) => {

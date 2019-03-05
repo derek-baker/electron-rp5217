@@ -128,7 +128,6 @@ ipcRenderer.on('fileData', (event, data) => {
             result.contactInfoAttorneyPhoneNum
         );
     }
-    
     // Need to ensure that barcode is in sync with data, and this triggers a regeneration
     document.getElementById('form').dispatchEvent(new KeyboardEvent('keyup')); 
 }); 
