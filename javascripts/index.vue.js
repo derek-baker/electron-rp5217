@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function(){
             ,validationCounterForNumberOfParcels: false
         },
         watch: {
-            // Note that the string represents the name of a method on this instance
+            // Note that the string represents the name of a method on this class
             fourPartOfParcelCheckbox: 'updateTitle',            
             fourSubDivAuthExists: 'updateTitle',
             fourSubDivApprovalRequired: 'updateTitle',
@@ -476,6 +476,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 salePersonalPropertyVal
             ){
                 if( 
+                    (salePrice && salePersonalPropertyVal)
+                    &&
                     parseInt(salePrice.replace(/,/g, ''), 10) 
                     < 
                     parseInt(salePersonalPropertyVal.replace(/,/g, ''), 10) 
@@ -487,6 +489,8 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             checkIfParcelIdCountIsGreaterThanFour() {
                 if (
+                    fourNumberOfParcels
+                    &&
                     Number(this.fourNumberOfParcels) > 4 
                     && 
                     this.validationCounterForNumberOfParcels !== true
