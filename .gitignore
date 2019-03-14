@@ -1,7 +1,7 @@
 node_modules
 exe/*
 dist
-CodeSignEnvVars.ps1
+DoNotCommit.ps1
 
 electron_dist/win-unpacked/*
 electron_dist/builder-effective-config.yaml
