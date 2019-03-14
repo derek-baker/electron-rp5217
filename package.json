@@ -14,6 +14,7 @@
     "test": "mocha --no-diff",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
+    "dist-sign": "pwsh CodeSignEnvVars.ps1",
     "publish": "mocha --no-diff && build -p always"
   },
   "build": {
