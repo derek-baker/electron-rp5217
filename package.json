@@ -1,6 +1,6 @@
 {
   "name": "rp5217",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "license": "MIT",
   "description": "app to generate pdfs with 417 barcode",
   "author": "Systems Development Group <dbaker@sdgnys.com>",
@@ -14,7 +14,7 @@
     "test": "mocha --no-diff",
     "pack": "electron-builder --dir",
     "build": "electron-builder",
-    "publish-pre-reqs": "npm run test && build -p always",
+    "publish-pre-reqs": "build -p always",
     "publish": "pwsh DoNotCommit.ps1"
   },
   "build": {

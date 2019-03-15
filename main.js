@@ -14,9 +14,9 @@ autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
 const env = process.env['NODE_ENV'];
-const runningInDev = (env === 'dev') ? true : false; 
-const runningInTest = (env === 'test') ? true : false; 
-const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false; 
+const runningInDev = (env === 'dev') ? true : false;
+const runningInTest = (env === 'test') ? true : false;
+const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false;
 
 // Keep global reference to window object else window will  
 // close when the JavaScript object is garbage collected.
@@ -26,12 +26,11 @@ let dataSnapshot;
 
 
 const createWindow = () => {
-	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 1000, webPreferences: {nodeIntegration: true} });
+	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 1000, webPreferences: { nodeIntegration: true } });
 	// Passing version as GET param so we can display it to the user
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
-	// if (runningInDev) { 
-	if (true) { 
-		mainWindow.webContents.openDevTools(); 		
+	if (runningInDev) { 
+		mainWindow.webContents.openDevTools();
 	}
 	mainWindow.once('close', (event) => {
 		event.preventDefault();
@@ -46,8 +45,8 @@ const createWindow = () => {
 
 // This method will be called when Electron has finished initialization and is ready  
 // to create browser windows. Some APIs can only be used after this event occurs.
-app.on('ready', function() {	
-	createWindow();	
+app.on('ready', function () {
+	createWindow();
 });
 
 app.on('window-all-closed', function () {
@@ -55,17 +54,17 @@ app.on('window-all-closed', function () {
 });
 
 
-const readFileWrapper = function(event, fileToOpen) {
+const readFileWrapper = function (event, fileToOpen) {
 	let res = {};
 	// Using res to imitate pass-by-ref
-	readFile( fileToOpen, res )
-		.then( () => {
+	readFile(fileToOpen, res)
+		.then(() => {
 			dataSnapshot = res.dataFromFile;
 			currentFilePath = res.currentFileTarget;
 			event.sender.send('fileData', dataSnapshot);
 			event.sender.send('setTitle', currentFilePath);
 		})
-		.catch( (err) => console.log(err) );
+		.catch((err) => console.log(err));
 };
 
 
@@ -74,28 +73,47 @@ ipcMain.on('loaded', (event) => {
 	// but we want a fast way to load data during dev and while testing ReleaseCandidates.
 	let targetFile = (runningInDev) ? process.argv[2] : process.argv[1];
 	readFileWrapper(event, targetFile);
-	if (runningInDevOrTest) { 		
-		event.sender.send('runningInDevOrTestChannel', env);	
+	if (runningInDevOrTest) {
+		event.sender.send('runningInDevOrTestChannel', env);
 	}
+	
 	// Wait until mainWindow content is loaded so that we can use browser alerts because native notifications are broken-ish.
 	// Also, note that this method won't be invoked while the app is running in Dev mode.	
 	autoUpdater.checkForUpdatesAndNotify()
-		.then( ( updateCheckResult ) =>  { 
-			if ( !runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion() ) {
+		.then((updateCheckResult) => {
+			if (!runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion()) {
 				mainWindow.webContents.send(
-					'alertChannel', 
-					'A new version of therp RP5217 Editor is being downloaded in the background. ' +  
-					'To use the new version, please close and re-open the RP5217 Editor.' 
-				); 
+					'alertChannel',
+					'A new version of therp RP5217 Editor is being downloaded in the background. ' +
+					'To use the new version, please close and re-open the RP5217 Editor.'
+				);
 			}
 		})
-		.catch( (reason) => mainWindow.webContents.send('alertChannel', reason) );
+		.catch((reason) => mainWindow.webContents.send('alertChannel', reason));
 });
+
+// https://electronjs.org/docs/api/auto-updater#event-update-downloaded
+// autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+// 	const dialogOpts = {
+// 		type: 'info',
+// 		buttons: ['Restart', 'Later'],
+// 		title: 'Application Update',
+// 		message: process.platform === 'win32' ? releaseNotes : releaseName,
+// 		detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+// 	}
+// 	dialog.showMessageBox(dialogOpts, (response) => {
+// 		if (response === 0) autoUpdater.quitAndInstall()
+// 	});
+// });
+// autoUpdater.on('error', message => {
+// 	console.error('There was a problem updating the application')
+// 	console.error(message)
+// });
 
 
 ipcMain.on('stateResponse', (event, data) => {
-	if (runningInTest === false 
-		&& 
+	if (runningInTest === false
+		&&
 		compareObjectsForEquality(dataSnapshot, data) === false
 	) {
 		let choice = dialog.showMessageBox(mainWindow, {
@@ -127,10 +145,10 @@ const openOptions = {
 };
 ipcMain.on('openFile', (event) => {
 	dialog.showOpenDialog(mainWindow, openOptions, (filepaths) => {
-		if (filepaths !== undefined) {	
-			readFileWrapper(event, filepaths[0]);			
-		}		
-	});	
+		if (filepaths !== undefined) {
+			readFileWrapper(event, filepaths[0]);
+		}
+	});
 });
 
 
@@ -143,47 +161,47 @@ ipcMain.on('save-dialog', (event, data) => {
 	dialog.showSaveDialog(saveOptions, (filename) => {
 		// TODO: listen for use closing save dialog with X in top right
 		saveFile(filename, data, dialog)
-			.then( () => { 
+			.then(() => {
 				event.sender.send('saved-file');
-				dataSnapshot = data; 
+				dataSnapshot = data;
 			})
-			.catch( (err) => { console.log(err); });
+			.catch((err) => { console.log(err); });
 		// Reading file back in to trigger behaviors 
 		readFileWrapper(event, filename);
 	});
 });
 ipcMain.on('save', (event, data) => {
 	// Check to see if the user has previously saved the file...
-	if(!currentFilePath) {
+	if (!currentFilePath) {
 		// Emit event to stop spinner
-		event.sender.send('saveComplete'); 
+		event.sender.send('saveComplete');
 		// ...and show the Save As dialog if they have not.
 		dialog.showSaveDialog(saveOptions, (filename) => {
 			// TODO: listen for use closing save dialog with X in top right
 			saveFile(filename, data, dialog)
-				.then( () => { 
+				.then(() => {
 					event.sender.send('saved-file');
-					readFileWrapper(event, filename); 
+					readFileWrapper(event, filename);
 				})
-				.catch( (err) => { console.log(err); });		
+				.catch((err) => { console.log(err); });
 		});
 		return;
 	}
 	saveFile(currentFilePath, data, dialog)
-		.then( () => { 
+		.then(() => {
 			event.sender.send('saved-file');
 			readFileWrapper(event, currentFilePath);
 		})
-		.catch( (err) => { console.log(err); });	
+		.catch((err) => { console.log(err); });
 	event.sender.send('saveComplete');
 });
 
 
 // Triggered only by integration tests
-ipcMain.on('triggerPrintChannel', function(event) {
+ipcMain.on('triggerPrintChannel', function (event) {
 	// For page size options, see URL below
 	// https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
-	mainWindow.webContents.printToPDF({ marginsType:1, pageSize:"Legal", landscape:false }, (error, data) => {
+	mainWindow.webContents.printToPDF({ marginsType: 1, pageSize: "Legal", landscape: false }, (error, data) => {
 		if (error) { throw error; }
 		const fileName = testPdfFilePath;
 		console.log(fileName);

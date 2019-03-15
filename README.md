@@ -24,7 +24,9 @@
 <!-- 
     TO PUBLISH RELEASE:
         make changes
-        run tests : npm run test
+        make sure you run the tests
         if the tests pass, increment version number appropriately in package.json, git commit and git push(so that the changes are associated with the release)
         publish the release: npm run publish
 -->
+
+THE APP LOGS AT: %appdata%\rp5217\log.log
