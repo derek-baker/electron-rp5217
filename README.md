@@ -1,3 +1,7 @@
+
+TODO: https://cloud.google.com/storage/docs/reference/libraries#client-libraries-install-nodejs
+
+
 <!-- electron desktop app (Electron v 3.0.6) -->
 
 <!-- Note that in the NPM scripts in the package.json, env vars are being set with Windows CMD syntax -->
