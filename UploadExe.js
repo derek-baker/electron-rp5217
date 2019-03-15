@@ -4,11 +4,8 @@ const {Storage} = require('@google-cloud/storage');
 // Creates a client
 const storage = new Storage();
 
-/**
- * TODO(developer): Uncomment the following lines before running the sample.
- */
-// const bucketName = 'Name of a bucket, e.g. my-bucket';
-// const filename = 'Local file to upload, e.g. ./local/path/to/file.txt';
+const bucketName = 'sdg_installers_release';
+const filename = './electron_dist/RP5217 Setup.exe';
 
 // Uploads a local file to the bucket
 await storage.bucket(bucketName).upload(filename, {

@@ -48,7 +48,8 @@
     "electron-updater": "^4.0.7"
   },
   "devDependencies": {
-    "css-loader": "^1.0.1",    
+    "@google-cloud/storage": "^2.4.3",
+    "css-loader": "^1.0.1",
     "electron-builder": "^20.38.5",
     "electron-builder-squirrel-windows": "^20.38.5",
     "eslint": "^5.14.1",
