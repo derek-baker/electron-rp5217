@@ -29,7 +29,8 @@ const createWindow = () => {
 	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 1000, webPreferences: {nodeIntegration: true} });
 	// Passing version as GET param so we can display it to the user
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
-	if (runningInDev) { 
+	// if (runningInDev) { 
+	if (true) { 
 		mainWindow.webContents.openDevTools(); 		
 	}
 	mainWindow.once('close', (event) => {
