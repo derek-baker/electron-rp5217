@@ -13,17 +13,14 @@ const testPdfFilePath = path.join(__dirname, 'test', 'pdfWriteTest.pdf');
 
 const envConfigs = {
     dev : {
-        // pdfCreationUrl: `${devHost}/${pdfCreationEndpoint}`,
         contactUrl: `${devHost}/${contactEndpoint}`
         // fileName: testFilePath
     },
     test : {
-        // pdfCreationUrl: `${testHost}/${pdfCreationEndpoint}`,
         contactUrl: `${testHost}/${contactEndpoint}`
         // fileName: testFilePath
     },
     prod : {
-        // pdfCreationUrl: `${prodHost}/${pdfCreationEndpoint}`,
         contactUrl: `${prodHost}/${contactEndpoint}`
         // fileName: testFilePath
     }

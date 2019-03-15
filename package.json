@@ -13,13 +13,14 @@
     "compile": "webpack",
     "test": "mocha --no-diff",
     "pack": "electron-builder --dir",
-    "build": "electron-builder",
+    "build": "echo \"This command does not sign the app!\" && electron-builder",
     "publish-pre-reqs": "build -p always",
-    "publish": "pwsh DoNotCommit.ps1"
+    "publish": "pwsh DoNotCommit.ps1",
+    "release-gcp-storage": "pwsh UploadRelease.ps1"
   },
   "build": {
     "appId": "com.electron.rp5217",
-    "artifactName": "RP5217 Setup.exe",
+    "artifactName": "RP5217_Setup.exe",
     "directories": {
       "output": "electron_dist"
     },
@@ -43,11 +44,11 @@
     }
   },
   "dependencies": {
-    "electron": "^4.0.4",
     "electron-log": "^1.3.0",
     "electron-updater": "^4.0.7"
   },
   "devDependencies": {
+    "electron": "^4.0.4",
     "@google-cloud/storage": "^2.4.3",
     "css-loader": "^1.0.1",
     "electron-builder": "^20.38.5",

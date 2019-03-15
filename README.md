@@ -1,5 +1,5 @@
-
-TODO: https://cloud.google.com/storage/docs/reference/libraries#client-libraries-install-nodejs
+INSTALL GCP SDG: https://cloud.google.com/sdk/docs/#windows
+https://cloud.google.com/storage/docs/quickstart-gsutil
 
 
 <!-- electron desktop app (Electron v 3.0.6) -->
