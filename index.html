@@ -1,20 +1,18 @@
-<!-- All of the Node.js APIs are available in this renderer process.
-We are using Node.js <script>document.write(process.versions.node)</script>,
-Chromium <script>document.write(process.versions.chrome)</script>,
-and Electron <script>document.write(process.versions.electron)</script>.
-<script>You can also require other files to run in this processrequire('./renderer.js')</script> -->
+<!-- 
+  All of the Node.js APIs are available in this renderer process.
+  You can also require other files to run in this process viarequire('./renderer.js')
+-->
 
 <!doctype html>
 <head lang="en">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">  
-  <title>RP5217 Editor</title>
+  <title>SDG RP5217 Editor</title>
   <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
   <link media="all" rel="stylesheet" href="stylesheets/index.css">    
   <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
-  <link rel="stylesheet" href="stylesheets/pdf.print.css">      
-  <!-- <style></style>  -->
+  <link rel="stylesheet" href="stylesheets/pdf.print.css">        
 </head>
 <body>
 
@@ -22,7 +20,6 @@ and Electron <script>document.write(process.versions.electron)</script>.
 
     <div id="brandFauxButton">
         <button class="btn btn-lg btn-default" type="button">
-            <!-- <span class='glyphicon glyphicon-question-sign'></span> -->
             <img class="img-responsive" src="images/SdgLogo.png">
         </button>
     </div>
@@ -35,26 +32,14 @@ and Electron <script>document.write(process.versions.electron)</script>.
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <img src="images/SdgLogo.png">
-            <!-- <h4 class="modal-title" id="myModalLabel">Please Read</h4> -->
+            <img src="images/SdgLogo.png">            
           </div>
           <div class="modal-body">
             Note that you you need to fill out all required fields prior to printing.
             <br><br>
-            
-            <!-- <a id="saveInstructions" href="#" target="_blank" rel="noopener">
-              Instructions For Saving The Form To Your Computer
-            </a><br> -->
             <a id="fillingInstructions" href="#" target="_blank" rel="noopener">
               NYS Instructions For Filling Out The Form
             </a>
-            <!-- <br>
-            <a id="pdfInstructions" href="#" target="_blank" rel="noopener">
-              Instructions For Creating A PDF
-            </a><br>
-            <a id="printInstructions" href="#" target="_blank">
-              Instructions For Printing The Form
-            </a>           -->
             <br><br>
 
             If you any experience unexpected behavior while using this app, please 
@@ -300,9 +285,9 @@ and Electron <script>document.write(process.versions.electron)</script>.
             <div class="col-xs-5 sectionHeader lessLineHeight">
               <br>
               <h6>*7. Select the description which most accurately describes the use of the property at the time of sale: </h6>
-              <!-- NOTE: Edge will re-order attributes on the select below, but Firefox and Chrome don't, so we order according to Edge's behavior -->
+              <!-- LEGACY NOTE FROM WEBAPP: Edge will re-order attributes on the select below, but Firefox and Chrome don't, so we order according to Edge's behavior -->
               <select v-model="propertyUseSelect" name="propertyUseSelect" id="propertyUseSelect" required>
-                <!-- First option here to avoid weird iOS behavior -->
+                <!-- LEGACY NOTE FROM WEBAPP: First option here to avoid weird iOS behavior -->
                 <option disabled value="">Please select one</option> 
                 <option value="1">A. One Family Residential</option>
                 <option value="2">B. 2 or 3 Family Residential</option>
@@ -631,7 +616,6 @@ and Electron <script>document.write(process.versions.electron)</script>.
       </div>
   </div>
 
-
 </div>  
 
 <script src="javascripts/lib/vue.min.js"></script>
@@ -660,6 +644,7 @@ and Electron <script>document.write(process.versions.electron)</script>.
 <script src="javascripts/lib/jquery.min.js"></script>  
 <script src="javascripts/lib/bootstrap.min.js"></script>  
 
+<!-- Script used by tests -->
 <script src="javascripts/index.testUtils.js"></script>  
 
 </body>

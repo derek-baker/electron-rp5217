@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 });
 
-ipcRenderer.on('alertChannel', function(event, msg){
+ipcRenderer.on('alertChannel', function(event){
     alert(
-        'A new version of the RP5217 Editor is being downloaded in the background. To use the new version, close and re-open the app.'
+        'A new version of the SDG RP5217 Editor is being downloaded in the background.'
     );
 });
 
@@ -36,7 +36,7 @@ ipcRenderer.on('stateRequest', () => {
 });
 
 ipcRenderer.on('setTitle', (event, formName) => {
-    document.title = 'RP5217 Editor ' + ( (formName) ? `- ${formName}`: '' );
+    document.title = 'SDG RP5217 Editor ' + ( (formName) ? `- ${formName}`: '' );
 });
 
 ipcRenderer.on('fileData', (event, data) => {
@@ -45,7 +45,7 @@ ipcRenderer.on('fileData', (event, data) => {
         result = JSON.parse(data);     
     }
     catch (error) {
-        // TODO: build Cloud function for getting remote error messages
+        // TODO: build Cloud function for so we can read error messages remotely
         console.log(error);
         alert(
             'The file you attempted to open appears to be corrupt.' +  

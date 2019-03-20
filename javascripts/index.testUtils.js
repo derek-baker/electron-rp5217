@@ -1,4 +1,4 @@
-// Faux-module pattern due to MIME-type issues with Electron
+// Faux-module pattern due to MIME-type issues with Electron when trying to run <script type="module">
 const Utils = (function () {
     return {
         initDevValues: (viewModel) => {

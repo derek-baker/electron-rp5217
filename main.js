@@ -82,16 +82,19 @@ ipcMain.on('loaded', (event) => {
 	autoUpdater.checkForUpdatesAndNotify()
 		.then((updateCheckResult) => {
 			if (!runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion()) {
-				mainWindow.webContents.send(
-					'alertChannel',
-					'A new version of therp RP5217 Editor is being downloaded in the background. ' +
-					'To use the new version, please close and re-open the RP5217 Editor.'
+				mainWindow.webContents.send( 'alertChannel'
+					// (
+					// 	'A new version of the SDG RP5217 Editor is being downloaded in the background. ' +
+					// 	'To use the new version, please close and re-open the SDG RP5217 Editor.' + 
+					// 	'If you have a slow internet connection, please wait 5 minutes before doing so.'
+					// )
 				);
 			}
 		})
 		.catch((reason) => mainWindow.webContents.send('alertChannel', reason));
 });
 
+// TODO?
 // https://electronjs.org/docs/api/auto-updater#event-update-downloaded
 // autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 // 	const dialogOpts = {

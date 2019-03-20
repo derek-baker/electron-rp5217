@@ -34,7 +34,3 @@ In the NPM scripts in the package.json, env vars are being set with Windows CMD 
 -->
 
 THE APP LOGS AT: %appdata%\rp5217\log.log
-
-
-<!-- DEPRECATED NPM SCRIPT -->
-<!-- "start-test": "SET \"NODE_ENV=test\" && electron . \"..\\data.sdg\"", -->
