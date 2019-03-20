@@ -1,10 +1,10 @@
-INSTALL GCP SDG: https://cloud.google.com/sdk/docs/#windows
-https://cloud.google.com/storage/docs/quickstart-gsutil
+<!-- INSTALL GCP SDG: https://cloud.google.com/sdk/docs/#windows -->
+<!-- https://cloud.google.com/storage/docs/quickstart-gsutil -->
 
 
 <!-- electron desktop app (Electron v 3.0.6) -->
 
-<!-- Note that in the NPM scripts in the package.json, env vars are being set with Windows CMD syntax -->
+In the NPM scripts in the package.json, env vars are being set with Windows CMD syntax
 
 <!-- uses electron builder -->
 <!-- https://www.electron.build/configuration/configuration -->
@@ -36,5 +36,5 @@ https://cloud.google.com/storage/docs/quickstart-gsutil
 THE APP LOGS AT: %appdata%\rp5217\log.log
 
 
-DEPRECATED NPM SCRIPT
-"start-test": "SET \"NODE_ENV=test\" && electron . \"..\\data.sdg\"",
+<!-- DEPRECATED NPM SCRIPT -->
+<!-- "start-test": "SET \"NODE_ENV=test\" && electron . \"..\\data.sdg\"", -->
