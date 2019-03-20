@@ -1,6 +1,6 @@
 {
-  "name": "rp5217",
-  "version": "1.2.11",
+  "name": "sdg-rp5217",
+  "version": "1.2.12",
   "license": "MIT",
   "description": "app to generate pdfs with 417 barcode",
   "author": "Systems Development Group <dbaker@sdgnys.com>",
@@ -10,12 +10,12 @@
     "lint-es": "npx eslint javascripts/*",
     "start-dev": "SET \"NODE_ENV=dev\" && electron .",
     "compile": "webpack",
-    "test": "mocha --no-diff",
+    "test": "mocha --no-diff --bail",
     "pack": "electron-builder --dir",
     "build": "echo \"THIS SCRIPT DOES NOT SIGN THE APP!\" && electron-builder",
     "publish-pre-reqs": "build -p always",
-    "publish": "pwsh DoNotCommit.ps1",
-    "release-gcp-storage": "pwsh UploadRelease.ps1"
+    "release-gcp-storage": "pwsh UploadRelease.ps1",
+    "publish": "pwsh DoNotCommit.ps1"
   },
   "build": {
     "appId": "com.electron.rp5217",
@@ -34,7 +34,7 @@
       "installerIcon": "electron_build_resources/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "RP5217 Editor",
+      "shortcutName": "SDG RP5217 Editor",
       "runAfterFinish": false
     },
     "fileAssociations": {
