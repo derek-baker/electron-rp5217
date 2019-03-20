@@ -1,6 +1,6 @@
 {
   "name": "rp5217",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "license": "MIT",
   "description": "app to generate pdfs with 417 barcode",
   "author": "Systems Development Group <dbaker@sdgnys.com>",
@@ -9,11 +9,10 @@
     "postinstall": "electron-builder install-app-deps",
     "lint-es": "npx eslint javascripts/*",
     "start-dev": "SET \"NODE_ENV=dev\" && electron .",
-    "start-test": "SET \"NODE_ENV=test\" && electron . \"..\\data.sdg\"",
     "compile": "webpack",
     "test": "mocha --no-diff",
     "pack": "electron-builder --dir",
-    "build": "echo \"This command does not sign the app!\" && electron-builder",
+    "build": "echo \"THIS SCRIPT DOES NOT SIGN THE APP!\" && electron-builder",
     "publish-pre-reqs": "build -p always",
     "publish": "pwsh DoNotCommit.ps1",
     "release-gcp-storage": "pwsh UploadRelease.ps1"

@@ -30,7 +30,11 @@ https://cloud.google.com/storage/docs/quickstart-gsutil
         make changes
         make sure you run the tests
         if the tests pass, increment version number appropriately in package.json, git commit and git push(so that the changes are associated with the release)
-        publish the release: npm run publish
+        publish the release: npm run publish (which also runs release-gcp-storage)
 -->
 
 THE APP LOGS AT: %appdata%\rp5217\log.log
+
+
+DEPRECATED NPM SCRIPT
+"start-test": "SET \"NODE_ENV=test\" && electron . \"..\\data.sdg\"",
