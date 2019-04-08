@@ -23,8 +23,6 @@ const runningInDev = (env === 'dev') ? true : false;
 const runningInTest = (env === 'test') ? true : false;
 const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false;
 
-const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms)); 
-
 // Keep global reference to window object else window will  
 // close when the JavaScript object is garbage collected.
 let mainWindow;
@@ -64,6 +62,7 @@ app.on('window-all-closed', function () {
 const readFileWrapper = function (event, fileToOpen) {
 	let res = {};
 	// Using res to imitate pass-by-ref
+	console.log('Attempting to open file: ' + fileToOpen);
 	readFile(fileToOpen, res)
 		.then(() => {
 			dataSnapshot = res.dataFromFile;
@@ -164,10 +163,10 @@ ipcMain.on('save-dialog', (event, data) => {
 			.then(() => {
 				event.sender.send('saved-file');
 				dataSnapshot = data;
+				// Reading file back in to trigger behaviors 
+				readFileWrapper(event, filename);
 			})
-			.catch((err) => { console.log(err); });
-		// Reading file back in to trigger behaviors 
-		readFileWrapper(event, filename);
+			.catch((err) => { console.log(err); });		
 	});
 });
 ipcMain.on('save', (event, data) => {
@@ -191,9 +190,9 @@ ipcMain.on('save', (event, data) => {
 		.then(() => {
 			event.sender.send('saved-file');
 			readFileWrapper(event, currentFilePath);
+			event.sender.send('saveComplete');
 		})
-		.catch((err) => { console.log(err); });
-	event.sender.send('saveComplete');
+		.catch((err) => { console.log(err); });	
 });
 
 

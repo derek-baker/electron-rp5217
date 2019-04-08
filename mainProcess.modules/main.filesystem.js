@@ -9,14 +9,14 @@ fs.writeFilePromisified = util.promisify(fs.writeFile);
 
 // NOTE: changes to result are both visible to the caller and used by the caller
 const readFile = async (filepath, result) => {
-	if (fs.existsSync(filepath)) {
-		await fs.readFilePromisified(filepath, 'utf-8')
-			.then( (data) => {				
-				result.dataFromFile = data;
-				result.currentFileTarget = filepath;								
-			})
-			.catch( (err) => { console.log(`An error ocurred reading the file ${filepath}\n` + err.message); } );		
-	}
+	// if (fs.existsSync(filepath)) {
+	await fs.readFilePromisified(filepath, 'utf-8')
+		.then( (data) => {				
+			result.dataFromFile = data;
+			result.currentFileTarget = filepath;								
+		})
+		.catch( (err) => { console.log(`An error ocurred reading the file ${filepath}\n` + err.message); } );		
+	// }
 };
 
 const saveFile = async (filename, data, dialog) => {
