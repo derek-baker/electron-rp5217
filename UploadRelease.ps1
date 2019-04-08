@@ -8,6 +8,7 @@ $ErrorActionPreference = "Stop";
 
 # INSTALL GCP SDG: https://cloud.google.com/sdk/docs/#windows
 # https://cloud.google.com/storage/docs/quickstart-gsutil
+# NOTE: the destination arg below is a GCP bucket name so keep track of that
 [string] $GcpExeReleaseCmd = "gsutil cp '.\electron_dist\RP5217_Setup.exe' gs://sdg_installers_release"
 
 [string[]] $Tasks = @( `
@@ -20,6 +21,6 @@ $ErrorActionPreference = "Stop";
 [string] $StdOut = ""
 foreach($task in $Tasks) {
     Write-Host -ForegroundColor Green "`nRUNNING COMMAND: $task"
-    # Deliberately dropped '$' from vars below for this reason: https://stackoverflow.com/questions/21583850/powershell-manage-errors-with-invoke-expression
+    # Deliberately dropped '$' from vars below: https://stackoverflow.com/questions/21583850/powershell-manage-errors-with-invoke-expression
     Invoke-Expression $task -ErrorVariable ErrOut -OutVariable StdOut
 }
