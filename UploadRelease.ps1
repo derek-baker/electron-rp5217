@@ -1,9 +1,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop";
 
-# Redirecting output allows $ErrorActionPreference to act (Couldn't get it to work with gsutil but that's fine...)
+# Redirecting output allows $ErrorActionPreference to stop execution (Couldn't get it to work with gsutil but that's fine...)
 [string] $UnitTestsCmd = "npm run test 2>'' "
-# NOTE: this task requires some environmental vars to be set for app-signing purposes. Ask the dev-owner if necessary.
+# NOTE: this task requires some environmental vars to be set for app-signing purposes. Ask a knowledgable party if you're not.
 [string] $PublishTasksCmd = "npm run publish-pre-reqs 2>'' "
 
 # INSTALL GCP SDG: https://cloud.google.com/sdk/docs/#windows

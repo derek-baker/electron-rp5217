@@ -34,3 +34,5 @@ In the NPM scripts in the package.json, env vars are being set with Windows CMD 
 -->
 
 THE APP LOGS AT: %appdata%\rp5217\log.log
+
+THE npm publish SCRIPT MAY APPEAR NON-INUITIVE, BUT TRUST IT.
