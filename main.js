@@ -29,7 +29,7 @@ const createWindow = () => {
 	mainWindow = new BrowserWindow({ width: 1000, height: 800, minWidth: 1000, webPreferences: { nodeIntegration: true } });
 	// Passing version as GET param so we can display it to the user
 	mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
-	if (runningInDev) { 
+	if (runningInDev) { 	
 		mainWindow.webContents.openDevTools();
 	}
 	mainWindow.once('close', (event) => {
@@ -82,13 +82,7 @@ ipcMain.on('loaded', (event) => {
 	autoUpdater.checkForUpdatesAndNotify()
 		.then((updateCheckResult) => {
 			if (!runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion()) {
-				mainWindow.webContents.send( 'alertChannel'
-					// (
-					// 	'A new version of the SDG RP5217 Editor is being downloaded in the background. ' +
-					// 	'To use the new version, please close and re-open the SDG RP5217 Editor.' + 
-					// 	'If you have a slow internet connection, please wait 5 minutes before doing so.'
-					// )
-				);
+				mainWindow.webContents.send('alertChannel');
 			}
 		})
 		.catch((reason) => mainWindow.webContents.send('alertChannel', reason));
@@ -213,6 +207,12 @@ ipcMain.on('triggerPrintChannel', function (event) {
 			// shell.openExternal(fileName);
 		});
 	});
+});
+
+ipcMain.on('toggleDevTools', function() {
+	try{ mainWindow.webContents.closeDevTools(); }
+	catch(err) { console.log( "DevTools not open, so cannot close..."); }
+	mainWindow.webContents.openDevTools();
 });
 
 // process.on('uncaughtException', function (exception) {
