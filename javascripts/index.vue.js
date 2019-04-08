@@ -318,114 +318,119 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             // Called by index.barcode._initBarcodePrereqs() to create a string to encode in the barcode
             mergeData: function () {
-                const dummyValue = new Date().toLocaleDateString('en-US');
-                // Purpose of the ternaries that check for null below attempt 
-                // to avoid calling .replace() on null values
-                const contractDate = (this.saleContractDate === null) ? dummyValue : this.saleContractDate;
-                const transferDate = (this.saleTransferDate === null) ? dummyValue : this.saleTransferDate;
+                try {
+                    const dummyValue = new Date().toLocaleDateString('en-US');
+                    // Purpose of the ternaries that check for null below attempt 
+                    // to avoid calling .replace() on null values
+                    const contractDate = (!this.saleContractDate) ? dummyValue : this.saleContractDate;
+                    const transferDate = (!this.saleTransferDate) ? dummyValue : this.saleTransferDate;
 
-                const propertyCodes = this.assessmentPropClassFirstInput.split('-');
-                const propertyClassBeforeHyphen = (propertyCodes[0] === '') ? 'null' : propertyCodes[0];                
-                const propertyClassAfterHyphen = (propertyCodes[1] === undefined) ? 'null' : propertyCodes[1].toUpperCase();
+                    const propertyCodes = this.assessmentPropClassFirstInput.split('-');
+                    const propertyClassBeforeHyphen = (propertyCodes[0] === '') ? 'null' : propertyCodes[0];                
+                    const propertyClassAfterHyphen = (propertyCodes[1] === undefined) ? 'null' : propertyCodes[1].toUpperCase();
 
-                const _salePrice = (this.salePrice === null) ? '' : this.salePrice.toString().replace(/[^0-9]/g, '');
-                const _salePersonalPropertyVal = (this.salePersonalPropertyVal === null) ? '' : this.salePersonalPropertyVal.toString().replace(/[^0-9]/g, '');
-                const _assessmentTotalValue = (this.assessmentTotalValue === null) ? '' : this.assessmentTotalValue.toString().replace(/[^0-9]/g, '');
+                    const _salePrice = (!this.salePrice) ? '' : this.salePrice.toString().replace(/[^0-9]/g, '');
+                    const _salePersonalPropertyVal = (!this.salePersonalPropertyVal) ? '' : this.salePersonalPropertyVal.toString().replace(/[^0-9]/g, '');
+                    const _assessmentTotalValue = (!this.assessmentTotalValue) ? '' : this.assessmentTotalValue.toString().replace(/[^0-9]/g, '');
 
-                const _contactInfoPhoneNumber = (this.contactInfoPhoneNumber === null) ? '' : this.contactInfoPhoneNumber.replace('-', '');
-                const _contactInfoAttorneyPhoneNum = (this.contactInfoAttorneyPhoneNum === null) ? '' : this.contactInfoAttorneyPhoneNum.replace('-', '');
+                    const _contactInfoPhoneNumber = (!this.contactInfoPhoneNumber) ? '' : this.contactInfoPhoneNumber.replace('-', '');
+                    const _contactInfoAttorneyPhoneNum = (!this.contactInfoAttorneyPhoneNum) ? '' : this.contactInfoAttorneyPhoneNum.replace('-', '');
 
-                const stringToEncode = 
-                    _mapEmptyStringToStringNull(this.propertyLocationStreetNumber) + '|' + 
-                    _mapEmptyStringToStringNull(this.propertyLocationStreetName) + '|' +
-                    _mapEmptyStringToStringNull(this.propertyLocationCityTown) + '|' +
-                    _mapEmptyStringToStringNull(this.propertyLocationVillage) + '|' +
-                    _mapEmptyStringToStringNull(this.propertyLocationZipcode) + '|' +
-                    _mapEmptyStringToStringNull(this.buyerLastNameCompanyOne) + '|' +   
-                    _mapEmptyStringToStringNull(this.buyerFirstNameOne) + '|' +   
-                    _mapEmptyStringToStringNull(this.buyerLastNameCompanyTwo) + '|' +   
-                    _mapEmptyStringToStringNull(this.buyerFirstNameTwo) + '|' +   
-                    _mapEmptyStringToStringNull(this.taxAddressBuyerLastNameCompany) + '|' +
-                    _mapEmptyStringToStringNull(this.taxAddressBuyerFirstName) + '|' +
-                    _mapEmptyStringToStringNull(this.taxAddressStreetNumberAndName) + '|' +
-                    _mapEmptyStringToStringNull(this.taxAddressCityTown) + '|' +
-                    _mapEmptyStringToStringNull(this.taxAddressState) + '|' +
-                    _mapEmptyStringToStringNull(this.taxAddressZipCode) + '|' +
-                    _mapEmptyStringToStringNull(this.fourNumberOfParcels) + '|' +
+                    const stringToEncode = 
+                        _mapEmptyStringToStringNull(this.propertyLocationStreetNumber) + '|' + 
+                        _mapEmptyStringToStringNull(this.propertyLocationStreetName) + '|' +
+                        _mapEmptyStringToStringNull(this.propertyLocationCityTown) + '|' +
+                        _mapEmptyStringToStringNull(this.propertyLocationVillage) + '|' +
+                        _mapEmptyStringToStringNull(this.propertyLocationZipcode) + '|' +
+                        _mapEmptyStringToStringNull(this.buyerLastNameCompanyOne) + '|' +   
+                        _mapEmptyStringToStringNull(this.buyerFirstNameOne) + '|' +   
+                        _mapEmptyStringToStringNull(this.buyerLastNameCompanyTwo) + '|' +   
+                        _mapEmptyStringToStringNull(this.buyerFirstNameTwo) + '|' +   
+                        _mapEmptyStringToStringNull(this.taxAddressBuyerLastNameCompany) + '|' +
+                        _mapEmptyStringToStringNull(this.taxAddressBuyerFirstName) + '|' +
+                        _mapEmptyStringToStringNull(this.taxAddressStreetNumberAndName) + '|' +
+                        _mapEmptyStringToStringNull(this.taxAddressCityTown) + '|' +
+                        _mapEmptyStringToStringNull(this.taxAddressState) + '|' +
+                        _mapEmptyStringToStringNull(this.taxAddressZipCode) + '|' +
+                        _mapEmptyStringToStringNull(this.fourNumberOfParcels) + '|' +
 
-                    // Need to check the order on the following four checkboxes
-                    // Cast Boolean to int-like value
-                    Number(this.fourPartOfParcelCheckbox) + '|' +
-                    Number(this.fourSubDivAuthExists) + '|' +
-                    Number(this.fourSubDivApprovalRequired) + '|' +
-                    Number(this.fourParcelApprovedWithMap) + '|' +
+                        // Need to check the order on the following four checkboxes
+                        // Cast Boolean to int-like value
+                        Number(this.fourPartOfParcelCheckbox) + '|' +
+                        Number(this.fourSubDivAuthExists) + '|' +
+                        Number(this.fourSubDivApprovalRequired) + '|' +
+                        Number(this.fourParcelApprovedWithMap) + '|' +
 
-                    _mapEmptyStringToStringNull(this.fourFrontFeet) + '|' +
-                    _mapEmptyStringToStringNull(this.fourDepth) + '|' +
+                        _mapEmptyStringToStringNull(this.fourFrontFeet) + '|' +
+                        _mapEmptyStringToStringNull(this.fourDepth) + '|' +
 
-                    // It looks like on the PDF they enforce the presence of two decimal places,
-                    // and then they strip the decimal when encoding in the barcode
-                    //  (ex: 23 becomes 23.00 becomes 2300)
-                    (Number(this.fourAcres) * 100) + '|' +
+                        // It looks like on the PDF they enforce the presence of two decimal places,
+                        // and then they strip the decimal when encoding in the barcode
+                        //  (ex: 23 becomes 23.00 becomes 2300)
+                        (Number(this.fourAcres) * 100) + '|' +
 
-                    _mapEmptyStringToStringNull(this.sellerNameLastNameCompany) + '|' +
-                    _mapEmptyStringToStringNull(this.sellerNameFirstName) + '|' +
-                    _mapEmptyStringToStringNull(this.sellerNameLastNameCompanyTwo) + '|' +
-                    _mapEmptyStringToStringNull(this.sellerNameFirstNameTwo) + '|' +
-                    
-                    _mapEmptyStringToStringNull(this.propertyUseSelect) + '|' +
-                    // Cast Boolean
-                    Number(this.ownershipIsCondo) + '|' +
-                    Number(this.constructionOnVacant) + '|' +
-                    Number(this.locatedWithinAg) + '|' +
-                    Number(this.buyerReceivedDisclosureNotice) + '|' +
-                    
-                    // These vars were created at the beginning of this method
-                    // We have to unformat them because the user insisted on particular formatting
-                    // on the PDF, but the barcode requires a short-version ISO format
-                    _unformatDate(contractDate) + '|' + 
-                    _unformatDate(transferDate) + '|' + 
+                        _mapEmptyStringToStringNull(this.sellerNameLastNameCompany) + '|' +
+                        _mapEmptyStringToStringNull(this.sellerNameFirstName) + '|' +
+                        _mapEmptyStringToStringNull(this.sellerNameLastNameCompanyTwo) + '|' +
+                        _mapEmptyStringToStringNull(this.sellerNameFirstNameTwo) + '|' +
+                        
+                        _mapEmptyStringToStringNull(this.propertyUseSelect) + '|' +
+                        // Cast Boolean
+                        Number(this.ownershipIsCondo) + '|' +
+                        Number(this.constructionOnVacant) + '|' +
+                        Number(this.locatedWithinAg) + '|' +
+                        Number(this.buyerReceivedDisclosureNotice) + '|' +
+                        
+                        // These vars were created at the beginning of this method
+                        // We have to unformat them because the user insisted on particular formatting
+                        // on the PDF, but the barcode requires a short-version ISO format
+                        _unformatDate(contractDate) + '|' + 
+                        _unformatDate(transferDate) + '|' + 
 
-                    // TODO: I think the function invocation below is irrelevant...
-                    _mapEmptyStringToStringNull(_salePrice.replace('$', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')) + '|' +
-                    _mapEmptyStringToStringNull(_salePersonalPropertyVal.replace('$', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')) + '|' +
-                    Number(this.saleInfoCheckA) + '|' +
-                    Number(this.saleInfoCheckB) + '|' +
-                    Number(this.saleInfoCheckC) + '|' +
-                    Number(this.saleInfoCheckD) + '|' +
-                    Number(this.saleInfoCheckE) + '|' +
-                    Number(this.saleInfoCheckF) + '|' +
-                    Number(this.saleInfoCheckG) + '|' +
-                    Number(this.saleInfoCheckH) + '|' +
-                    Number(this.saleInfoCheckI) + '|' +   
-                    Number(this.saleInfoCheckJ) + '|' +  
-                    _mapEmptyStringToStringNull(this.saleConditionComments) + '|' + 
-                    _mapEmptyStringToStringNull(this.assessmentRollYear) + '|' +
+                        // TODO: I think the function invocation below is irrelevant...also I should have used actual regex for the replace...
+                        _mapEmptyStringToStringNull(_salePrice.replace('$', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')) + '|' +
+                        _mapEmptyStringToStringNull(_salePersonalPropertyVal.replace('$', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')) + '|' +
+                        Number(this.saleInfoCheckA) + '|' +
+                        Number(this.saleInfoCheckB) + '|' +
+                        Number(this.saleInfoCheckC) + '|' +
+                        Number(this.saleInfoCheckD) + '|' +
+                        Number(this.saleInfoCheckE) + '|' +
+                        Number(this.saleInfoCheckF) + '|' +
+                        Number(this.saleInfoCheckG) + '|' +
+                        Number(this.saleInfoCheckH) + '|' +
+                        Number(this.saleInfoCheckI) + '|' +   
+                        Number(this.saleInfoCheckJ) + '|' +  
+                        _mapEmptyStringToStringNull(this.saleConditionComments) + '|' + 
+                        _mapEmptyStringToStringNull(this.assessmentRollYear) + '|' +
 
-                    // TODO: I think the function invocation below is irrelevant...
-                    _mapEmptyStringToStringNull(_assessmentTotalValue.replace('$', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')) + '|' +
-                    propertyClassBeforeHyphen + '|' +
-                    propertyClassAfterHyphen + '|' +
-                    _mapEmptyStringToStringNull(this.assessmentSchoolDistrict) + '|' +
-                    _mapEmptyStringToStringNull(this.taxMapIdOne) + '|' +
-                    _mapEmptyStringToStringNull(this.taxMapIdTwo) + '|' +
-                    _mapEmptyStringToStringNull(this.taxMapIdThree) + '|' +
-                    _mapEmptyStringToStringNull(this.taxMapIdFour) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoStreetNumber) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoStreetName) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoCityTown) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoState) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoZipCode) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoLastName) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoFirstName) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoAreaCode) + '|' +
-                    _mapEmptyStringToStringNull(_contactInfoPhoneNumber) + '|' +
-                    _mapEmptyStringToStringNull(this.contactAttorneyInfoLastName) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoAttorneyFirstName) + '|' +
-                    _mapEmptyStringToStringNull(this.contactInfoAttorneyAreaCode) + '|' +
-                    _mapEmptyStringToStringNull(_contactInfoAttorneyPhoneNum) + '|~r';
-                // console.log(stringToEncode)
-                return stringToEncode;
+                        // TODO: I think the function invocation below is irrelevant...
+                        _mapEmptyStringToStringNull(_assessmentTotalValue.replace('$', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')) + '|' +
+                        propertyClassBeforeHyphen + '|' +
+                        propertyClassAfterHyphen + '|' +
+                        _mapEmptyStringToStringNull(this.assessmentSchoolDistrict) + '|' +
+                        _mapEmptyStringToStringNull(this.taxMapIdOne) + '|' +
+                        _mapEmptyStringToStringNull(this.taxMapIdTwo) + '|' +
+                        _mapEmptyStringToStringNull(this.taxMapIdThree) + '|' +
+                        _mapEmptyStringToStringNull(this.taxMapIdFour) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoStreetNumber) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoStreetName) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoCityTown) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoState) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoZipCode) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoLastName) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoFirstName) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoAreaCode) + '|' +
+                        _mapEmptyStringToStringNull(_contactInfoPhoneNumber) + '|' +
+                        _mapEmptyStringToStringNull(this.contactAttorneyInfoLastName) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoAttorneyFirstName) + '|' +
+                        _mapEmptyStringToStringNull(this.contactInfoAttorneyAreaCode) + '|' +
+                        _mapEmptyStringToStringNull(_contactInfoAttorneyPhoneNum) + '|~r';
+                    // console.log(stringToEncode)
+                    return stringToEncode;
+                }
+                catch(err) {
+                    alert("An error occurred. Please submit a support request using the 'Help' button.");
+                }
             },
             comparefourNumberOfParcelsWithParcelIdCount: function(){
                 const values = [this.taxMapIdOne, this.taxMapIdTwo, this.taxMapIdThree, this.taxMapIdFour];
