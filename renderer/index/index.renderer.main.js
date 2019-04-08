@@ -24,10 +24,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 });
 
-ipcRenderer.on('alertChannel', function(event){
-    alert(
-        'A new version of the SDG RP5217 Editor is being downloaded in the background.'
-    );
+ipcRenderer.on('alertChannel', function(event, msg){
+    alert(msg);
 });
 
 ipcRenderer.on('stateRequest', () => {

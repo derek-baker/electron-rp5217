@@ -283,6 +283,7 @@ document.addEventListener("DOMContentLoaded", function(){
             addCommaFormatting: function(event) {
                 let propName = event.target.attributes[1].nodeValue;
                 let assessmentValue = event.target._value;
+                // Why would I use this condition?
                 if(assessmentValue != null && assessmentValue.toString() !== ''){
                     let components = event.target._value.toString().split(".");
                     components[0] = components[0].replace(/[^0-9]/g, '');
@@ -300,8 +301,7 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             formatAsPhoneNumber: function(event) {
                 let propName = event.target.attributes[0].nodeValue;
-                if(event.target._value.toString() !== '') {
-                // if(event.target._value){
+                if(event.target._value && event.target._value.toString() !== '') {                
                     let input = event.target._value.toString();
                     input = input.replace(/\D/g,'');
                     input = input.substring(0, 7);

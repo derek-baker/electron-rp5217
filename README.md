@@ -33,6 +33,6 @@ In the NPM scripts in the package.json, env vars are being set with Windows CMD 
         publish the release: npm run publish (which also runs release-gcp-storage)
 -->
 
-THE APP LOGS AT: %appdata%\rp5217\log.log
+THE APP LOGS AT: %appdata%\sdg-rp5217\log.log (but you may need to verify that)
 
-THE npm publish SCRIPT MAY APPEAR NON-INUITIVE, BUT TRUST IT.
+THE npm publish SCRIPT MAY APPEAR NON-INUITIVE, BUT TRUST IT (it wouldn't hurt to read through it).

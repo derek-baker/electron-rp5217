@@ -9,14 +9,21 @@ const { readFile, saveFile } = require('./mainProcess.modules/main.filesystem');
 const { testPdfFilePath } = require('./config');
 
 
+const logfilePath = log.transports.file.findLogPath();
+console.log(logfilePath)
+fs.unlink(logfilePath, (err) => { if (err) throw err; }); 
+
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
-log.info('App starting...');
+autoUpdater.logger.info('App starting...');
+
 
 const env = process.env['NODE_ENV'];
 const runningInDev = (env === 'dev') ? true : false;
 const runningInTest = (env === 'test') ? true : false;
 const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false;
+
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms)); 
 
 // Keep global reference to window object else window will  
 // close when the JavaScript object is garbage collected.
@@ -78,34 +85,30 @@ ipcMain.on('loaded', (event) => {
 	}
 	
 	// Wait until mainWindow content is loaded so that we can use browser alerts because native notifications are broken-ish.
-	// Also, note that this method won't be invoked while the app is running in Dev mode.	
-	autoUpdater.checkForUpdatesAndNotify()
+	// Also, note that this method won't be invoked while the app is running in Dev mode.
+	let functionToExecutePeriodically;
+	// const stopDownloadWatcher = clearInterval(functionToExecutePeriodically);
+	autoUpdater.checkForUpdatesAndNotify()	
 		.then((updateCheckResult) => {
 			if (!runningInDevOrTest && updateCheckResult.versionInfo.version !== app.getVersion()) {
-				mainWindow.webContents.send('alertChannel');
+				// mainWindow.webContents.send('alertChannel');
+				functionToExecutePeriodically = setInterval( function(filePath) {
+					fs.readFile(filePath, (err, data) => {
+						if (err) { throw err };
+						if ( data.indexOf('has been downloaded') >= 0 ) { 
+							mainWindow.webContents.send(
+								'alertChannel',
+								'A new version of the SDG-RP5217 Editor was downloaded. The SDG-RP5217 Editor will auto-update once you restart it'
+							);
+							// stopDownloadWatcher();
+							clearInterval(functionToExecutePeriodically);
+						}											
+					});			
+				}, 2000, logfilePath);						
 			}
 		})
 		.catch((reason) => mainWindow.webContents.send('alertChannel', reason));
 });
-
-// TODO?
-// https://electronjs.org/docs/api/auto-updater#event-update-downloaded
-// autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-// 	const dialogOpts = {
-// 		type: 'info',
-// 		buttons: ['Restart', 'Later'],
-// 		title: 'Application Update',
-// 		message: process.platform === 'win32' ? releaseNotes : releaseName,
-// 		detail: 'A new version has been downloaded. Restart the application to apply the updates.'
-// 	}
-// 	dialog.showMessageBox(dialogOpts, (response) => {
-// 		if (response === 0) autoUpdater.quitAndInstall()
-// 	});
-// });
-// autoUpdater.on('error', message => {
-// 	console.error('There was a problem updating the application')
-// 	console.error(message)
-// });
 
 
 ipcMain.on('stateResponse', (event, data) => {
