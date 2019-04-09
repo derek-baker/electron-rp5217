@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function(){
     'use strict';
 
     const _mapEmptyStringToStringNull = function(stringToEval) {
-        return (stringToEval === '') ? 'null' : stringToEval;
+        return (stringToEval === '' || stringToEval === ' ') ? 'null' : stringToEval;
     };
 
 
@@ -151,58 +151,58 @@ document.addEventListener("DOMContentLoaded", function(){
                 taxAddressState,
                 taxAddressZipCode,
                 fourNumberOfParcels,
-                fourPartOfParcelCheckbox,
+                fourPartOfParcelCheckbox = false,
                 fourFrontFeet,
                 fourDepth,
                 fourAcres,
-                fourSubDivAuthExists,
-                fourSubDivApprovalRequired,
-                fourParcelApprovedWithMap,
+                fourSubDivAuthExists = false,
+                fourSubDivApprovalRequired = false,
+                fourParcelApprovedWithMap = false,
                 sellerNameLastNameCompany,
                 sellerNameFirstName,
                 sellerNameLastNameCompanyTwo,
                 sellerNameFirstNameTwo,
                 propertyUseSelect,
-                ownershipIsCondo,
-                constructionOnVacant,
-                locatedWithinAg,
-                buyerReceivedDisclosureNotice,
+                ownershipIsCondo = false,
+                constructionOnVacant = false,
+                locatedWithinAg = false,
+                buyerReceivedDisclosureNotice = false,
                 saleContractDate,
                 saleTransferDate,
                 salePrice,
                 salePersonalPropertyVal,
-                saleConditionComments,
-                saleInfoCheckA,
-                saleInfoCheckB,
-                saleInfoCheckC,
-                saleInfoCheckD,
-                saleInfoCheckE,
-                saleInfoCheckF,
-                saleInfoCheckG,
-                saleInfoCheckH,
-                saleInfoCheckI,
-                saleInfoCheckJ,
+                saleConditionComments = '',
+                saleInfoCheckA = false,
+                saleInfoCheckB = false,
+                saleInfoCheckC = false,
+                saleInfoCheckD = false,
+                saleInfoCheckE = false,
+                saleInfoCheckF = false,
+                saleInfoCheckG = false,
+                saleInfoCheckH = false,
+                saleInfoCheckI = false,
+                saleInfoCheckJ = false,
                 assessmentRollYear,
                 assessmentPropClassFirstInput,
                 assessmentTotalValue,
                 assessmentSchoolDistrict,
-                taxMapIdOne,
-                taxMapIdTwo,
-                taxMapIdThree,
-                taxMapIdFour,
-                contactInfoLastName,
-                contactInfoFirstName,
-                contactInfoAreaCode,
-                contactInfoPhoneNumber,
-                contactInfoStreetNumber,
-                contactInfoStreetName,
-                contactInfoCityTown,
-                contactInfoState,
-                contactInfoZipCode,
-                contactAttorneyInfoLastName,
-                contactInfoAttorneyFirstName,
-                contactInfoAttorneyAreaCode,
-                contactInfoAttorneyPhoneNum,    
+                taxMapIdOne = '',
+                taxMapIdTwo = '',
+                taxMapIdThree = '',
+                taxMapIdFour = '',
+                contactInfoLastName = '',
+                contactInfoFirstName = '',
+                contactInfoAreaCode = '',
+                contactInfoPhoneNumber = '',
+                contactInfoStreetNumber = '',
+                contactInfoStreetName = '',
+                contactInfoCityTown = '',
+                contactInfoState = '',
+                contactInfoZipCode = '',
+                contactAttorneyInfoLastName = '',
+                contactInfoAttorneyFirstName = '',
+                contactInfoAttorneyAreaCode = '',
+                contactInfoAttorneyPhoneNum = '',    
             ){  
                 this.swisCode = swisCode;
                 this.propertyLocationStreetNumber = propertyLocationStreetNumber;
@@ -319,12 +319,12 @@ document.addEventListener("DOMContentLoaded", function(){
             // Called by index.barcode._initBarcodePrereqs() to create a string to encode in the barcode
             mergeData: function () {
                 try {
-                    const dummyValue = new Date().toLocaleDateString('en-US');
+                    const dummyValue = new Date().toLocaleDateString('en-US');                    
                     // Purpose of the ternaries that check for null below attempt 
-                    // to avoid calling .replace() on null values
+                    // to avoid calling methods on null 
                     const contractDate = (!this.saleContractDate) ? dummyValue : this.saleContractDate;
                     const transferDate = (!this.saleTransferDate) ? dummyValue : this.saleTransferDate;
-
+                    
                     const propertyCodes = this.assessmentPropClassFirstInput.split('-');
                     const propertyClassBeforeHyphen = (propertyCodes[0] === '') ? 'null' : propertyCodes[0];                
                     const propertyClassAfterHyphen = (propertyCodes[1] === undefined) ? 'null' : propertyCodes[1].toUpperCase();
@@ -384,7 +384,8 @@ document.addEventListener("DOMContentLoaded", function(){
                         // These vars were created at the beginning of this method
                         // We have to unformat them because the user insisted on particular formatting
                         // on the PDF, but the barcode requires a short-version ISO format
-                        _unformatDate(contractDate) + '|' + 
+                        ( (_unformatDate(contractDate) === '0001-01-01') ? 'null' : (_unformatDate(contractDate) ) ) + '|' + 
+                        // transferDate is mandatory, so there will never be a case where it's actually null in the barcode
                         _unformatDate(transferDate) + '|' + 
 
                         // TODO: I think the function invocation below is irrelevant...also I should have used actual regex for the replace...
@@ -425,10 +426,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         _mapEmptyStringToStringNull(this.contactInfoAttorneyFirstName) + '|' +
                         _mapEmptyStringToStringNull(this.contactInfoAttorneyAreaCode) + '|' +
                         _mapEmptyStringToStringNull(_contactInfoAttorneyPhoneNum) + '|~r';
-                    // console.log(stringToEncode)
+                    console.log(stringToEncode);
                     return stringToEncode;
                 }
                 catch(err) {
+                    console.log(err);
                     alert("An error occurred. Please submit a support request using the 'Help' button.");
                 }
             },
