@@ -17,5 +17,10 @@ module.exports = {
         'vue',
     ],
     'rules': {
+        'object-curly-spacing': ['error', 'always'],
+        'no-trailing-spaces': ['off', { "ignoreComments": true }],
+        "indent": ["error", 4],
+        'brace-style': ['error', 'stroustrup'],
+        'linebreak-style': ["off", "windows"]
     },
 };

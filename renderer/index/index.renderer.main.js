@@ -1,6 +1,7 @@
-"use strict";
+'use strict';
 
-// This file is required by the index.html file and will be executed in the renderer process for that window.
+// This file is required by the index.html file and will be executed
+// in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const { ipcRenderer } = require('electron');
 const { configureInstructions } = require('./index.renderer.instructions');
@@ -9,7 +10,7 @@ const { envConfig } = require('./index.renderer.alterConfig');
 const { addKeyupListener } = require('./index.renderer.keyboardShortcuts');
 
 
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener('DOMContentLoaded', (event) => {
     // Some functionality needs the DOMContent to be loaded prior to proceeding.
     ipcRenderer.send('loaded'); 
 
@@ -20,11 +21,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     ipcRenderer.on('saved-file', (event) => {
         document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
-        // string removed above added to title in javascripts/index.barcode.js (TODO: refactor behavior to single location)        
+        // string removed above added to title in javascripts/index.barcode.js
+        // (TODO: refactor behavior to single location)        
     });
 });
 
-ipcRenderer.on('alertChannel', function(event, msg){
+ipcRenderer.on('alertChannel', function(event, msg) {
     alert(msg);
 });
 
@@ -34,7 +36,8 @@ ipcRenderer.on('stateRequest', () => {
 });
 
 ipcRenderer.on('setTitle', (event, formName) => {
-    document.title = 'SDG RP5217 Editor ' + ( (formName) ? `- ${formName}`: '' );
+    document.title = 
+        'SDG RP5217 Editor ' + ( (formName) ? `- ${formName}`: '' );
 });
 
 ipcRenderer.on('fileData', (event, data) => {
@@ -47,13 +50,15 @@ ipcRenderer.on('fileData', (event, data) => {
         console.log(error);
         alert(
             'The file you attempted to open appears to be corrupt.' +  
-            'If the issue persists, submit a support request at the following URL:' +
+            'If the issue persists, ' + 
+            'submit a support request at the following URL:' +
             'https://systemsdevelopmentgroup.com/contactSdg'
         );
         return;
     } 
-    if(result){
+    if (result) {
         // Why didn't I just pass in result? Sigh...
+        // eslint-disable-next-line new-cap
         viewModel.InitModelWithValsFromDataStore(          
             result.swisCode,
             result.propertyLocationStreetNumber,
@@ -126,6 +131,7 @@ ipcRenderer.on('fileData', (event, data) => {
             result.contactInfoAttorneyPhoneNum
         );
     }
-    // Need to ensure that barcode is in sync with data, and this triggers a regeneration
+    // Need to ensure that barcode is in sync with data, 
+    // and this triggers a regeneration
     document.getElementById('form').dispatchEvent(new KeyboardEvent('keyup')); 
 }); 

@@ -2,7 +2,7 @@
 //       the plan was to have configs for local dev, staging, and prod.
 //       Upon revisiting this looks confusing.
 
-"use strict";
+'use strict';
 
 const { ipcRenderer, shell } = require('electron');
 const { envConfigs } = require('../../config');
@@ -10,14 +10,17 @@ const { envConfigs } = require('../../config');
 const envConfig = function() {
     // Set environment-specific values (Prod is default) 
     let env = 'prod';
-    const contactButtonListenerCallback = function(clickEvent){
+    const contactButtonListenerCallback = function(clickEvent) {
         clickEvent.preventDefault();
         shell.openExternal(envConfigs[env].contactUrl);
     };
-    let supportLink = document.getElementById('supportLink');
+    const supportLink = document.getElementById('supportLink');
     supportLink.addEventListener('click', contactButtonListenerCallback);
-    // If we're running in Dev or Test, we'll adjust URLs of services we depend on accordingly.
-    // Event below sent after parent DomContentLoaded listener communicates over 'loaded' channel with main process.
+    // If we're running in Dev or Test, we'll adjust URLs of services we 
+    // depend on accordingly. Event below sent after parent DomContentLoaded 
+    // listener communicates over 'loaded' channel with main process.
+    
+    // eslint-disable-next-line max-len
     ipcRenderer.on('runningInDevOrTestChannel', function(event, runtimeEnv) {        
         env = runtimeEnv;              
 
