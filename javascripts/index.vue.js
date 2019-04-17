@@ -426,7 +426,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         _mapEmptyStringToStringNull(this.contactInfoAttorneyFirstName) + '|' +
                         _mapEmptyStringToStringNull(this.contactInfoAttorneyAreaCode) + '|' +
                         _mapEmptyStringToStringNull(_contactInfoAttorneyPhoneNum) + '|~r';
-                    console.log(stringToEncode);
+                    // console.log(stringToEncode);
                     return stringToEncode;
                 }
                 catch(err) {

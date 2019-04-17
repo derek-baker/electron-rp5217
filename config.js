@@ -11,19 +11,18 @@ const contactEndpoint = 'contactSdg';
 
 const testPdfFilePath = path.join(__dirname, 'test', 'pdfWriteTest.pdf');
 
+const sdgBrochureSiteUrl = "https://www.sdgnys.com/";
+
 const envConfigs = {
     dev : {
-        contactUrl: `${devHost}/${contactEndpoint}`
-        // fileName: testFilePath
+        contactUrl: `${devHost}/${contactEndpoint}`        
     },
     test : {
-        contactUrl: `${testHost}/${contactEndpoint}`
-        // fileName: testFilePath
+        contactUrl: `${testHost}/${contactEndpoint}`        
     },
     prod : {
-        contactUrl: `${prodHost}/${contactEndpoint}`
-        // fileName: testFilePath
+        contactUrl: `${prodHost}/${contactEndpoint}`        
     }
 };
 
-module.exports = { envConfigs, testPdfFilePath };
+module.exports = { envConfigs, testPdfFilePath, sdgBrochureSiteUrl };

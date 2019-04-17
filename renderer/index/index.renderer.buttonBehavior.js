@@ -1,10 +1,20 @@
 "use strict";
 
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, shell } = require('electron');
+const { sdgBrochureSiteUrl } = require('../../config');
 
 // TODO: remove use of global viewModel.$data from this file
 
 const createButtonListeners = function() {
+    
+    let brandLink = document.getElementById('supportLink');
+    brandLink.addEventListener('click', () => {
+        clickEvent.preventDefault();
+        shell.openExternal(sdgBrochureSiteUrl);
+    });
+
+
+
     // Specify behavior for 'Open File' buttons
     const openFileButton = document.getElementById('importDataButton')
     openFileButton.addEventListener("click", (event) => {
