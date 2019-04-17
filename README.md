@@ -27,12 +27,13 @@ In the NPM scripts in the package.json, env vars are being set with Windows CMD 
 
 <!-- 
     TO PUBLISH RELEASE:
+        make sure you have the file: DoNotCommit.ps1 (it's not in source control)
         make changes
         make sure you run the tests
         if the tests pass, increment version number appropriately in package.json, git commit and git push(so that the changes are associated with the release)
         publish the release: npm run publish (which also runs release-gcp-storage)
 -->
 
-THE APP LOGS AT: %appdata%\sdg-rp5217\log.log (but you may need to verify that)
+THE APP LOGS AT: %appdata%\sdg-rp5217\log.log (but you may need to verify that if you change the app name)
 
 THE npm publish SCRIPT MAY APPEAR NON-INUITIVE, BUT TRUST IT (it wouldn't hurt to read through it).
