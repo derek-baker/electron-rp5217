@@ -18,9 +18,11 @@ module.exports = {
     ],
     'rules': {
         'object-curly-spacing': ['error', 'always'],
-        'no-trailing-spaces': ['off', { "ignoreComments": true }],
-        "indent": ["error", 4],
-        'brace-style': ['error', 'stroustrup'],
-        'linebreak-style': ["off", "windows"]
+        'no-trailing-spaces': ['off', { 'ignoreComments': true }],
+        'indent': ['error', 4],
+        'brace-style': ['error', 'stroustrup', { 'allowSingleLine': true }],
+        'linebreak-style': ['off', 'windows'],
+        'block-spacing': ['error', 'always'],
+        'comma-dangle': ["error", "never"]
     },
 };
