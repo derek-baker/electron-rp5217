@@ -1,14 +1,9 @@
+
 node_modules
 exe/*
 dist
 DoNotCommit.ps1
 
-electron_dist/win-unpacked/*
-electron_dist/builder-effective-config.yaml
-electron_dist/latest.yml
-electron_dist/RP5217 Setup.exe.blockmap
-electron_dist/*.exe
-electron_dist/*.7z
-electron_dist/.cache/*
+electron_dist
 *.docx
 *.tmp

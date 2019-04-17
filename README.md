@@ -1,5 +1,9 @@
-<!-- INSTALL GCP SDG: https://cloud.google.com/sdk/docs/#windows -->
+<!-- INSTALL AND CONFIGURE GCP SDK: https://cloud.google.com/sdk/docs/#windows -->
 <!-- https://cloud.google.com/storage/docs/quickstart-gsutil -->
+<!-- gcloud init -->
+<!-- OR -->
+<!-- gcloud auth login -->
+<!-- gcloud config set project single-odyssey-201216 -->
 
 
 <!-- electron desktop app (Electron v 3.0.6) -->
