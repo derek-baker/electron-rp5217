@@ -1,17 +1,23 @@
-"use strict";
+'use strict';
 
 const { ipcRenderer } = require('electron');
 const { startSpinner } = require('./index.renderer.spinner');
 
-// "Promisify" setTimeout()
-const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms)); 
+/**
+ * Promisified wrapper of setTimeout()
+ * @param {*} ms 
+ * @return {Promise<any>}
+ */
+const wait = (ms) => new Promise(
+    (resolve) => setTimeout(resolve, ms)
+); 
 
 const getViewModelData = function() {
     return JSON.stringify(viewModel.$data);
 };
 
 const addKeyupListener = function() {
-    document.addEventListener("keydown", function(keyboardEvent) {    
+    document.addEventListener('keydown', function(keyboardEvent) {    
         if (keyboardEvent.ctrlKey && (keyboardEvent.key === 's' || keyboardEvent.key === 'S')) {
             startSpinner();
             // Hack to avoid race condition with other listeners
@@ -44,4 +50,3 @@ ipcRenderer.on('saveComplete', function() {
 });
 
 module.exports = { addKeyupListener };
-                                     

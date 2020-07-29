@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
 const { shell } = require('electron');
 
 const configureInstructions = function() {
     const instructions = [
         { 
-            id: "fillingInstructions", 
-            href: "https://www.tax.ny.gov/pdf/current_forms/orpts/rp5217pdfins.pdf"
+            id: 'fillingInstructions', 
+            href: 'https://www.tax.ny.gov/pdf/current_forms/orpts/rp5217pdfins.pdf'
         }        
     ];    
     
@@ -16,5 +16,5 @@ const configureInstructions = function() {
             shell.openExternal(pair.href);
         });         
     });           
-}
-module.exports = { configureInstructions }
+};
+module.exports = { configureInstructions };

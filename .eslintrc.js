@@ -17,6 +17,7 @@ module.exports = {
         'vue',
     ],
     'rules': {
+        'max-len': ['error', { 'code': 120 }],
         'object-curly-spacing': ['error', 'always'],
         'no-trailing-spaces': ['off', { 'ignoreComments': true }],
         'indent': ['error', 4],
