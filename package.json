@@ -14,7 +14,7 @@
     "test": "mocha --no-diff --bail",
     "pack": "electron-builder --dir",
     "build": "echo \"THIS SCRIPT DOES NOT SIGN THE APP!\" && electron-builder",
-    "publish-pre-reqs": "build -p always",
+    "publish-pre-reqs": "build --publish always",
     "release-gcp-storage": "pwsh UploadRelease.ps1",
     "publish": "pwsh DoNotCommit.ps1"
   },
@@ -25,6 +25,9 @@
       "output": "electron_dist"
     },
     "win": {
+      "publish": [
+        "github"
+      ],      
       "target": [
         "nsis"
       ],
