@@ -1,7 +1,6 @@
 'use strict';
 
-document.addEventListener("DOMContentLoaded", function(){
-
+document.addEventListener('DOMContentLoaded', function() {
     Vue.component('navbar-button', { 
         props: ['text', 'identifier', 'target', 'buttonclasses', 'glyphclasses'],
         template: `<div class="btn-group" role="group">
