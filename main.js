@@ -24,8 +24,11 @@ const runningInDev = (env === 'dev') ? true : false;
 const runningInTest = (env === 'test') ? true : false;
 const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false;
 
-// Keep global reference to window object else window will  
-// close when the JavaScript object is garbage collected.
+/**
+ * Keep global reference to window object else window will  
+ * close when the JavaScript object is garbage collected.
+ * @type BrowserWindow
+ */
 let mainWindow;
 let currentFilePath;
 let dataSnapshot;
