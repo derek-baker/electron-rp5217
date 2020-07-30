@@ -19,7 +19,7 @@ Set-Location $PSScriptRoot
 [string] $GcpExeReleaseCmd = "gsutil cp '.\electron_dist\RP5217_Setup.exe' gs://sdg_installers_release"
 
 [string[]] $Tasks = @( `
-    # $UnitTestsCmd, `
+    $UnitTestsCmd, `
     $BuildCmd, `
     $GcpExeReleaseCmd
 );
