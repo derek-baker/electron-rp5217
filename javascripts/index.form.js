@@ -59,6 +59,7 @@ window.addEventListener('load', function() {
 
 
     const _postButtonActionOverride = function() {
+        /** Users can't have date input placeholders flattened onto their PDF */
         const hideDateInputPlaceholders = () => {
             const contractNode = document.getElementById('saleContractDate');
             if (contractNode && contractNode.value.length === 0) {
@@ -80,6 +81,7 @@ window.addEventListener('load', function() {
                 transferNode.setAttribute('style', 'font-size: ');
             }
         };
+
         if (
             document.getElementById('form').reportValidity()
             &&
