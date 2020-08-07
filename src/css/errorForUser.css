@@ -8,7 +8,7 @@ body {
     color: inherit;
     padding: 10px 0px;
 }
-.masthead, .body-content, {
+.masthead, .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
