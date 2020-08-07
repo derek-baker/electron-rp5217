@@ -138,5 +138,8 @@ hr{
 .currencyInput{
   width:93%;
 }
+.relative {
+  position:relative;
+}
 /* /CLASSES */
 

@@ -6,14 +6,18 @@
 <!doctype html>
 
 <head lang="en">
+    <!-- https://www.electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'"> -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>SDG RP5217 Editor</title>
-    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-    <link media="all" rel="stylesheet" href="stylesheets/index.css">
-    <link media="all" rel="stylesheet" href="stylesheets/index.spinner.css">
-    <link rel="stylesheet" href="stylesheets/pdf.print.css">
+
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/index.css" media="all" rel="stylesheet">
+    <link href="stylesheets/index.spinner.css" media="all" rel="stylesheet">
+    <link href="stylesheets/pdf.print.css" rel="stylesheet">
 </head>
 
 <body>
@@ -25,7 +29,6 @@
                 <img class="img-responsive" src="images/SdgLogo.png">
             </button>
         </div>
-
 
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -94,7 +97,7 @@
                         glyphclasses="glyphicon-question-sign">
                     </navbar-button>
                     <!-- Button below added for use in EndToEnd test only -->
-                    <button id="printToPdfButton" style="display:none" type="button"></button>
+                    <button id="printToPdfButton" class="hidden" type="button"></button>
                 </div>
 
                 <div class="col-xs-12">
@@ -102,7 +105,7 @@
                 </div>
             </div>
 
-            <div id="app" style="position:relative;">
+            <div id="app" class="relative">
                 <div>
                     <p id="swisCodeOverlay">{{ swisCode }}</p>
                 </div>
@@ -604,7 +607,7 @@
                                     </div>
                                 </div>
 
-                                <div id="barcode" style="display:none"></div>
+                                <div id="barcode" class="hidden"></div>
                                 <div id="barcodeImg"></div>
                             </div>
 
@@ -705,8 +708,9 @@
                                             v-on:keyup="formatAsPhoneNumber($event)" id="contactInfoAttorneyPhoneNum"
                                             value="" type="text" pattern="[0-9]{3}[-][0-9]{4}" maxlength="8"
                                             title="456-7890" name="contactInfoAttorneyPhoneNum">
-                                        <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TELEPHONE NUMBER (Ex:
-                                            999-9999)</small>
+                                        <small class="text-muted">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TELEPHONE NUMBER (Ex:999-9999)
+                                        </small>
 
                                     </div>
                                 </div>
@@ -748,34 +752,29 @@
 
     </div>
 
-    <script src="javascripts/lib/vue.min.js"></script>
-    <script src="javascripts/index.vue.js"></script>
+    <script src="browser-js/lib/vue.min.js"></script>
+    <script src="browser-js/index.vue.js"></script>
+
     <!-- <script src="./dist/build.js"></script> -->
-    <script src="javascripts/index.vue.navbar.js"></script>
-    <script src="javascripts/index.vue.navbar.bottom.js"></script>
-    <script src="javascripts/lib/bcmath-min.js"></script>
-    <script src="javascripts/lib/pdf417-min.js"></script>
-    <script src="javascripts/index.barcode.js"></script>
-    <script src="javascripts/index.form.js"></script>
-    <script src="javascripts/index.vue.version.js"></script>
-    <script src="javascripts/index.vue.spinner.js"></script>
 
+    <script src="browser-js/index.vue.navbar.js"></script>
+    <script src="browser-js/index.vue.navbar.bottom.js"></script>
 
-    <!-- Electron-specific manipulations of the browser runtime -->
-    <!-- https://electronjs.org/docs/faq#i-can-not-use-jqueryrequirejsmeteorangularjs-in-electron -->
-    <script>
-        window.nodeRequire = require;
-        delete window.require;
-        delete window.exports;
-        delete window.module;
-        nodeRequire('./renderer/index/index.renderer.main.js'); 
-    </script>
+    <script src="browser-js/lib/bcmath-min.js"></script>
+    <script src="browser-js/lib/pdf417-min.js"></script>
+    <script src="browser-js/index.barcode.js"></script>
+    
+    <script src="browser-js/index.form.js"></script>
+    <script src="browser-js/index.vue.version.js"></script>
+    <script src="browser-js/index.vue.spinner.js"></script>
 
-    <script src="javascripts/lib/jquery.min.js"></script>
-    <script src="javascripts/lib/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+
+    <script src="browser-js/lib/jquery.min.js"></script>
+    <script src="browser-js/lib/bootstrap.min.js"></script>
 
     <!-- Script used by tests -->
-    <script src="javascripts/index.testUtils.js"></script>
+    <script src="browser-js/index.testUtils.js"></script>
 
 </body>
 

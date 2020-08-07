@@ -1,7 +1,7 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
-    Vue.component('progress-spinner', { 
+    Vue.component('progress-spinner', {
         template: `
         <div id="spinner">
             <div></div>
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function(){
         <p>test</p>
         `
     });
-    
+
     new Vue({
         el: '#spinnerContainer'
     });

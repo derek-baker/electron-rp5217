@@ -43,6 +43,7 @@ const createWindow = () => {
     });
     // Passing version as GET param so we can display it to the user
     mainWindow.loadURL(`file://${__dirname}/index.html#${app.getVersion()}`);
+    
     if (runningInDev) {
         mainWindow.webContents.openDevTools();
     }

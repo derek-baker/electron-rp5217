@@ -3,6 +3,7 @@
         "outDir": "./built/",
         "sourceMap": true,
         "strict": true,
+        "allowJs": false,        
         "noImplicitReturns": true,
         "module": "commonjs",
         "moduleResolution": "node",

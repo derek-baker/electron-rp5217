@@ -4,10 +4,10 @@
   "license": "MIT",
   "description": "app to generate pdfs with 417 barcode",
   "author": "Systems Development Group <dbaker@sdgnys.com>",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "lint-es": "npx eslint javascripts/*",
+    "lint-es": "npx eslint src/browser-js/*",
     "start-dev": "SET \"NODE_ENV=dev\" && electron .",
     "start-test": "echo \"RUNNING APP AGAINST STAGING ENV\" && SET \"NODE_ENV=test\" && electron . \"testFile.sdg\"",
     "compile": "webpack",

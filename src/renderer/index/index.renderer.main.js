@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     ipcRenderer.on('saved-file', (event) => {
         document.title = document.title.replace(' (YOUR WORK IS UNSAVED)', '');
-        // string removed above added to title in javascripts/index.barcode.js
+        // string removed above added to title in index.barcode.js
         // (TODO: refactor behavior to single location)        
     });
 });
