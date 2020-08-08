@@ -1,14 +1,16 @@
 /* eslint-disable no-invalid-this */
+
 'use strict';
 
 const Application = require('spectron').Application;
 const assert = require('assert');
 const electronPath = require('electron');
 const path = require('path');
+const { customChannels } = require('../src/config');
 
 
 describe('Spectron Intra-App IPC Integration Tests', function() {
-    this.timeout(100000)
+    this.timeout(100000);
 
     beforeEach(function() {
         this.app = new Application({
@@ -37,15 +39,15 @@ describe('Spectron Intra-App IPC Integration Tests', function() {
 
     // NOTE: For the tests below, the intention was to test that clicking the buttons (at minimum)
     //       results in IPC communication that triggers native file dialogs, and the sending of data.
-    //       I was unable to test the sending of data, and we can't drive native file dialogs with Spectron. 
+    //       I was unable to test the sending of data, and we can't drive native file dialogs with Spectron.
 
     it('Top open button triggers valid inter-process communication', function() {
-        let result = { actual: '' };
-        const expected = 'recieved'
-        const eventCallback = function (val) {
+        const result = { actual: '' };
+        const expected = 'recieved';
+        const eventCallback = (val) => {
             val.actual = expected;
         };
-        this.app.electron.remote.ipcMain.on('openFile', eventCallback(result));
+        this.app.electron.remote.ipcMain.on(customChannels.openFile, eventCallback(result));
 
         return this.app.client.waitUntilWindowLoaded().$('#importDataButton').click()
             .then((response) => { assert.strictEqual(result.actual, expected); });
@@ -53,12 +55,12 @@ describe('Spectron Intra-App IPC Integration Tests', function() {
 
 
     it('Bottom open button triggers valid inter-process communication', function() {
-        let result = { actual: '' };
-        const expected = 'recieved'
-        const eventCallback = function (val) {
+        const result = { actual: '' };
+        const expected = 'recieved';
+        const eventCallback = (val) => {
             val.actual = expected;
-        }
-        this.app.electron.remote.ipcMain.on('openFile', eventCallback(result));
+        };
+        this.app.electron.remote.ipcMain.on(customChannels.openFile, eventCallback(result));
 
         return this.app.client.waitUntilWindowLoaded().$('#importDataButtonBottom').click()
             .then((response) => { assert.strictEqual(result.actual, expected); });
@@ -66,12 +68,12 @@ describe('Spectron Intra-App IPC Integration Tests', function() {
 
 
     it('Top save button triggers valid inter-process communication', function() {
-        let result = { actual: '' };
-        const expected = 'recieved'
-        const eventCallback = function (val) {
+        const result = { actual: '' };
+        const expected = 'recieved';
+        const eventCallback = (val) => {
             val.actual = expected;
-        }
-        this.app.electron.remote.ipcMain.on('save', eventCallback(result));
+        };
+        this.app.electron.remote.ipcMain.on(customChannels.save, eventCallback(result));
 
         return this.app.client.waitUntilWindowLoaded().$('#saveFileButton').click()
             .then((response) => { assert.strictEqual(result.actual, expected); });
@@ -79,12 +81,12 @@ describe('Spectron Intra-App IPC Integration Tests', function() {
 
 
     it('Bottom save button triggers valid inter-process communication', function() {
-        let result = { actual: '' };
-        const expected = 'recieved'
-        const eventCallback = function (val) {
+        const result = { actual: '' };
+        const expected = 'recieved';
+        const eventCallback = function(val) {
             val.actual = expected;
-        }
-        this.app.electron.remote.ipcMain.on('save', eventCallback(result));
+        };
+        this.app.electron.remote.ipcMain.on(customChannels.save, eventCallback(result));
 
         return this.app.client.waitUntilWindowLoaded().$('#saveFileButtonBottom').click()
             .then((response) => { assert.strictEqual(result.actual, expected); });
@@ -92,12 +94,12 @@ describe('Spectron Intra-App IPC Integration Tests', function() {
 
 
     it('Top save-as button triggers valid inter-process communication', function() {
-        let result = { actual: '' };
-        const expected = 'recieved'
-        let eventCallback = function (val) {
+        const result = { actual: '' };
+        const expected = 'recieved';
+        const eventCallback = function(val) {
             val.actual = expected;
-        }
-        this.app.electron.remote.ipcMain.on('save-dialog', eventCallback(result));
+        };
+        this.app.electron.remote.ipcMain.on(customChannels.saveDialog, eventCallback(result));
 
         return this.app.client.waitUntilWindowLoaded().$('#saveAsFileButton').click()
             .then((response) => {
@@ -107,12 +109,12 @@ describe('Spectron Intra-App IPC Integration Tests', function() {
 
 
     it('Bottom save-as button triggers valid inter-process communication', function() {
-        let result = { actual: '' };
-        const expected = 'recieved'
-        const eventCallback = function (val) {
+        const result = { actual: '' };
+        const expected = 'recieved';
+        const eventCallback = function(val) {
             val.actual = expected;
-        }
-        this.app.electron.remote.ipcMain.on('save-dialog', eventCallback(result));
+        };
+        this.app.electron.remote.ipcMain.on(customChannels.saveDialog, eventCallback(result));
 
         return this.app.client.waitUntilWindowLoaded().$('#saveAsFileButtonBottom').click()
             .then((response) => { assert.strictEqual(result.actual, expected); });

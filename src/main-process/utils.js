@@ -1,24 +1,22 @@
 'use strict';
 
-// PURPOSE: used to see if model has changed, because that would indicate a 'dirty' file.
-// RETURNS: Boolean true when object values are the same. False otherwise.
+/**
+ * @param {string | any} viewModelSnapshot
+ * @param {*} viewModelCurrent
+ * @return {boolean} - True when object values are the same. False otherwise.
+ */
 const compareObjectsForEquality = (viewModelSnapshot, viewModelCurrent) => {
-    if (
-        viewModelCurrent === null 
-            || viewModelCurrent === undefined
-            || viewModelSnapshot === null 
-            || viewModelSnapshot === undefined
-    ) { 
-        return false; 
+    if (!viewModelCurrent || !viewModelSnapshot) {
+        return false;
     }
-    
-    const snapshot = 
-        (typeof viewModelSnapshot === 'string' || viewModelSnapshot instanceof String) 
+    const snapshot =
+        (typeof viewModelSnapshot === 'string')
             ? JSON.parse(viewModelSnapshot) : viewModelSnapshot;
+
     const akeys = Object.keys(snapshot);
     const bkeys = Object.keys(viewModelCurrent);
     const len = akeys.length;
-    
+
     if (len != bkeys.length) {
         return false;
     }
