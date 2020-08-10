@@ -2,14 +2,25 @@
     run npm postinstall
 
 
-### INSTALL AND CONFIGURE GCP SDK: https://cloud.google.com/sdk/docs/#windows
+### In addition to Electron, this project uses electron builder 
+    https://www.electron.build/configuration/configuration 
+
+
+### And auto update is set up 
+    https://www.electron.build/auto-update 
+
+    You'll need to set an env var that uses a token before you can publish the app
+    (the token is not in the local repo, but it can be regenerated from GitHub if necessary)
+    
+    
+### INSTALL AND CONFIGURE GCP SDK: https://cloud.google.com/sdk/docs/#windows (used by npm scripts)
     https://cloud.google.com/storage/docs/quickstart-gsutil 
     gcloud init 
     OR 
     gcloud auth login 
-    gcloud config set project single-odyssey-201216
-
-
+    gcloud config set project <PROJECT_ID>
+    
+    
 ### TO PUBLISH RELEASE:
     Satisfy this:
         https://www.electron.build/configuration/publish#recommended-github-releases-workflow
@@ -23,18 +34,3 @@
     git commit && git push (so that the changes are associated with the release)
     publish the release: npm run publish
         If the code-signing fails, check that the cert isn't expired and the password is correct. 
-
-
-### THE APP LOGS AT: 
-    %appdata%\sdg-rp5217\log.log (but you may need to verify that if you change the app name)
-
-
-### This project uses electron builder 
-    https://www.electron.build/configuration/configuration 
-
-
-### Auto update is set up 
-    https://www.electron.build/auto-update 
-
-    You'll need to set an env var that uses a token before you can publish the app
-    (the token is not in the local repo, but it can be regenerated from GitHub if necessary)
