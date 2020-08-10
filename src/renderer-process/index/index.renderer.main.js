@@ -41,7 +41,11 @@ ipcRenderer.on(
 
 ipcRenderer.on(customChannels.formStateRequest, () => {
     // TODO: should not be using $data property(externally anyway)
-    ipcRenderer.send(customChannels.formStateResponse, viewModel.$data);
+    ipcRenderer.send(
+        customChannels.formStateResponse,
+        // @ts-ignore
+        viewModel.$data
+    );
 });
 
 ipcRenderer.on(
@@ -78,7 +82,8 @@ ipcRenderer.on(
             return;
         }
         if (result) {
-            // TODO: pass in result instead
+            // TODO: pass in result as types object instead of all its props
+            // @ts-ignore
             // eslint-disable-next-line new-cap
             viewModel.InitModelWithValsFromDataStore(
                 result.swisCode,
@@ -154,5 +159,7 @@ ipcRenderer.on(
         }
         // Need to ensure that barcode is in sync with data,
         // and this triggers a regeneration
-        document.getElementById('form').dispatchEvent(new KeyboardEvent('keyup'));
+        const form5217 = document.getElementById('form');
+        if (!form5217) { throw new Error('form5217 is falsy'); }
+        form5217.dispatchEvent(new KeyboardEvent('keyup'));
     });

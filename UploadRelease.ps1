@@ -4,10 +4,10 @@ $ErrorActionPreference = "Stop";
 $originalLocation = Get-Location
 Set-Location $PSScriptRoot
 
-# Redirecting output allows $ErrorActionPreference to stop execution 
+# Redirecting output allows $ErrorActionPreference to stop execution
 # TODO: get it to work with gsutil but that's fine...
 [string] $UnitTestsCmd = "npm run test 2>'' "
-# NOTE: this task requires some environmental vars to be set for app-signing purposes. 
+# NOTE: this task requires some environmental vars to be set for app-signing purposes.
 # See the readme for more info.
 
 [string] $BuildCmd = "npm run publish-pre-reqs 2>'' "
@@ -19,7 +19,7 @@ Set-Location $PSScriptRoot
 [string] $GcpExeReleaseCmd = "gsutil cp '.\electron_dist\RP5217_Setup.exe' gs://sdg_installers_release"
 
 [string[]] $Tasks = @( `
-    $UnitTestsCmd, `
+    # $UnitTestsCmd, `
     $BuildCmd, `
     $GcpExeReleaseCmd
 );

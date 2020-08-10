@@ -1,7 +1,15 @@
 // Faux-module pattern due to MIME-type issues with Electron when trying to run <script type="module">
 const Utils = (function () {
     return {
-        initDevValues: (viewModel) => {
+        /**
+         * @param {any} viewModel
+         */
+        initDevValues: (
+            // @ts-ignore
+            viewModel
+        ) => {
+            if (!viewModel) throw new Error('Param viewModel is falsy.');
+
             viewModel.propertyLocationStreetNumber  = '1'
             viewModel.propertyLocationStreetName = '2'
             viewModel.propertyLocationCityTown = '3'
@@ -35,7 +43,7 @@ const Utils = (function () {
             viewModel.locatedWithinAg = true
             viewModel.buyerReceivedDisclosureNotice = true
             viewModel.saleContractDate = '2018-07-14'
-            viewModel.saleTransferDate = '2018-07-15'                
+            viewModel.saleTransferDate = '2018-07-15'
             viewModel.salePrice = '24'
             viewModel.salePersonalPropertyVal = '23'
             viewModel.saleInfoCheckA = true
@@ -49,8 +57,8 @@ const Utils = (function () {
             viewModel.saleInfoCheckI = true
             viewModel.saleInfoCheckJ = false
             viewModel.saleConditionComments = 'mock comment here'
-            viewModel.assessmentRollYear = '25'            
-            viewModel.assessmentTotalValue = '26'            
+            viewModel.assessmentRollYear = '25'
+            viewModel.assessmentTotalValue = '26'
             viewModel.assessmentPropClassFirstInput = '270'
             viewModel.assessmentSchoolDistrict = '28'
             viewModel.taxMapIdOne = '29'
@@ -63,7 +71,7 @@ const Utils = (function () {
             viewModel.contactInfoStreetName = '38'
             viewModel.contactInfoCityTown = '39'
             viewModel.contactInfoState = '40'
-            viewModel.contactInfoZipCode = '41'            
+            viewModel.contactInfoZipCode = '41'
             viewModel.contactInfoAreaCode = '350'
             viewModel.contactInfoPhoneNumber = '360-0000'
             viewModel.contactAttorneyInfoLastName = '42'
@@ -71,7 +79,11 @@ const Utils = (function () {
             viewModel.contactInfoAttorneyAreaCode = '440'
             viewModel.contactInfoAttorneyPhoneNum = '450-0000'
 
-            document.getElementById('form').dispatchEvent(new KeyboardEvent('keyup')); 
+            const form = document.getElementById('form')
+            if (!form) {
+                throw new Error('Element with ID form not found.');
+            }
+            form.dispatchEvent(new KeyboardEvent('keyup'));
         }
     }
 })();

@@ -14,7 +14,10 @@ const wait = (ms) => new Promise(
 );
 
 const getViewModelData = function() {
-    return JSON.stringify(viewModel.$data);
+    return JSON.stringify(
+        // @ts-ignore
+        viewModel.$data
+    );
 };
 
 const addKeyupListener = function() {

@@ -28,7 +28,7 @@ const readFile = async (filepath, result) => {
  *
  * @param {string} filename
  * @param {*} data
- * @param {*} dialog
+ * @param {Electron.Dialog} dialog
  * @return {Promise<void>}
  */
 const saveFile = async (filename, data, dialog) => {

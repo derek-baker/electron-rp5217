@@ -7,7 +7,7 @@ const { autoUpdater } = require('electron-updater');
 const { getLogPath } = require('./logger');
 const { compareObjectsForEquality } = require('./utils');
 // eslint-disable-next-line no-unused-vars
-const typedefs = require('./typedefs');
+const typedefs = require('./_typedefs');
 
 const env = process.env['NODE_ENV'];
 const runningInTest = (env === 'test') ? true : false;
@@ -175,7 +175,9 @@ const initCustomEventHandlers = (
          * @param {Electron.IpcMainEvent} event
          */
         async (event) => {
-            if (!windowWrapper.mainWindow) { throw new Error('Reference to mainWindow is falsy.'); }
+            if (!windowWrapper.mainWindow) {
+                throw new Error('Reference to mainWindow is falsy.');
+            }
             const result = await dialog.showOpenDialog(
                 windowWrapper.mainWindow,
                 openOptions
@@ -201,7 +203,9 @@ const initCustomEventHandlers = (
          */
         async (event, data) => {
             const saveResult = await dialog.showSaveDialog(saveOptions);
-            if (!saveResult.filePath) { throw new Error('filePath is falsy'); }
+            if (!saveResult.filePath) {
+                throw new Error('filePath is falsy');
+            }
             // TODO: listen for use closing save dialog with X in top right
             saveFile(saveResult.filePath, data, dialog)
                 .then(() => {
@@ -267,10 +271,14 @@ const initCustomEventHandlers = (
             );
             const fileName = testPdfFilePath;
             console.log(fileName);
-            fs.writeFile(fileName, result.buffer, (error) => {
-                if (error) { throw error; }
-                // shell.openExternal(fileName);
-            });
+            fs.writeFile(
+                fileName,
+                result.buffer,
+                (error) => {
+                    if (error) { throw error; }
+                    // shell.openExternal(fileName);
+                }
+            );
         }
     );
 

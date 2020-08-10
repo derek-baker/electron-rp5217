@@ -1,33 +1,38 @@
 // Wanted viewModel to be accessible outside the listener block
-// eslint-disable-next-line no-unused-vars
+
+/** @type {any} */
 let viewModel;
 
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
 
+    /**
+     * @param {*} stringToEval
+     * @return {boolean}
+     */
     const _mapEmptyStringToStringNull = function(stringToEval) {
         return (stringToEval === '' || stringToEval === ' ') ? 'null' : stringToEval;
     };
 
+    /**
+     * @param {*} number
+     * @return {string}
+     */
     const _pad = function(number) {
         if (number < 10) {
             return '0' + number;
         }
         return number;
     };
-    // Date.prototype.toISO = function() {
-    //     return _pad(this.getUTCDate()) +
-    //         '-' + _pad(this.getUTCMonth() + 1) +
-    //         '-' + this.getUTCFullYear();
-    // };
+
     /**
-     * @param {Date} dateToConvert 
+     * @param {Date} dateToConvert
      * @return {string}
      */
     const toISO = (dateToConvert) => {
-        const isoDate = 
-            _pad(dateToConvert.getUTCDate()) + '-' + 
-            _pad(dateToConvert.getUTCMonth() + 1) + '-' + 
+        const isoDate =
+            _pad(dateToConvert.getUTCDate()) + '-' +
+            _pad(dateToConvert.getUTCMonth() + 1) + '-' +
             dateToConvert.getUTCFullYear();
 
         return isoDate;
@@ -36,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Precondition: dateToUnformat should arrive formatted as: mm/dd/yyyy or m/d/yyyy
      * Postcondition: function returns date formatted as: yyyy-mm-dd
-     * @param {string} dateToUnformat 
+     * @param {string} dateToUnformat
      * @return {Date | string}
      */
     const _unformatDate = function(dateToUnformat) {
@@ -342,8 +347,8 @@ document.addEventListener('DOMContentLoaded', function() {
             mergeData: function() {
                 try {
                     const dummyValue = new Date().toLocaleDateString('en-US');
-                    // Purpose of the ternaries that check for null below attempt 
-                    // to avoid calling methods on null 
+                    // Purpose of the ternaries that check for null below attempt
+                    // to avoid calling methods on null
                     const contractDate = (!this.saleContractDate) ? dummyValue : this.saleContractDate;
                     const transferDate = (!this.saleTransferDate) ? dummyValue : this.saleTransferDate;
 
@@ -408,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         Number(this.locatedWithinAg) + '|' +
                         Number(this.buyerReceivedDisclosureNotice) + '|' +
 
-                        
+
                         // These vars were created at the beginning of this method
                         // We have to unformat them because the user insisted on particular formatting
                         // on the PDF, but the barcode requires a short-version ISO format
@@ -548,12 +553,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.ensureThatSaleDatePrecedesTransferDate()
                     &&
                     this.ensureThatSalePriceGreaterThanPropertyValueInSale(
-                        this.salePrice, 
+                        this.salePrice,
                         this.salePersonalPropertyVal
                     )
                 ) {
                     // Note that a listener in index.form.js will remove the class below before file-dialog opens
-                    // document.getElementById('spinner').className = 'spinner';                    
+                    // document.getElementById('spinner').className = 'spinner';
                     return true;
                 }
                 return false;

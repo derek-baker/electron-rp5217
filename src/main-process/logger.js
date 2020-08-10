@@ -10,7 +10,13 @@ const getLogPath = () => {
 };
 
 const initLogger = (logfilePath = getLogPath()) => {
-    fs.unlink(logfilePath, (err) => { if (err) throw err; });
+    try {
+        fs.unlink(logfilePath, (err) => { if (err) throw err; });
+    }
+    catch(error) {
+        console.error(error);
+    }
+
     // @ts-ignore
     autoUpdater.logger = log;
     // @ts-ignore
