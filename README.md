@@ -25,10 +25,6 @@
         If the code-signing fails, check that the cert isn't expired and the password is correct. 
 
 
-### THE npm publish SCRIPT 
-    MAY APPEAR NON-INUITIVE, BUT TRUST IT (it wouldn't hurt to read through it).
-
-
 ### THE APP LOGS AT: 
     %appdata%\sdg-rp5217\log.log (but you may need to verify that if you change the app name)
 
