@@ -42,11 +42,17 @@ const customChannels = {
     saveComplete: 'saveComplete',
     runningInDevOrTest: 'runningInDevOrTest',
     alert: 'alertChannel'
+    // Invocable: {
+    //     SaveGuard: 'Save-Guard'
+    // }
 };
+
+const MainPath = './../../src/main.js';
 
 module.exports = {
     envConfigs,
     testPdfFilePath,
     sdgBrochureSiteUrl,
-    customChannels
+    customChannels,
+    MainPath
 };

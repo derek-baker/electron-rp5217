@@ -1,7 +1,6 @@
 {
     "name": "sdg-rp5217",
-    "version": "2.0.0",
-    "license": "MIT",
+    "version": "2.0.1",
     "description": "app to generate pdfs with 417 barcode",
     "author": "Systems Development Group <dbaker@sdgnys.com>",
     "main": "src/main.js",
@@ -11,7 +10,7 @@
         "start-dev": "SET \"NODE_ENV=dev\" && electron .",
         "start-test": "echo \"RUNNING APP AGAINST STAGING ENV\" && SET \"NODE_ENV=test\" && electron . \"testFile.sdg\"",
         "compile": "webpack",
-        "test": "mocha --no-diff --bail",
+        "test": "mocha --no-diff --bail --recursive",
         "pack": "electron-builder --dir",
         "build": "echo \"THIS SCRIPT DOES NOT SIGN THE APP!\" && electron-builder",
         "publish-pre-reqs": "build --publish always",
@@ -47,15 +46,15 @@
         }
     },
     "dependencies": {
-        "@types/mocha": "^8.0.1",
-        "electron": "^9.0.4",
         "electron-log": "^3.0.5",
         "electron-updater": "^4.0.7",
         "vue": "^2.5.22"
     },
     "devDependencies": {
+        "@types/mocha": "^8.0.1",
         "css-loader": "^1.0.1",
         "eslint": "^7.6.0",
+        "electron": "^9.0.4",
         "electron-builder": "^20.38.5",
         "electron-builder-squirrel-windows": "^20.38.5",
         "mocha": "^8.1.1",
