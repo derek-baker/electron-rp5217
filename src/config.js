@@ -25,7 +25,6 @@ const envConfigs = {
     }
 };
 
-/** TODO: Prop docs */
 const customChannels = {
     domLoaded: 'loaded',
     /** Channel used to send messages to trigger the opening of files */

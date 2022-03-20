@@ -1,13 +1,12 @@
 const path = require('path');
-// const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/browser-ts/index.vue.spinner.ts',
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/dist/',
-        filename: 'build.js'
-    },
+    // entry: './src/browser-ts/index.vue.spinner.ts',
+    // output: {
+    //     path: path.resolve(__dirname, './dist'),
+    //     publicPath: '/dist/',
+    //     filename: 'build.js'
+    // },
     module: {
         rules: [
             {
@@ -24,14 +23,14 @@ module.exports = {
                     // other vue-loader options go here
                 }
             },
-            {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-                exclude: /node_modules/,
-                options: {
-                    appendTsSuffixTo: [/\.vue$/]
-                }
-            },
+            // {
+            //     test: /\.tsx?$/,
+            //     loader: 'ts-loader',
+            //     exclude: /node_modules/,
+            //     options: {
+            //         appendTsSuffixTo: [/\.vue$/]
+            //     }
+            // },
             {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: 'file-loader',

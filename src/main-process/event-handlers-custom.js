@@ -273,6 +273,7 @@ const initCustomEventHandlers = (
             console.log(fileName);
             fs.writeFile(
                 fileName,
+                // @ts-ignore
                 result.buffer,
                 (error) => {
                     if (error) { throw error; }
