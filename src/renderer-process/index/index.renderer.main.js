@@ -63,21 +63,22 @@ ipcRenderer.on(
     customChannels.fileData,
     /**
      * @param {Electron.Event} event
-     * @param {any} data
+     * @param {string} data
      */
     (event, data) => {
         let result = undefined;
         try {
+            if (data.length < 2) {
+                return;
+            }
             result = JSON.parse(data);
         }
         catch (error) {
             // TODO: build Cloud function for so we can read error messages remotely
-            console.log(error);
+            console.error(error);
             alert(
-                'The file you attempted to open appears to be corrupt.' +
-                'If the issue persists, ' +
-                'submit a support request at the following URL:' +
-                'https://systemsdevelopmentgroup.com/contactSdg'
+                'The file you attempted to open appears to be corrupt. \n\n' +
+                'If the issue persists, submit a support request.'
             );
             return;
         }

@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 const fs = require('fs');
-const { readFile, saveFile } = require('./../src/main-process/filesystem');
+const { readFile, saveFile } = require('./../../src/main-process/filesystem');
 const path = require('path');
 
 

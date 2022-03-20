@@ -11,7 +11,7 @@ const getLogPath = () => {
 
 const initLogger = (logfilePath = getLogPath()) => {
     try {
-        fs.unlink(logfilePath, (err) => { if (err) throw err; });
+        fs.unlink(logfilePath, (err) => { return; } );
     }
     catch(error) {
         console.error(error);

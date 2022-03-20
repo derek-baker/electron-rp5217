@@ -1,11 +1,11 @@
-const { BrowserWindow, ipcRenderer } = require('electron');
+const { BrowserWindow } = require('electron');
 const { customChannels } = require('../config');
 const path = require('path');
 
 /**
  * @param {boolean} isRunningInDev
  * @param {string} appVersion
- * @param {*} browserWindowOptions
+ * @param {Electron.BrowserWindowConstructorOptions} browserWindowOptions
  * @return {BrowserWindow}
  */
 const createWindow = (
@@ -19,12 +19,24 @@ const createWindow = (
     }
 ) => {
     let mainWindow = new BrowserWindow(browserWindowOptions);
-    // Passing version as GET param so we can display it to the user
-    mainWindow.loadURL(`file://${path.join(__dirname, '..')}/index.html#${appVersion}`);
 
+    // Passing version as GET param so we can display it to the user
+    mainWindow.loadURL(
+        `file://${path.join(__dirname, '..')}/index.html#${appVersion}`
+    );
     if (isRunningInDev) {
         mainWindow.webContents.openDevTools();
     }
+    return mainWindow;
+};
+
+/**
+ * @param {BrowserWindow} mainWindow
+ */
+const initWindowListeners = (mainWindow) => {
+
+    // Set up guard for user not saving.
+    // TODO: Refactor this to use DOM stuff?
     mainWindow.once(
         'close',
         /**
@@ -32,18 +44,27 @@ const createWindow = (
          */
         (event) => {
             event.preventDefault();
-            ipcRenderer.send(customChannels.formStateRequest);
-            // event.sender.send(customChannels.formStateRequest);
+            if (
+                !event
+                ||
+                // @ts-ignore
+                !event.sender
+            ) {
+                throw new Error('event param lacks sender prop');
+            }
+
+            // @ts-ignore
+            event.sender.send(customChannels.formStateRequest);
         }
     );
-    mainWindow.on('closed', () => {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        // @ts-ignore
-        mainWindow = null;
-    });
-    return mainWindow;
+
+    // mainWindow.on('closed', () => {
+    //     // Dereference the window object, usually you would store windows
+    //     // in an array if your app supports multi windows, this is the time
+    //     // when you should delete the corresponding element.
+    //     // @ts-ignore
+    //     // mainWindow = null;
+    // });
 };
 
 /**
@@ -54,15 +75,21 @@ const createWindow = (
  * @param {any} windowWrapper
  * @param {string} appVersion
  */
-const initElectronAppListeners = (app, isRunningInDev, windowWrapper, appVersion) => {
-    app.on(
-        'ready',
-        () => { windowWrapper.mainWindow = createWindow(isRunningInDev, appVersion); }
-    );
+const initElectronAppAndListeners = async (app, isRunningInDev, windowWrapper, appVersion) => {
+    await app.whenReady();
+    windowWrapper.mainWindow = createWindow(isRunningInDev, appVersion);
+    initWindowListeners(windowWrapper.mainWindow);
+    // app.on(
+    //     'ready',
+    //     () => {
+    //         windowWrapper.mainWindow = createWindow(isRunningInDev, appVersion);
+    //         initWindowListeners(windowWrapper.mainWindow);
+    //     }
+    // );
     app.on(
         'window-all-closed',
         () => { app.quit(); }
     );
 };
 
-module.exports = { initElectronAppListeners };
+module.exports = { InitElectronAppAndListeners: initElectronAppAndListeners };

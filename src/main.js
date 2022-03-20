@@ -1,7 +1,7 @@
 'use strict';
 
 const { app, ipcMain } = require('electron');
-const { initElectronAppListeners } = require('./main-process/event-handlers-default');
+const { InitElectronAppAndListeners } = require('./main-process/event-handlers-default');
 const { initCustomEventHandlers } = require('./main-process/event-handlers-custom');
 const { initLogger } = require('./main-process/logger');
 
@@ -19,7 +19,7 @@ const isRunningInDev = (env === 'dev') ? true : false;
 const windowWrapper = { mainWindow: undefined };
 const appVersion = app.getVersion();
 
-initElectronAppListeners(app, isRunningInDev, windowWrapper, appVersion);
+InitElectronAppAndListeners(app, isRunningInDev, windowWrapper, appVersion);
 initCustomEventHandlers(ipcMain, isRunningInDev, windowWrapper, appVersion);
 
 

@@ -11,7 +11,7 @@
         "start-dev": "SET \"NODE_ENV=dev\" && electron .",
         "start-test": "echo \"RUNNING APP AGAINST STAGING ENV\" && SET \"NODE_ENV=test\" && electron . \"testFile.sdg\"",
         "compile": "webpack",
-        "test": "mocha --no-diff --bail",
+        "test": "mocha --no-diff --bail --recursive",
         "pack": "electron-builder --dir",
         "build": "echo \"THIS SCRIPT DOES NOT SIGN THE APP!\" && electron-builder",
         "publish-pre-reqs": "build --publish always",

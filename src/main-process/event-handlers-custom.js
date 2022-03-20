@@ -10,7 +10,7 @@ const { compareObjectsForEquality } = require('./utils');
 const typedefs = require('./_typedefs');
 
 const env = process.env['NODE_ENV'];
-const runningInTest = (env === 'test') ? true : false;
+// const runningInTest = (env === 'test') ? true : false;
 const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false;
 
 
@@ -39,12 +39,16 @@ const initCustomEventHandlers = (
      * @param {Electron.IpcMainEvent} event
      * @param {string} fileToOpen
      */
-    const readFileWrapper = (event, fileToOpen) => {
+    const readFileWrapper = async (event, fileToOpen) => {
         /** @type {any} */
         const res = {};
 
-        console.log('Attempting to open file: ' + fileToOpen);
-        if (fs.existsSync(fileToOpen)) {
+        // HACK: While running Spectron tests, we have to specify the path to main.js as the first process arg.
+        if (fileToOpen && fileToOpen.includes('main.js') === false && fs.existsSync(fileToOpen)) {
+            // await dialog.showMessageBox(
+            //     {message: 'Attempting to open file: ' + fileToOpen }
+            // );
+
             readFile(fileToOpen, res)
                 .then(() => {
                     dataSnapshot = res.dataFromFile;
@@ -58,15 +62,15 @@ const initCustomEventHandlers = (
                 );
         }
         else {
-            console.error('ERROR: Parameter fileToOpen is invalid.');
+            console.warn(
+                'WARNING: Parameter fileToOpen is invalid. Ignore this warning at app load.'
+            );
         }
     };
 
     ipcMain.on(
         customChannels.domLoaded,
-        /**
-         * @param {Electron.IpcMainEvent} event
-         */
+        /** @param {Electron.IpcMainEvent} event */
         (event) => {
             // When running app via 'npm start-<config>', the args are different
             // than when we run the installed app, but we want a fast way to load
@@ -122,16 +126,14 @@ const initCustomEventHandlers = (
     ipcMain.on(
         customChannels.formStateResponse,
         /**
-         * @param {Electron.IpcMainEvent} event
+         * @param {Electron.IpcMainEvent} ipcMainEvent
          * @param {*} data
          */
-        async (event, data) => {
+        async (ipcMainEvent, data) => {
             if (!windowWrapper.mainWindow) { throw new Error('Reference to mainWindow is falsy.'); }
 
-            if (runningInTest === false
-                &&
-                compareObjectsForEquality(dataSnapshot, data) === false
-            ) {
+            // runningInTest === false &&
+            if (compareObjectsForEquality(dataSnapshot, data) === false) {
                 const unsavedMsg =
                     'You have unsaved progress.' +
                     'Are you sure you want to close the application?';
@@ -145,7 +147,6 @@ const initCustomEventHandlers = (
                     windowWrapper.mainWindow.close();
                     return;
                 }
-                const ipcMainEvent = event;
                 dataSnapshot = data;
                 windowWrapper.mainWindow.once(
                     'close',
@@ -156,7 +157,7 @@ const initCustomEventHandlers = (
                         event.preventDefault();
                         ipcMainEvent.sender.send(customChannels.formStateRequest);
                     }
-                ); // event.defaultPrevented = false;
+                );
                 return;
             }
             windowWrapper.mainWindow.close();
@@ -165,6 +166,7 @@ const initCustomEventHandlers = (
 
 
     const openOptions = {
+        // TODO: Refactor these to config
         filters: [
             { name: 'Sdg Data File', extensions: ['sdg'] }
         ]
