@@ -3,14 +3,12 @@
     "version": "2.0.3",
     "license": "MIT",
     "description": "app to generate pdfs with 417 barcode",
-    "author": "Systems Development Group <dbaker@sdgnys.com>",
+    "author": "Systems Development Group",
     "main": "src/main.js",
     "scripts": {
         "postinstall": "electron-builder install-app-deps",
-        "lint-es": "npx eslint src/browser-js/*",
         "start-dev": "SET \"NODE_ENV=dev\" && electron .",
         "start-test": "echo \"RUNNING APP AGAINST STAGING ENV\" && SET \"NODE_ENV=test\" && electron . \"testFile.sdg\"",
-        "compile": "webpack",
         "test": "mocha --no-diff --bail --recursive",
         "pack": "electron-builder --dir",
         "build": "echo \"THIS SCRIPT DOES NOT SIGN THE APP!\" && electron-builder",
@@ -49,23 +47,16 @@
     "dependencies": {
         "electron-log": "^3.0.5",
         "electron-updater": "^4.0.7",
-        "vue": "^2.5.22",
         "pdf2json": "^1.2.0"
     },
     "devDependencies": {
         "@types/mocha": "^8.0.1",
-        "css-loader": "^1.0.1",
         "eslint": "^7.6.0",
         "electron": "^9.0.4",
         "electron-builder": "^20.38.5",
         "electron-builder-squirrel-windows": "^20.38.5",
         "mocha": "^8.1.1",
         "spectron": "^11.0.0",
-        "ts-loader": "^5.3.3",
-        "typescript": "^3.9.7",
-        "vue-loader": "^15.6.2",
-        "vue-template-compiler": "^2.5.22",
-        "webpack": "^4.44.1",
-        "webpack-cli": "^3.3.12"
+        "typescript": "^3.9.7"
     }
 }
