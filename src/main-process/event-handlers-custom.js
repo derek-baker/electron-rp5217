@@ -1,5 +1,6 @@
 const { customChannels, testPdfFilePath } = require('../config');
 const fs = require('fs');
+const log = require('electron-log');
 const { saveFile, readFile } = require('./filesystem');
 // eslint-disable-next-line no-unused-vars
 const { dialog, BrowserWindow } = require('electron');
@@ -10,9 +11,7 @@ const { compareObjectsForEquality } = require('./utils');
 const typedefs = require('./_typedefs');
 
 const env = process.env['NODE_ENV'];
-// const runningInTest = (env === 'test') ? true : false;
-const runningInDevOrTest = (env === 'dev' || env === 'test') ? true : false;
-
+const runningInDev = (env === 'dev') ? true : false;
 
 /** @type {string} */
 let currentFilePath;
@@ -77,22 +76,14 @@ const initCustomEventHandlers = (
             // data during dev and while testing ReleaseCandidates.
             const targetFile = (isRunningInDev) ? process.argv[2] : process.argv[1];
             readFileWrapper(event, targetFile);
-            if (runningInDevOrTest) {
-                event.sender.send(customChannels.runningInDevOrTest, env);
-            }
 
             /** @type {any} */
             let functionToExecutePeriodically;
             autoUpdater.checkForUpdatesAndNotify()
-                .then(
-                    (updateCheckResult) => {
-                        if (
-                            !runningInDevOrTest
-                            &&
-                            updateCheckResult
-                            &&
-                            updateCheckResult.versionInfo.version !== appVersion
-                        ) {
+                .then((updateCheckResult) => {
+                    Object.keys(key => log.info(updateCheckResult))
+
+                    if (!runningInDev && updateCheckResult && updateCheckResult.versionInfo.version !== appVersion) {
                             const updateDownloaded =
                                 'A new version of the SDG-RP5217 Editor was downloaded.' +
                                 'The SDG-RP5217 Editor will update once closed';
@@ -103,22 +94,17 @@ const initCustomEventHandlers = (
                                         if (!windowWrapper.mainWindow) {
                                             throw new Error('Reference to mainWindow falsy.');
                                         }
-                                        windowWrapper.mainWindow.webContents.send(
-                                            customChannels.alert,
-                                            updateDownloaded
-                                        );
+                                        windowWrapper.mainWindow.webContents.send(customChannels.alert, updateDownloaded);
                                         clearInterval(functionToExecutePeriodically);
                                     }
                                 });
                             }, 2000, logfilePath);
                         }
-                    })
-                .catch(
-                    (reason) => {
-                        if (!windowWrapper.mainWindow) { throw new Error('Reference to mainWindow falsy.'); }
-                        windowWrapper.mainWindow.webContents.send(customChannels.alert, reason);
-                    }
-                );
+                })
+                .catch((reason) => {
+                    log.error(reason)
+                    windowWrapper.mainWindow.webContents.send(customChannels.alert, reason);
+                });
         }
     );
 
@@ -177,9 +163,6 @@ const initCustomEventHandlers = (
          * @param {Electron.IpcMainEvent} event
          */
         async (event) => {
-            if (!windowWrapper.mainWindow) {
-                throw new Error('Reference to mainWindow is falsy.');
-            }
             const result = await dialog.showOpenDialog(
                 windowWrapper.mainWindow,
                 openOptions
@@ -267,7 +250,6 @@ const initCustomEventHandlers = (
             // For page size options, see URL below
             // https://github.com/electron/electron/blob/master/lib/browser/api/web-contents.js#L25
 
-            if (!windowWrapper.mainWindow) { throw new Error('Reference to mainWindow is falsy.'); }
             const result = await windowWrapper.mainWindow.webContents.printToPDF(
                 { marginsType: 1, pageSize: 'Legal', landscape: false }
             );
@@ -286,9 +268,7 @@ const initCustomEventHandlers = (
     );
 
     ipcMain.on('toggleDevTools', () => {
-        // TODO: Fix this logic
         try {
-            if (!windowWrapper.mainWindow) { throw new Error('Reference to mainWindow is falsy.'); }
             windowWrapper.mainWindow.webContents.closeDevTools();
         }
         catch (err) { console.log('DevTools not open, so cannot close...'); }

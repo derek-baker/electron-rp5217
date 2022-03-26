@@ -15,10 +15,16 @@ const createWindow = (
         width: 1000,
         height: 800,
         minWidth: 1000,
-        webPreferences: { nodeIntegration: true }
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            sandbox: false
+            // nodeIntegrationInWorker: true,
+            // preload: path.resolve('src/preload.js')
+        }
     }
 ) => {
-    let mainWindow = new BrowserWindow(browserWindowOptions);
+    const mainWindow = new BrowserWindow(browserWindowOptions);
 
     // Passing version as GET param so we can display it to the user
     mainWindow.loadURL(
@@ -30,23 +36,16 @@ const createWindow = (
     return mainWindow;
 };
 
-/**
- * @param {BrowserWindow} mainWindow
- */
+/** @param {BrowserWindow} mainWindow */
 const initWindowListeners = (mainWindow) => {
-
     // Set up guard for user not saving.
     // TODO: Refactor this to use DOM stuff?
     mainWindow.once(
         'close',
-        /**
-         * @param {Electron.Event} event
-         */
+        /** @param {Electron.Event} event */
         (event) => {
             event.preventDefault();
-            if (
-                !event
-                ||
+            if (!event ||
                 // @ts-ignore
                 !event.sender
             ) {
@@ -57,14 +56,6 @@ const initWindowListeners = (mainWindow) => {
             event.sender.send(customChannels.formStateRequest);
         }
     );
-
-    // mainWindow.on('closed', () => {
-    //     // Dereference the window object, usually you would store windows
-    //     // in an array if your app supports multi windows, this is the time
-    //     // when you should delete the corresponding element.
-    //     // @ts-ignore
-    //     // mainWindow = null;
-    // });
 };
 
 /**
@@ -79,17 +70,10 @@ const initElectronAppAndListeners = async (app, isRunningInDev, windowWrapper, a
     await app.whenReady();
     windowWrapper.mainWindow = createWindow(isRunningInDev, appVersion);
     initWindowListeners(windowWrapper.mainWindow);
-    // app.on(
-    //     'ready',
-    //     () => {
-    //         windowWrapper.mainWindow = createWindow(isRunningInDev, appVersion);
-    //         initWindowListeners(windowWrapper.mainWindow);
-    //     }
-    // );
     app.on(
         'window-all-closed',
         () => { app.quit(); }
     );
 };
 
-module.exports = { InitElectronAppAndListeners: initElectronAppAndListeners };
+module.exports = { initElectronAppAndListeners };

@@ -8,7 +8,7 @@ const writeFilePromisified = util.promisify(fs.writeFile);
 
 /**
  * @param {*} filepath
- * @param {*} result - Changes to this param are both visible to the caller and used by the caller.
+ * @param {Object} result - Changes to this param are both visible to the caller and used by the caller.
  * @return {Promise<void>}
  */
 const readFile = async (filepath, result) => {

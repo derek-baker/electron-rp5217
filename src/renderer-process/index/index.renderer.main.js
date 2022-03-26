@@ -1,16 +1,11 @@
 'use strict';
 
-// This file is required by the index.html file and will be executed
-// in the renderer process for that window.
-
-// All of the Node.js APIs are available in this process.
 const { ipcRenderer } = require('electron');
 const { configureInstructions } = require('./index.renderer.instructions');
 const { createButtonListeners } = require('./index.renderer.buttonBehavior');
 const { envConfig } = require('./index.renderer.alterConfig');
 const { addKeyupListener } = require('./index.renderer.keyboardShortcuts');
 const { customChannels } = require('../../config');
-
 
 document.addEventListener('DOMContentLoaded', (event) => {
     // Some functionality needs the DOMContent to be loaded prior to proceeding.
@@ -30,13 +25,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 ipcRenderer.on(
     customChannels.alert,
-    /**
-     * @param {Event} event
-     * @param {string} msg
-     */
-    (event, msg) => {
-        alert(msg);
-    }
+    (event, msg) => alert(msg)
 );
 
 ipcRenderer.on(customChannels.formStateRequest, () => {

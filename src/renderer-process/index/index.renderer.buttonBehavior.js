@@ -1,7 +1,7 @@
 'use strict';
 
 const { ipcRenderer, shell } = require('electron');
-const { sdgBrochureSiteUrl, customChannels } = require('../../config');
+const { sdgBrochureSiteUrl, sdgContactUrl, customChannels } = require('../../config');
 
 // TODO: remove use of global viewModel.$data from this file
 
@@ -42,6 +42,11 @@ const createButtonListeners = function() {
     const saveAsBtnBottom = document.getElementById('saveAsFileButtonBottom');
     saveAsBtnBottom.addEventListener('click', (event) => {
         ipcRenderer.send(customChannels.saveDialog, JSON.stringify(viewModel.$data) );
+    });
+
+    document.getElementById('supportLink').addEventListener('click', (clickEvent) => {
+        clickEvent.preventDefault();
+        shell.openExternal(sdgContactUrl);
     });
 
     // Hidden button used only as a hook for testing
