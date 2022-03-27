@@ -1,10 +1,4 @@
-<!--
-  All of the Node.js APIs are available in this renderer process.
-  You can also require other files to run in this process viarequire('./renderer.js')
--->
-
 <!doctype html>
-
 <head lang="en">
     <!-- https://www.electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'"> -->
@@ -755,8 +749,6 @@
     <script src="browser-js/lib/vue.min.js"></script>
     <script src="browser-js/index.vue.js"></script>
 
-    <!-- <script src="./dist/build.js"></script> -->
-
     <script src="browser-js/index.vue.navbar.js"></script>
     <script src="browser-js/index.vue.navbar.bottom.js"></script>
 
@@ -768,7 +760,14 @@
     <script src="browser-js/index.vue.version.js"></script>
     <script src="browser-js/index.vue.spinner.js"></script>
 
-    <script src="index.electron-setup.js"></script>
+    <script>
+        // https://www.electronjs.org/docs/latest/faq#i-can-not-use-jqueryrequirejsmeteorangularjs-in-electron
+        window.nodeRequire = require;
+        delete window.require;
+        delete window.exports;
+        delete window.module;
+        nodeRequire("./renderer-process/index/index.renderer.main.js")
+    </script>
 
     <script src="browser-js/lib/jquery.min.js"></script>
     <script src="browser-js/lib/bootstrap.min.js"></script>

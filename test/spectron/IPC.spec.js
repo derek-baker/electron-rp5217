@@ -5,7 +5,7 @@
 const Application = require('spectron').Application;
 const assert = require('assert');
 const { customChannels } = require('./../../src/config');
-const { AppOpts } = require('./_helpers');
+const { appOptions } = require('./_helpers');
 
 
 describe('Spectron Intra-App IPC Integration Tests', function () {
@@ -15,13 +15,14 @@ describe('Spectron Intra-App IPC Integration Tests', function () {
     mochaSuite.timeout(10000)
 
     beforeEach(async function () {
-        app = new Application(AppOpts);
+        app = new Application(appOptions);
         return await app.start();
     });
 
     afterEach(async function () {
         if (app && app.isRunning()) {
-            return await app.stop();
+            await app.stop();
+            return
         }
         return;
     });

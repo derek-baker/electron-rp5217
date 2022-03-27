@@ -2,30 +2,13 @@
 
 const path = require('path');
 
-const devHost = 'http://localhost:8080';
-const testHost = 'http://35.196.192.252:8080';
-const prodHost = 'https://systemsdevelopmentgroup.com';
-
-const contactEndpoint = 'contactSdg';
-
 /** Added to facilitate a test */
 const testPdfFilePath = path.join(__dirname, 'test', 'pdfWriteTest.pdf');
 
 const sdgBrochureSiteUrl = 'https://www.sdgnys.com/';
+const sdgContactUrl = 'https://systemsdevelopmentgroup.com/contactSdg';
 
-const envConfigs = {
-    dev: {
-        contactUrl: `${devHost}/${contactEndpoint}`
-    },
-    test: {
-        contactUrl: `${testHost}/${contactEndpoint}`
-    },
-    prod: {
-        contactUrl: `${prodHost}/${contactEndpoint}`
-    }
-};
-
-const customChannels = {
+const customChannels = Object.freeze({
     domLoaded: 'loaded',
     /** Channel used to send messages to trigger the opening of files */
     openFile: 'openFile',
@@ -39,19 +22,15 @@ const customChannels = {
     savedFile: 'saved-file',
     /** Channel used to send messages to stop a spinner */
     saveComplete: 'saveComplete',
-    runningInDevOrTest: 'runningInDevOrTest',
     alert: 'alertChannel'
-    // Invocable: {
-    //     SaveGuard: 'Save-Guard'
-    // }
-};
+});
 
-const MainPath = './../../src/main.js';
+const mainPath = './../../src/main.js';
 
 module.exports = {
-    envConfigs,
     testPdfFilePath,
     sdgBrochureSiteUrl,
     customChannels,
-    MainPath
+    mainPath,
+    sdgContactUrl
 };

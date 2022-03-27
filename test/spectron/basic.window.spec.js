@@ -1,6 +1,6 @@
 const Application = require('spectron').Application
 const assert = require('assert')
-const { AppOpts } = require('./_helpers');
+const { appOptions } = require('./_helpers');
 
 describe('Application launch', function () {
     /** @type {Application} */
@@ -9,7 +9,7 @@ describe('Application launch', function () {
     mochaSuite.timeout(10000)
 
     beforeEach(async () => {
-        app = new Application(AppOpts);
+        app = new Application(appOptions);
         try {
             await app.start();
         }

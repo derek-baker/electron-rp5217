@@ -1,7 +1,7 @@
 'use strict';
 
 const { app, ipcMain } = require('electron');
-const { InitElectronAppAndListeners } = require('./main-process/event-handlers-default');
+const { initElectronAppAndListeners } = require('./main-process/event-handlers-default');
 const { initCustomEventHandlers } = require('./main-process/event-handlers-custom');
 const { initLogger } = require('./main-process/logger');
 
@@ -19,9 +19,8 @@ const isRunningInDev = (env === 'dev') ? true : false;
 const windowWrapper = { mainWindow: undefined };
 const appVersion = app.getVersion();
 
-InitElectronAppAndListeners(app, isRunningInDev, windowWrapper, appVersion);
+initElectronAppAndListeners(app, isRunningInDev, windowWrapper, appVersion);
 initCustomEventHandlers(ipcMain, isRunningInDev, windowWrapper, appVersion);
-
 
 // process.on('uncaughtException', function (exception) {
 //     console.log(exception);

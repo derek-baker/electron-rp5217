@@ -2,12 +2,7 @@ const fs = require('fs');
 const log = require('electron-log');
 const { autoUpdater } = require('electron');
 
-/**
- * @return {string}
- */
-const getLogPath = () => {
-    return log.transports.file.findLogPath();
-};
+const getLogPath = () => log.transports.file.findLogPath();
 
 const initLogger = (logfilePath = getLogPath()) => {
     try {
