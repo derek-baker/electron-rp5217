@@ -34,3 +34,5 @@
     git commit && git push (so that the changes are associated with the release)
     publish the release: npm run publish
         If the code-signing fails, check that the cert isn't expired and the password is correct. 
+        
+        TEST
